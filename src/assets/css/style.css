@@ -774,16 +774,16 @@ a.frgt-link {
 }
 
 .sbmt-bttn {
-    background-color: #ff0000;
-    border: none;
-    outline: none;
-    padding: 10px 10px;
-    color: white;
-    transition: 0.6s;
-    border-radius: 50px;
+  background-color: #ff0000;
+  border: none;
+  outline: none;
+  padding: 10px 10px;
+  color: white;
+  transition: 0.6s;
+  border-radius: 50px;
 }
 .main-div {
-  text-align: left!important;
+  text-align: left !important;
 }
 .password_field .toggle_eye {
   color: #7d7d7d;
@@ -798,29 +798,25 @@ a.frgt-link {
   user-select: none;
 }
 .position-relative {
-  position: relative!important;
+  position: relative !important;
 }
-button.bg-transparent.border-0.text-dark.txt-btn.frgt-link.btn.btn-primary{
-  color: #f4060a!important;
+button.bg-transparent.border-0.text-dark.txt-btn.frgt-link.btn.btn-primary {
+  color: #f4060a !important;
   display: block;
   font-weight: 700;
   text-align: right;
 }
-.bg-glass{
-  background-color: hsla(0,0%,100%,.9)!important;
-
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
 }
-
-
-
 
 table.table.bitcoun_table thead {
-    color: #fff;
-    background: #f00;
-    border: 1px solid #ffffff00;
+  color: #fff;
+  background: #f00;
+  border: 1px solid #ffffff00;
 }
 .bitcoun_table th {
-    border-bottom-color: #0000!important;
+  border-bottom-color: #0000 !important;
 }
 
 .button-apc .btn-danger {
@@ -840,4 +836,12 @@ table.table.bitcoun_table thead {
   border: 0px;
   margin-bottom: 20px;
   margin-left: 10px;
+}
+
+.light-blck {
+  color: #495057;
+}
+
+.scn-1 .heading {
+  font-size: 18px;
 }
