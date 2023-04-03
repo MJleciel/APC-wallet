@@ -77,3 +77,22 @@ export async function sendTrx(fromAddress, toAddress, amount,privateKey) {
   
   console.log(`Transaction ID: ${result.txid}`);
 }
+
+export const fetchTokenData = async (tokenAddress) => {
+  try {
+    const contract = await tronWeb.contract().at(tokenAddress);
+    const symbol = await contract.symbol().call();
+    const decimals = await contract.decimals().call();
+    
+    // Check if token exists
+    if (symbol && decimals) {
+      // Add token to database
+      // ...
+      // setTokenExists(true);
+    } else {
+      console.log("Token does not exist on Tron blockchain.");
+    }
+  } catch (error) {
+    console.log("Error checking token:", error);
+  }
+};

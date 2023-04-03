@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { addToken, getPrivateKey, getTokens, getWallet } from "../services/services";
-import { getBalance } from "./tronFunctions";
+import { getBalance,sendTrx } from "./tronFunctions";
 
 const WalletOverview = () => {
     const [walletAddress, setWalletAddress] = useState('');
@@ -80,10 +80,13 @@ const WalletOverview = () => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 const payload={
-                    "user_id":localStorage.getItem('id'),
-                    "token_add":result.value
+                    fromAddress:walletAddress, 
+                    toAddress:result.value, 
+                    amount:1,
+                    privateKey:"private key"
+                    
                 }
-                addToken(payload).then(res=>{
+                sendTrx(payload).then(res=>{
                     if(res.status===200){
                         Swal.fire("","Token added successfully","success")
                     }
