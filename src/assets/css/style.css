@@ -1,0 +1,843 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.site_scale {
+  transform: scale(0.8);
+}
+
+/*=== welcome screen ===*/
+.welcome_logo img {
+  width: 250px;
+}
+
+section.site_welcome {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  background-image: url(../images/welcome_bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.site_section {
+  position: relative;
+  padding: 20px 0;
+  overflow: hidden;
+  height: 100vh;
+  background-color: #000000e0;
+}
+
+.section_overlay {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000e0;
+}
+
+.welcome_note {
+  background: rgb(23 27 25 / 68%);
+  border: 1px solid #c1c1c1;
+  padding: 40px 30px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.wallet_note {
+  border: 1px solid #c1c1c1;
+  padding: 0;
+  border-radius: 5px;
+  position: relative;
+  background: transparent !important;
+}
+
+.welcome_note h4 {
+  color: #fe0000;
+  font-size: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.welcome_note h1 {
+  color: #fff;
+  font-size: 33px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+a.btn.btn-primary {
+  border: 1px solid #850000 !important;
+  box-shadow: none !important;
+  height: 48px;
+  font-size: 16px;
+  width: 100%;
+  font-weight: 500;
+  padding: 0 25px;
+  text-transform: uppercase;
+  background-color: transparent !important;
+  background-image: radial-gradient(red, #850000) !important;
+  line-height: 48px;
+  color: #fff !important;
+  transition: 0.5s;
+}
+
+a.btn.btn-primary.transparent_button,
+a.btn.btn-primary:hover {
+  background-image: none !important;
+  transition: 0.5s;
+}
+
+a.btn.btn-primary.transparent_button:hover {
+  background-image: radial-gradient(red, #850000) !important;
+  transition: 0.5s;
+}
+
+/*=== create wallet ===*/
+.walet_title h3 {
+  font-size: 27px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+.submit_sec .btn-primary {
+  margin-right: 6px;
+}
+.walet_title {
+  padding: 10px;
+  /* border-bottom: 3px solid #fff; */
+}
+
+.notes {
+  background: #ff0000;
+  padding: 14px;
+}
+
+.notes h5 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.note_discription p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.lost_note h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff0000;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 22px;
+}
+
+.phrase_box {
+  margin: 0 16px;
+  border: 1px solid #464646;
+  text-align: center;
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20vh;
+}
+
+.phrase_box p {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.custom_checkbox label span.custom_d_checkbox {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  background: #fff;
+  border-radius: 50px;
+  position: relative;
+}
+
+.custom_checkbox label span.custom_d_checkbox:after {
+  position: absolute;
+  content: "";
+  width: 15px;
+  height: 15px;
+  left: 0;
+  right: 0;
+  background: #ff0000;
+  border-radius: 50px;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  margin: auto;
+}
+
+.custom_checkbox input:checked ~ span.custom_d_checkbox:after {
+  opacity: 1;
+}
+
+.custom_checkbox input {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  z-index: 9;
+  opacity: 0;
+}
+
+.custom_checkbox label {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.custom_checkbox label {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  flex-wrap: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.form-field input {
+  height: 45px;
+  color: #fff !important;
+  background: rgb(255 255 255 / 10%) !important;
+  height: 52px;
+  padding: 0 15px;
+  line-height: 48px;
+  border: none;
+  border-radius: 4px;
+  font-size: 17px;
+  font-weight: 400;
+  -webkit-appearance: none;
+  position: relative;
+  outline: none !important;
+  box-shadow: none !important;
+  text-align: left;
+  width: 100%;
+}
+
+.phrase_box ul li {
+  display: inline-block;
+}
+
+.phrase_list ul li {
+  display: inline-block;
+  border: 1px solid #464646;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+
+.phrase_list ul li:hover {
+  border-color: #ff0000;
+  transition: 0.5s;
+}
+
+/*=== dashboard design ===*/
+section.dashboard {
+  height: 100vh;
+  background-color: #343434;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.sidebar {
+  min-height: 100vh;
+  overflow-y: scroll;
+  position: fixed;
+  overflow-x: hidden;
+  padding: 60px 0;
+  background-color: #262626;
+  width: 216px;
+}
+
+.menu_list ul li a svg {
+  width: 20px;
+  height: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.sidebar_logo button.dropdown-toggle {
+  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  outline: none !important;
+  justify-content: center;
+  box-shadow: none !important;
+}
+
+.dropdown-toggle::after {
+  margin-left: 2.255em;
+}
+
+.menu_list ul li {
+  padding: 10px 25px;
+  text-align: left !important;
+  border-right: 5px solid transparent !important;
+}
+
+.menu_list ul li a {
+  color: #cdcdcd;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 15px;
+}
+
+/* for p */
+.menu_list ul li p {
+  color: #cdcdcd;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 15px;
+}
+
+.menu_list ul li.active,
+.menu_list ul li:hover {
+  background: #000;
+  border-right: 5px solid #ff0000 !important;
+  transition: 0.5s;
+}
+
+.menu_list ul li.active a,
+.menu_list ul li:hover a {
+  color: #fff;
+  transition: 0.5s;
+}
+
+.menu_list ul li.active a svg,
+.menu_list ul li:hover a svg {
+  fill: #ff0000;
+}
+
+/* for p */
+.menu_list ul li.active p,
+.menu_list ul li:hover p {
+  color: #fff;
+  transition: 0.5s;
+}
+
+.menu_list ul li.active p svg,
+.menu_list ul li:hover p svg {
+  fill: #ff0000;
+}
+
+.coin_right_body {
+  padding: 60px 0;
+}
+
+.coin_title h1 {
+  font-size: 35px;
+  font-weight: 600;
+  color: #fff;
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.pie_chart img {
+  width: 350px;
+}
+
+.coin_balance_outer {
+  background: #000;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.coin_balance_outer {
+  background: #262626;
+  padding: 25px 30px;
+  border-radius: 6px;
+}
+
+.coin_balance {
+  font-size: 17px;
+  color: #cdcdcd;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.coin_balance svg {
+  width: 25px;
+  height: 25px;
+}
+
+.USD_balane {
+  font-size: 30px;
+  color: #8f8f8f;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: right;
+}
+
+.bitcoun_table td img {
+  width: 60px;
+}
+
+.bitcoun_table td h4 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.bitcoun_table td b {
+  font-weight: 600;
+  color: #fff;
+  /* display: flex; */
+  align-items: center;
+  /* justify-content: flex-end; */
+}
+
+.bitcoun_table td p {
+  font-size: 15px;
+  color: #fff;
+  margin: 0;
+  font-weight: 300;
+}
+
+.bitcoun_table td {
+  font-size: 15px;
+  vertical-align: middle;
+  color: #cdcdcd;
+  border: none;
+  font-weight: 400;
+}
+
+span.status {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  border-radius: 50px;
+  margin-left: 12px;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.bitcoun_table td:first-child {
+  width: 80px;
+}
+
+.bitcoun_table td:nth-child(2) {
+  width: 55%;
+}
+
+/* .bitcoun_table td:nth-child(3) {
+  text-align: center;
+} */
+
+/* .bitcoun_table td:nth-child(4) {
+  text-align: center;
+} */
+
+/* .bitcoun_table td:nth-child(5) {
+  text-align: right;
+} */
+
+.coin_footer {
+  position: fixed;
+  z-index: 999;
+  bottom: 0;
+  width: 100%;
+  background: #000000bd;
+  padding: 10px 30px;
+}
+
+ul.footer_list li {
+  display: inline;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+ul.footer_list li:not(:last-child) {
+  margin-right: 30px;
+}
+
+ul.footer_list li a {
+  color: #cdcdcd;
+}
+
+ul.footer_list li a svg {
+  margin-right: 7px !important;
+  top: -2px;
+  position: relative;
+}
+
+.bitcoin_list ul li img {
+  width: 32px;
+  margin-right: 10px;
+}
+
+.bitcoin_list ul li {
+  transition: 0.5s;
+  padding: 10px 25px;
+  text-align: left !important;
+  border-right: 5px solid transparent !important;
+}
+
+.bitcoin_list ul li.active,
+.bitcoin_list ul li:hover {
+  background: #262626;
+  border-color: #357bdf !important;
+}
+
+.bitcoin_list {
+  height: 100%;
+  background: #3a3a3a;
+}
+
+.bitcoin_list ul li {
+  color: #cdcdcd;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.coin_title h1 img {
+  width: 60px;
+}
+
+.coin_title h1 span {
+  font-weight: 100 !important;
+}
+
+.bitoin_content p {
+  font-size: 15px;
+  color: #cdcdcd;
+  font-weight: 300;
+  line-height: 23px;
+}
+
+.bitoin_co_d {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  cursor: pointer;
+  background: #474747;
+  border-radius: 7px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.coin_balance_outer.inner_balance {
+  padding: 15px;
+}
+
+.inner_balance .USD_balane {
+  font-weight: 300;
+}
+
+.inner_balance .USD_balane.inner_BTC {
+  color: #fff;
+  line-height: 28px;
+}
+
+.inner_balance .USD_balane.inner_BTC span {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+a.btn.btn-primary svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 11px;
+}
+
+a.btn.btn-primary.bg-green {
+  background-image: radial-gradient(#00ffc4, #008163) !important;
+  border-color: #008163 !important;
+}
+
+a.btn.btn-primary.bg-purple {
+  background-image: radial-gradient(#c300ff, #79009f) !important;
+  border-color: #79009f !important;
+}
+
+a.btn.btn-primary.bg-blue {
+  background-image: radial-gradient(#007eff, #004b99) !important;
+  border-color: #004b99 !important;
+}
+
+a.btn.btn-primary.bg-pink {
+  background-image: radial-gradient(#ff6666, #b13535) !important;
+  border-color: #b13535 !important;
+}
+
+.transection_history p {
+  font-size: 15px;
+  font-weight: normal;
+  color: #cdcdcd;
+  text-align: center;
+  margin: 35px 0;
+}
+
+.dropdown-menu {
+  width: 74%;
+  margin: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: #000;
+}
+
+.dropdown-menu li a {
+  background: transparent !important;
+  color: #cdcdcd;
+}
+
+@media (max-width: 767px) {
+  .site_scale {
+    transform: scale(1);
+  }
+
+  .site_section {
+    padding: 40px 0;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .welcome_note {
+    padding: 15px 15px;
+  }
+
+  .welcome_note h4 {
+    font-size: 20px;
+  }
+
+  .welcome_note h1 {
+    font-size: 22px;
+  }
+
+  .mobile_header .mobile_nav svg {
+    width: 40px;
+    height: 40px;
+    color: #cdcdcd;
+  }
+
+  .coin_right_body {
+    padding: 0px 0;
+  }
+
+  .mobile_header {
+    background: #000;
+  }
+
+  .coin_balance_outer {
+    background: #262626;
+    padding: 15px 15px;
+    border-radius: 6px;
+  }
+
+  .coin_footer {
+    position: relative;
+  }
+
+  ul.footer_list li {
+    display: block;
+  }
+
+  ul.footer_list li:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .bitcoun_table td img {
+    width: 40px;
+  }
+
+  .bitcoun_table td h4 {
+    font-size: 16px;
+  }
+
+  .bitcoun_table td p {
+    font-size: 12px;
+  }
+
+  .bitcoun_table td {
+    font-size: 12px;
+  }
+
+  .bitcoun_table td:nth-child(3) {
+    text-align: center;
+    width: 20%;
+  }
+
+  span.status {
+    width: 30.33px;
+  }
+
+  .sidebar.d-none.active {
+    display: block !important;
+    z-index: 99;
+    width: 100%;
+    padding-top: 0px;
+  }
+
+  .nav_close {
+    display: none;
+  }
+
+  .nav_open .nav_open {
+    display: none;
+  }
+
+  .nav_open .nav_close {
+    display: block;
+  }
+}
+
+.loginContainer {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.background-radial-gradient {
+  background-image: url(../images/bg-3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.form-control {
+  border-radius: 50px;
+  padding: 8px 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.error-msg {
+  color: #e30000;
+  font-size: 12px;
+}
+
+a.frgt-link {
+  text-align: right;
+  display: block;
+  color: #f4060a;
+  font-weight: 600;
+}
+
+.sbmt-bttn {
+    background-color: #ff0000;
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    color: white;
+    transition: 0.6s;
+    border-radius: 50px;
+}
+.main-div {
+  text-align: left!important;
+}
+.password_field .toggle_eye {
+  color: #7d7d7d;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  right: 10px;
+  top: 80%;
+  -webkit-transform: translateY(-80%);
+  transform: translateY(-80%);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.position-relative {
+  position: relative!important;
+}
+button.bg-transparent.border-0.text-dark.txt-btn.frgt-link.btn.btn-primary{
+  color: #f4060a!important;
+  display: block;
+  font-weight: 700;
+  text-align: right;
+}
+.bg-glass{
+  background-color: hsla(0,0%,100%,.9)!important;
+
+}
+
+
+
+
+table.table.bitcoun_table thead {
+    color: #fff;
+    background: #f00;
+    border: 1px solid #ffffff00;
+}
+.bitcoun_table th {
+    border-bottom-color: #0000!important;
+}
+
+.button-apc .btn-danger {
+  color: #fff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+  padding: 11px 30px;
+  border: 0px;
+  margin-bottom: 20px;
+}
+
+.button-apc .key-btn {
+  color: #fff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+  padding: 11px 13px;
+  border: 0px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}

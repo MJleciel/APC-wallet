@@ -1,0 +1,20 @@
+@import url('../src/assets/css/bootstrap.css');
+@import url('../src/assets/css/bootstrap.min.css');
+/* @import url('../src/assets/css/bootstrap.css.map'); */
+/* @import url('../src/assets/css/bootstrap.min.css.map'); */
+/* @import url('../src/assets/css/font-awesome.css'); */
+@import url('../src/assets/css/style.css');
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
