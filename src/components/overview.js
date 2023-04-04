@@ -2,24 +2,26 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { addToken, getPrivateKey, getTokens, getWallet } from "../services/services";
-import { getBalance,sendTrx } from "./tronFunctions";
+import { getBalance,sendTrx,fetchTransactionHistory,fetchTokenData } from "./tronFunctions";
 
 const WalletOverview = () => {
     const [walletAddress, setWalletAddress] = useState('');
     const [balance,setBalance]=useState('')
+    const [transactionHistory, setTransactionHistory] = useState([]);
     const getWalletDetails = async() => {
         getWallet(localStorage.getItem('id')).then(async(res) => {
             if (res.status === 200) {
                 setWalletAddress(res.data.data[0].wallet_address);
                 let bal=await getBalance(res.data.data[0].wallet_address)
                 console.log("balance is---->",bal);
-                if(bal){
+                if(bal){ 
                     setBalance(bal);
                 }
-
+            //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
+            //   console.log("transaction histroy is---->",transaction);
             }
         }).catch(err => {
-            console.log(err.response.data.message)
+            console.log(err?.response?.data?.message)
         })
     }
 
@@ -37,7 +39,7 @@ const WalletOverview = () => {
                   return 'Please add token address'
                 }
               }
-          }).then((result) => {
+          }).then(async(result) => {
             console.log("token",result);
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
@@ -45,6 +47,8 @@ const WalletOverview = () => {
                     "user_id":localStorage.getItem('id'),
                     "token_add":result.value
                 }
+                let tokenData=await fetchTokenData(result.value);
+                console.log("token data is---->",tokenData);
                 addToken(payload).then(res=>{
                     if(res.status===200){
                         Swal.fire("","Token added successfully","success")

@@ -80,12 +80,21 @@ export async function sendTrx(fromAddress, toAddress, amount,privateKey) {
 
 export const fetchTokenData = async (tokenAddress) => {
   try {
+    console.log("token address is----->",tokenAddress);
     const contract = await tronWeb.contract().at(tokenAddress);
+
+    console.log("contract is---->",contract);
     const symbol = await contract.symbol().call();
+    console.log("symbold is---->",symbol);
     const decimals = await contract.decimals().call();
+    const name=await contract.name().call();
+
+    console.log("name decimal and symbol is---->",name,decimals,symbol);
     
     // Check if token exists
     if (symbol && decimals) {
+
+      return {symbol,decimals,name};
       // Add token to database
       // ...
       // setTokenExists(true);
@@ -96,3 +105,15 @@ export const fetchTokenData = async (tokenAddress) => {
     console.log("Error checking token:", error);
   }
 };
+
+export async function fetchTransactionHistory(address) {
+  const transactions = await tronWeb.trx.getTransactionsRelated(address, "all");
+  const formattedTransactions = transactions.map((transaction) => ({
+    hash: transaction.txID,
+    from: transaction.raw_data.contract[0].parameter.value.owner_address,
+    to: transaction.raw_data.contract[0].parameter.value.to_address,
+    value: tronWeb.fromSun(transaction.raw_data.contract[0].parameter.value.amount),
+    timestamp: new Date(transaction.raw_data.timestamp),
+  }));
+  return formattedTransactions;
+}
