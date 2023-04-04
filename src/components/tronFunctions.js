@@ -55,27 +55,44 @@ export async function getBalance(address) {
 }
 
 
-export async function sendTrx(fromAddress, toAddress, amount,privateKey) {
+export async function sendTrx(data) {
 
+  console.log("send trx function is called",data);
   let tronWeb1 = new TronWeb({
     fullHost: 'https://api.shasta.trongrid.io',
     solidityNode: 'https://api.shasta.trongrid.io',
     eventServer: 'https://api.shasta.trongrid.io',
-    privateKey:privateKey
+    privateKey:data.privateKey
    
   });
-  const fromAccount = await tronWeb1.trx.getAccount(fromAddress);
+  console.log("11111111")
+  const fromAccount = await tronWeb1.trx.getAccount(data.fromAddress);
+  console.log("22222222")
   const fromBalance = fromAccount.balance;
-  
-  if (fromBalance < amount) {
+  console.log("3333333333333")
+  if (fromBalance < parseFloat((data.amount)*1000000)) {
+    alert("Insufficient Balance")
     throw new Error('Insufficient balance');
   }
+  try{
+    const transaction = await tronWeb1.transactionBuilder.sendTrx(data.toAddress, parseFloat((data.amount)*1000000), data.fromAddress)
+    console.log("44444444",transaction.txID)
+   
+    const signedTransaction = await tronWeb1.trx.sign(transaction);
+    console.log("555555",signedTransaction);
+    const result = await tronWeb1.trx.sendRawTransaction(signedTransaction);
+    console.log("66666666",result);
+    
+    // let a=await tronWeb.trx.getUnconfirmedTransactionInfo(transaction.txID);
+    // console.log("status is------>",a);
+    
+    console.log(`Transaction ID: ${result.txid}`);
+    return result;
+  }catch(e){
+       console.log("error is",e)
+  }
 
-  const transaction = await tronWeb1.transactionBuilder.sendTrx(toAddress, amount, fromAddress);
-  const signedTransaction = await tronWeb1.trx.sign(transaction);
-  const result = await tronWeb1.trx.sendRawTransaction(signedTransaction);
-  
-  console.log(`Transaction ID: ${result.txid}`);
+ 
 }
 
 export const fetchTokenData = async (tokenAddress,privateKey) => {

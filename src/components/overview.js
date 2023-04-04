@@ -100,8 +100,9 @@ const WalletOverview = () => {
                     
                 }
                 sendTrx(payload).then(res=>{
-                    if(res.status===200){
-                        Swal.fire("","Token added successfully","success")
+                    console.log("resulut is",res)
+                    if(res.result===true){
+                        Swal.fire("","Transaction Successfull","success")
                     }
                 }).catch(err => {
 
