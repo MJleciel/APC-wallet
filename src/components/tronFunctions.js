@@ -78,18 +78,27 @@ export async function sendTrx(fromAddress, toAddress, amount,privateKey) {
   console.log(`Transaction ID: ${result.txid}`);
 }
 
-export const fetchTokenData = async (tokenAddress) => {
+export const fetchTokenData = async (tokenAddress,privateKey) => {
+  let tronWeb2 = new TronWeb({
+    fullHost: 'https://api.shasta.trongrid.io',
+    solidityNode: 'https://api.shasta.trongrid.io',
+    eventServer: 'https://api.shasta.trongrid.io',
+    privateKey:privateKey
+   
+  });
+  console.log("private key is---->",privateKey);
   try {
     console.log("token address is----->",tokenAddress);
-    const contract = await tronWeb.contract().at(tokenAddress);
-
+    const contract = await tronWeb2.contract().at(tokenAddress);
     console.log("contract is---->",contract);
-    const symbol = await contract.symbol().call();
-    console.log("symbold is---->",symbol);
-    const decimals = await contract.decimals().call();
     const name=await contract.name().call();
 
-    console.log("name decimal and symbol is---->",name,decimals,symbol);
+    console.log("name decimal and symbol is---->",name);
+   
+    const symbol = await contract.symbol().call();
+    console.log("symbol is---->",symbol);
+    const decimals = await contract.decimals().call();
+   
     
     // Check if token exists
     if (symbol && decimals) {
@@ -103,6 +112,7 @@ export const fetchTokenData = async (tokenAddress) => {
     }
   } catch (error) {
     console.log("Error checking token:", error);
+    alert(error);
   }
 };
 

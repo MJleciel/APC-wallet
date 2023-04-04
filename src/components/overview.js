@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { addToken, getPrivateKey, getTokens, getWallet } from "../services/services";
-import { getBalance,sendTrx,fetchTransactionHistory,fetchTokenData } from "./tronFunctions";
+
+import { addToken, createWallet, getPrivateKey, getTokens, getWallet } from "../services/services";
+import { generateTronAccount, getBalance,sendTrx,fetchTokenData } from "./tronFunctions";
+import Sidebar from "./sidebar";
+
+
+
 
 const WalletOverview = () => {
     const [walletAddress, setWalletAddress] = useState('');
-    const [balance,setBalance]=useState('')
-    const [transactionHistory, setTransactionHistory] = useState([]);
-    const getWalletDetails = async() => {
-        getWallet(localStorage.getItem('id')).then(async(res) => {
+    const [privateKey,setPrivateKey]=useState('')
+    const [balance, setBalance] = useState('')
+    const getWalletDetails = async () => {
+        getWallet(localStorage.getItem('id')).then(async (res) => {
             if (res.status === 200) {
                 setWalletAddress(res.data.data[0].wallet_address);
-                let bal=await getBalance(res.data.data[0].wallet_address)
-                console.log("balance is---->",bal);
-                if(bal){ 
+                setPrivateKey(res.data.data[0].private_key);
+                let bal = await getBalance(res.data.data[0].wallet_address)
+                console.log("balance is---->", bal);
+                if (bal) {
                     setBalance(bal);
                 }
             //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
@@ -47,16 +53,21 @@ const WalletOverview = () => {
                     "user_id": localStorage.getItem('id'),
                     "token_add": result.value
                 }
-                let tokenData=await fetchTokenData(result.value);
+                let tokenData=await fetchTokenData(result.value,privateKey);
                 console.log("token data is---->",tokenData);
-                addToken(payload).then(res=>{
-                    if(res.status===200){
-                        Swal.fire("","Token added successfully","success")
-                    }
-                }).catch(err => {
-
-                    Swal.fire('', err.response.data.message, "error")
-                })
+                if(tokenData){
+                    addToken(payload).then(res=>{
+                        if(res.status===200){
+                            Swal.fire("","Token added successfully","success")
+                        }
+                    }).catch(err => {
+    
+                        Swal.fire('', err.response.data.message, "error")
+                    })
+                }else{
+                    Swal.fire('',"somethind went wrong","error")
+                }
+               
             } else if (result.isDenied) {
                 Swal.close()
             }
