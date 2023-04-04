@@ -5,14 +5,16 @@ import IndexFile from './components';
 import Routing from './routes/routing';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Sidebar from './components/sidebar';
 
 
 
 function App() {
   return (
     <div className="App">
-     <Routing/>
-     <ToastContainer theme='dark' />
+      {/* <Sidebar /> */}
+      <Routing />
+      <ToastContainer theme='dark' />
     </div>
   );
 }

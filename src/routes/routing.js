@@ -11,6 +11,7 @@ import SelectCoin from "../components/selectCoin";
 import Setting from "../components/setting";
 import TermServices from "../components/term-services";
 import UserWallet from "../components/wallet";
+import TokenList from "../components/tokens";
 
 
 const Routing = () => {
@@ -28,6 +29,7 @@ const Routing = () => {
                 <Route path='/select' element={<SelectCoin/>}/>
                 <Route path='/wallet' element={<UserWallet/>}/>
                 <Route path='/overview' element={<WalletOverview/>}/>
+                <Route path='/token-list' element={<TokenList/>}/>
                 <Route path='/setting' element={<Setting/>}/>
                 <Route path='/terms-services' element={<TermServices/>}/>
             </Routes>
