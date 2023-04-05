@@ -3,15 +3,17 @@ import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 import { addToken, createWallet, getPrivateKey, getTokens, getWallet } from "../services/services";
-import { generateTronAccount, getBalance,sendTrx,fetchTokenData } from "./tronFunctions";
+import { generateTronAccount, getBalance, sendTrx, fetchTokenData } from "./tronFunctions";
 import Sidebar from "./sidebar";
+import { icons } from "react-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 
 
 
 const WalletOverview = () => {
     const [walletAddress, setWalletAddress] = useState('');
-    const [privateKey,setPrivateKey]=useState('')
+    const [privateKey, setPrivateKey] = useState('')
     const [balance, setBalance] = useState('')
     const getWalletDetails = async () => {
         getWallet(localStorage.getItem('id')).then(async (res) => {
@@ -23,8 +25,8 @@ const WalletOverview = () => {
                 if (bal) {
                     setBalance(bal);
                 }
-            //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
-            //   console.log("transaction histroy is---->",transaction);
+                //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
+                //   console.log("transaction histroy is---->",transaction);
             }
         }).catch(err => {
             console.log(err?.response?.data?.message)
@@ -44,30 +46,30 @@ const WalletOverview = () => {
                 if (!value) {
                     return 'Please add token address'
                 }
-              }
-          }).then(async(result) => {
-            console.log("token",result);
+            }
+        }).then(async (result) => {
+            console.log("token", result);
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 const payload = {
                     "user_id": localStorage.getItem('id'),
                     "token_add": result.value
                 }
-                let tokenData=await fetchTokenData(result.value,privateKey);
-                console.log("token data is---->",tokenData);
-                if(tokenData){
-                    addToken(payload).then(res=>{
-                        if(res.status===200){
-                            Swal.fire("","Token added successfully","success")
+                let tokenData = await fetchTokenData(result.value, privateKey);
+                console.log("token data is---->", tokenData);
+                if (tokenData) {
+                    addToken(payload).then(res => {
+                        if (res.status === 200) {
+                            Swal.fire("", "Token added successfully", "success")
                         }
                     }).catch(err => {
-    
+
                         Swal.fire('', err.response.data.message, "error")
                     })
-                }else{
-                    Swal.fire('',"somethind went wrong","error")
+                } else {
+                    Swal.fire('', "somethind went wrong", "error")
                 }
-               
+
             } else if (result.isDenied) {
                 Swal.close()
             }
@@ -79,30 +81,34 @@ const WalletOverview = () => {
     const handleSendTrxModal = () => {
         Swal.fire({
             title: 'Send',
-            html:'To:<input id="swal-input1" class="swal2-input"></br>' +
-            'Amount:<input id="swal-input2" class="swal2-input">',
+            html: 'To:<input id="swal-input1" class="swal2-input"></br>' +
+                'Amount:<input id="swal-input2" class="swal2-input">',
             preConfirm: () => {
                 return {
-                 walletAddrress: document.getElementById('swal-input1').value,
-                 amount: document.getElementById('swal-input2').value
+                    walletAddrress: document.getElementById('swal-input1').value,
+                    amount: document.getElementById('swal-input2').value
                 }
-              }
+            }
 
         }).then((result) => {
             console.log("token", result);
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                const payload={
-                    fromAddress:walletAddress, 
-                    toAddress:result.value.walletAddrress, 
-                    amount:result.value.amount,
-                    privateKey:privateKey
-                    
+                const payload = {
+                    fromAddress: walletAddress,
+                    toAddress: result.value.walletAddrress,
+                    amount: result.value.amount,
+                    privateKey: privateKey
+
                 }
-                sendTrx(payload).then(res=>{
-                    console.log("resulut is",res)
-                    if(res.result===true){
-                        Swal.fire("","Transaction Successfull","success")
+                sendTrx(payload).then(res => {
+                    console.log("resulut is", res)
+                    if (res.result === true) {
+                        Swal.fire({
+                            html: `<p>Transaction id: ${res.txid}</p>` +
+                                "<p>Transaction successfull</p>",
+                            icon: "success"
+                        })
                     }
                 }).catch(err => {
 
@@ -186,13 +192,15 @@ const WalletOverview = () => {
             <section class="dashboard">
                 <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
                     <div class="row">
-                    <Sidebar />
+                        <Sidebar />
 
                         <div class="col-lg-10 col-md-9 col-sm-12 col-12 px-lg-5 p-4">
                             <div class="coin_right_body">
                                 <div class="coin_title">
                                     <h1>Overview</h1>
                                 </div>
+
+
 
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-4">
@@ -201,38 +209,53 @@ const WalletOverview = () => {
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-center">
+                                        <div class="coin_balance_outer coin_balancess w-100">
 
+                                            <div className="apc-dropdown ">
+                                                <Dropdown>
+                                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                                        Dropdown Button
+                                                    </Dropdown.Toggle>
 
-                                        <div class="coin_balance_outer w-100">
-                                            <div class="button-apc">
-                                                <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
-                                                <button class="key-btn" onClick={handleSendTrxModal}>Sent TRX</button>
-                                                <button class="key-btn" onClick={handleKeyModal}>Show private key </button>
-                                                <button class="key-btn" onClick={handleAddWallet}>Add new wallet </button>
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                                        {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
                                             </div>
+                                            <div class="coin_balance_outer">
 
-                                            <div class="coin_balance mb-2">
-                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                <div class="button-apc">
+                                                    <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
+                                                    <button class="key-btn" onClick={handleSendTrxModal}>Sent TRX</button>
+                                                    <button class="key-btn" onClick={handleKeyModal}>Show private key </button>
+                                                    <button class="key-btn" onClick={handleAddWallet}>Add new wallet </button>
+                                                </div>
+
+                                                <div class="coin_balance account mb-2">
+                                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                                                     <path
                                                         d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
                                                 </svg> */}
-                                                Account Address
-                                            </div>
-                                            <div class="coin_balance mb-2">{walletAddress || "0Tx"}</div>
+                                                    Account Address
+                                                </div>
+                                                <div class="coin_balance mb-2">{walletAddress || "0Tx"}</div>
 
-                                            <div class="coin_balance mb-2">
-                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                <div class="coin_balance balance mb-2">
+                                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                                                     <path
                                                         d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
                                                 </svg> */}
-                                                Balance
-                                            </div>
-                                            <div class="coin_balance mb-2">{balance || "0"} TRX</div>
-                                            {/* <div class="USD_balane">
+                                                    Balance
+                                                </div>
+                                                <div class="coin_balance mb-2">{balance || "0"} TRX</div>
+                                                {/* <div class="USD_balane">
                                                 {localStorage.getItem("account")?localStorage.getItem("account"):"0Tx"}
                                             </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

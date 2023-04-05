@@ -129,7 +129,7 @@ export const fetchTokenData = async (tokenAddress,privateKey) => {
     }
   } catch (error) {
     console.log("Error checking token:", error);
-    alert(error);
+    // alert(error);
   }
 };
 
