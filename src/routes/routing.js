@@ -17,6 +17,7 @@ import NewSidebar from "../components/sidebar";
 import Home from "../components/home";
 import GetStarted from "../components/getStarted";
 import RestoreWallet from "../components/restore-wallet";
+import AddToken from "../components/addToken";
 
 
 const Routing = () => {
@@ -35,6 +36,7 @@ const Routing = () => {
                 <Route path='/select' element={<SelectCoin/>}/>
                 <Route path='/wallet' element={<UserWallet/>}/>
                 <Route path='/overview' element={<WalletOverview/>}/>
+                <Route path='/add-token' element={<AddToken/>}/>
                 <Route path='/token-list' element={<TokenList/>}/>
                 <Route path='/setting' element={<Setting/>}/>
                 <Route path='/terms-services' element={<TermServices/>}/>
