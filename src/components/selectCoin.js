@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
+
 const SelectCoin = () => {
+    let navigate=useNavigate()
     return (
         <>
-            <section class="site_section d-flex align-items-center">
+            <section class="site_section d-flex align-items-center sidebar-width">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
@@ -81,8 +84,8 @@ const SelectCoin = () => {
                                     <div class="submit_sec p-3">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 text-lg-center text-md-center text-center">
-                                                <a href="#" class="btn btn-primary w-auto">Skip</a>
-                                                <a href="#" class="btn btn-primary w-auto transparent_button">Next</a>
+                                                <a onClick={()=>navigate('/terms-services')} class="btn btn-primary w-auto">Skip</a>
+                                                <a onClick={()=>navigate('/terms-services')} class="btn btn-primary w-auto transparent_button">Next</a>
                                             </div>
                                         </div>
                                     </div>

@@ -22,17 +22,17 @@ const IndexFile = () => {
             console.log(res)
             setMemonic(res.mnemonic)
       
-            
-            createWallet({ "wallet_address": res.address, "key": res.privateKey, "id": localStorage.getItem('id') }).then(res => {
-                if (res.status === 200) {
-                    console.log("success")
-                    localStorage.setItem("account", res.address);
+            navigate('/cwallet',{state:res.mnemonic})
+            // createWallet({ "wallet_address": res.address, "key": res.privateKey, "id": localStorage.getItem('id') }).then(res => {
+            //     if (res.status === 200) {
+            //         console.log("success")
+            //         localStorage.setItem("account", res.address);
                    
-                    setShow(true)
+            //         setShow(true)
 
                     
-                }
-            })
+            //     }
+            // })
         })
     }
 
@@ -43,7 +43,7 @@ const IndexFile = () => {
     }
     return (
         <>
-            <section class="site_welcome">
+            <section class="site_welcome sidebar-width">
                 <div class="section_overlay">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -60,7 +60,7 @@ const IndexFile = () => {
                                             <a onClick={(e) => handleCreateWallet(e)} class="btn btn-primary">Create a new Wallet</a>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-4">
-                                            <a href="/recovery" class="btn btn-primary transparent_button">Restore a Wallet</a>
+                                            <a onClick={()=>navigate('/restore-wallet')} class="btn btn-primary transparent_button">Restore a Wallet</a>
                                         </div>
                                     </div>
                                 </div>
