@@ -186,6 +186,12 @@ const WalletOverview = () => {
 
     useEffect(() => {
         getWalletDetails()
+        const options = {method: 'GET', headers: {accept: 'application/json'}};
+
+        fetch('https://api.shasta.trongrid.io/v1/accounts/TLtQ2dRkWBcrdFKmEgdzWTAj3QNytisTzV/transactions', options)
+          .then(response => response.json())
+          .then(response => console.log("transaction histroy is",response))
+          .catch(err => console.error(err))
     }, [])
     return (
         <>
