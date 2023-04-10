@@ -195,19 +195,16 @@ const WalletOverview = () => {
     }, [])
     return (
         <>
-            <section class="dashboard">
+            <section class="dashboard sidebar-width">
                 <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
                     <div class="row">
-                        <Sidebar />
 
-                        <div class="col-lg-10 col-md-9 col-sm-12 col-12 px-lg-5 p-4">
+
+                        <div class="col-lg-12 col-md-9 col-sm-12 col-12 px-lg-5 p-4">
                             <div class="coin_right_body">
                                 <div class="coin_title">
                                     <h1>Overview</h1>
                                 </div>
-
-
-
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-4">
                                         <div class="pie_chart text-center">
@@ -215,52 +212,17 @@ const WalletOverview = () => {
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-center">
-                                        <div class="coin_balance_outer coin_balancess w-100">
-
-                                            <div className="apc-dropdown ">
-                                                <Dropdown>
-                                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                        Dropdown Button
-                                                    </Dropdown.Toggle>
-
-                                                    <Dropdown.Menu>
-                                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                        {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
+                                        <div class="coin_balance_outer w-100">
+                                            <div class="coin_balance mb-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
+                                                </svg>
+                                                Balance
                                             </div>
-                                            <div class="coin_balance_outer">
-
-                                                <div class="button-apc">
-                                                    <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
-                                                    <button class="key-btn" onClick={handleSendTrxModal}>Sent TRX</button>
-                                                    <button class="key-btn" onClick={handleKeyModal}>Show private key </button>
-                                                    <button class="key-btn" onClick={handleAddWallet}>Add new wallet </button>
-                                                </div>
-
-                                                <div class="coin_balance account mb-2">
-                                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
-                                                </svg> */}
-                                                    Account Address
-                                                </div>
-                                                <div class="coin_balance mb-2">{walletAddress || "0Tx"}</div>
-
-                                                <div class="coin_balance balance mb-2">
-                                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
-                                                </svg> */}
-                                                    Balance
-                                                </div>
-                                                <div class="coin_balance mb-2">{balance || "0"} TRX</div>
-                                                {/* <div class="USD_balane">
-                                                {localStorage.getItem("account")?localStorage.getItem("account"):"0Tx"}
-                                            </div> */}
+                                            <div class="USD_balane">
+                                                0.00 USD
                                             </div>
                                         </div>
                                     </div>
@@ -268,15 +230,6 @@ const WalletOverview = () => {
                                 <div class="row mt-lg-5 mt-4">
                                     <div class="col-lg-12 col-sm-12 col-12">
                                         <table class="table bitcoun_table m-0">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col"></th>
-                                                    <th scope="col">Hash</th>
-                                                    <th scope="col">From</th>
-                                                    <th scope="col" class="th-three">To</th>
-                                                    <th scope="col">Value</th>
-                                                </tr>
-                                            </thead>
                                             <tr>
                                                 <td>
                                                     <img src={require("../assets/images/bitcoin.png")} alt="" />

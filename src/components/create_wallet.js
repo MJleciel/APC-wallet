@@ -1,8 +1,13 @@
+import { useLocation, useNavigate } from "react-router-dom"
+
 const CreateWallet = () => {
+    const loc=useLocation()
+
+    let navigate=useNavigate()
     return (
         <>
 
-            <section class="site_section d-flex align-items-center">
+            <section class="site_section d-flex align-items-center sidebar-width">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
@@ -27,12 +32,13 @@ const CreateWallet = () => {
                                 </div>
                                 <div class="phrase_box">
                                     <p class="m-0">
-                                        gym used route identify fan fiction voyage sleep floor room gold tell abandon credit
+                                        {/* gym used route identify fan fiction voyage sleep floor room gold tell abandon credit
                                         elder
-                                        loan brief lonely impose tiny toward grocery surprise slender
+                                        loan brief lonely impose tiny toward grocery surprise slender */}
+                                        {loc.state}
                                     </p>
                                 </div>
-                                <div class="advance_setting p-3 pb-1">
+                                {/* <div class="advance_setting p-3 pb-1">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 mb-lg-0 mb-md-0 mb-4 d-flex align-items-center">
                                             <div class="custom_checkbox">
@@ -73,7 +79,7 @@ const CreateWallet = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div class="custom_checkbox p-3">
                                     <label>
                                         <input type="checkbox" value="recovery" id="recovery" class="form-check-input"/>
@@ -95,7 +101,7 @@ const CreateWallet = () => {
                                             </div>
                                             <div class="col-lg-9 col-md-9 col-sm-12 text-lg-end text-md-end text-left">
                                                 <a href="/" class="btn btn-primary w-auto">Cancel</a>
-                                                <a href="/" class="btn btn-primary w-auto transparent_button">Next</a>
+                                                <a onClick={()=>navigate('/recovery')} class="btn btn-primary w-auto transparent_button">Next</a>
                                             </div>
                                         </div>
                                     </div>

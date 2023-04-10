@@ -39,7 +39,7 @@ const TokenList = () => {
                 <tbody>
                     {tokens.length!==0 && tokens.map((token,index)=>
                         <tr>
-                            <td>{index+1}</td>
+                            <td>1</td>
                             <td>{token.token_address}</td>
                             {/* <td>{index+1}</td> */}
                         {/* <td colSpan={5} className='fs-6 text-center py-3'>

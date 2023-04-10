@@ -1,7 +1,13 @@
+import { useContext } from "react";
+import appContext from "../context/globalContext";
+import { useNavigate } from "react-router-dom";
+
 const TermServices = () => {
+    const context= useContext(appContext)
+    let navigate = useNavigate()
     return (
         <>
-            <section class="site_section d-flex align-items-center">
+            <section class="site_section d-flex align-items-center sidebar-width">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
@@ -31,7 +37,7 @@ const TermServices = () => {
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 text-lg-center text-md-center text-center">
                                             <a href="#" class="btn btn-primary w-auto">Reject</a>
-                                            <a href="#" class="btn btn-primary w-auto transparent_button">Accept</a>
+                                            <a onClick={()=>{context.setToken("123");navigate('/overview')}} class="btn btn-primary w-auto transparent_button">Accept</a>
                                         </div>
                                     </div>
                                 </div>
