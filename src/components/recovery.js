@@ -1,13 +1,72 @@
-import { useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ImCancelCircle } from 'react-icons/im';
+import { useEffect, useState } from 'react';
 const ConfirmRecovery = () => {
-    let navigate=useNavigate()
+    let loc = useLocation()
+    let navigate = useNavigate()
+    let mnemonic = loc.state.mnemonic.split(' ')
+    const [confirmPhrase, setConfirmPhrase] = useState([])
+    // const [match, setMatch] = useState(true)
+    const [shuffledMnemnoics, setShuffledMnemonics] = useState([])
+
+
+    const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * i);
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        console.log(array);
+        setShuffledMnemonics(array);
+    }
+
+    
+
+    const insertInList = (event, item) => {
+        if (confirmPhrase.length != mnemonic.length) {
+            var temp = [...confirmPhrase]
+            temp.push(item)
+            setConfirmPhrase(temp)
+        }
+    }
+    const removeFromList = (event, index) => {
+        var temp = [...confirmPhrase]
+        temp.splice(index, 1)
+        setConfirmPhrase(temp)
+    }
+
+    const checkPhrase = () => {
+        if (confirmPhrase.length != 0) {
+            let match = true
+            for (let i = 0; i < confirmPhrase.length; i++) {
+                console.log('hi');
+                if (confirmPhrase[i] !== mnemonic[i]) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match) {
+                navigate('/password',{state:loc.state})
+
+            }
+        }
+        else {
+            alert('Please confirm you recovery phrase.')
+        }
+    }
+
+    useEffect(()=>{
+        console.log(mnemonic);
+        shuffle(mnemonic)
+    },[])
+
+
     return (
         <>
-            <section class="site_section d-flex align-items-center sidebar-width">
+            <section class="site_section d-flex align-items-center sidebar-width recovery_page">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-7 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
+                        <div class="col-lg-9 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
                             <div class="text-center  mb-4">
                                 <img src={require('../assets/images/apc-logo.png')} alt="" width="100px" />
                             </div>
@@ -22,33 +81,31 @@ const ConfirmRecovery = () => {
                                     <p>Please confirm your recovery phrase by clicking the words in the right order</p>
                                 </div>
                                 <div class="phrase_box">
-                                    <ul>
-                                        <li>
-                                            <p class="m-0">abandon</p>
-                                        </li>
-                                        <li>
-                                            <p class="m-0">abandon</p>
-                                        </li>
-                                        <li>
-                                            <p class="m-0">abandon</p>
-                                        </li>
-                                        <li>
-                                            <p class="m-0">abandon</p>
-                                        </li>
+                                    <ul class="recovery-text">
+                                        {confirmPhrase && confirmPhrase.map((item, index) =>
+                                            <li>
+                                                <p class="m-0">{item}<ImCancelCircle onClick={(e) => removeFromList(e, index)} /></p>
+                                            </li>
+                                        )}
+
+
                                     </ul>
                                 </div>
                                 <div class="advance_setting p-3 pb-0">
                                     <div class="row">
                                         <div
                                             class="col-lg-12 col-md-12 col-sm-12 mb-lg-0 mb-md-0 mb-4 text-lg-end text-md-end text-left">
-                                            <a href="#" class="btn btn-primary w-auto transparent_button">Remove</a>
+                                            <a onClick={() => setConfirmPhrase([])} class="btn btn-primary w-auto transparent_button">Remove</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="phrase_list p-3">
+                                <div class="phrase_list">
                                     <ul class="text-center">
-                                        <li>cradits</li>
-                                        <li>fan</li>
+                                        {shuffledMnemnoics.map((item) =>
+                                            <li onClick={(e) => insertInList(e, item)}>{item}</li>
+
+                                        )}
+                                        {/* <li>fan</li>
                                         <li>floor</li>
                                         <li>abandon</li>
                                         <li>cradits</li>
@@ -58,7 +115,7 @@ const ConfirmRecovery = () => {
                                         <li>cradits</li>
                                         <li>fan</li>
                                         <li>floor</li>
-                                        <li>abandon</li>
+                                        <li>abandon</li> */}
                                     </ul>
                                 </div>
                                 <hr class="m-0" />
@@ -76,7 +133,7 @@ const ConfirmRecovery = () => {
                                         <div class="col-lg-9 col-md-9 col-sm-12 text-lg-end text-md-end text-left">
                                             <a href="#" class="btn btn-primary w-auto">Cancel</a>
                                             {/* <a href="#" class="btn btn-primary w-auto transparent_button">Skip</a> */}
-                                            <a onClick={()=>navigate('/password')} class="btn btn-primary w-auto transparent_button mt-lg-0 mt-md-0 mt-1">Confirm</a>
+                                            <a onClick={checkPhrase} class="btn btn-primary w-auto transparent_button mt-lg-0 mt-md-0 mt-1" >Confirm</a>
                                         </div>
                                     </div>
                                 </div>

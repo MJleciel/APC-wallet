@@ -3,7 +3,7 @@ import appContext from "../context/globalContext";
 import { useNavigate } from "react-router-dom";
 
 const TermServices = () => {
-    const context= useContext(appContext)
+    // const context= useContext(appContext)
     let navigate = useNavigate()
     return (
         <>
@@ -37,7 +37,7 @@ const TermServices = () => {
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 text-lg-center text-md-center text-center">
                                             <a href="#" class="btn btn-primary w-auto">Reject</a>
-                                            <a onClick={()=>{context.setToken("123");navigate('/overview')}} class="btn btn-primary w-auto transparent_button">Accept</a>
+                                            <a onClick={()=>{navigate('/overview')}} class="btn btn-primary w-auto transparent_button">Accept</a>
                                         </div>
                                     </div>
                                 </div>

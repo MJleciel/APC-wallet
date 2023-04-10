@@ -1022,6 +1022,22 @@ form.multi-form {
 }
 
 
+
+@media(max-width:600px){
+    .overwraper {
+        visibility: visible!important;
+    }
+    .overwraper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #0000007a;
+        top: 0;
+        bottom: 0;
+        /* visibility: hidden; */
+    }
+}
+
 @media (max-width:576px){
 .klevar-inner {
   position: unset;
@@ -1052,11 +1068,18 @@ form.multi-form {
 .wallet-links {
   font-size: 13px;
 }
+
+
+.coin-inner-body button#dropdownMenuButton1 {
+    padding: 12px 10px !important;
+
+}
+.row.align-items-center.overview__pp {
+    margin-top: 20px;
 }
 
 
-
-
+}
 
 .ps-sidebar-container.css-dip3t8 {
   background-color: #262626;
@@ -1137,7 +1160,7 @@ aside.ps-sidebar-root.ps-collapsed.css-1wvake5 {
     display: none;
 }
 .css-1wvake5.ps-collapsed .ps-sidebar-container.css-dip3t8{
-    background-color: #fff!important;
+    background-color: #343434!important;
 }
 .css-1wvake5.ps-collapsed a.ps-menu-button{
     display: none;
@@ -1685,6 +1708,24 @@ form.multi-form {
 .restore-buttons button.btn-danger.btn-1 {
     margin-right: 10px;
 }
+
+ /*============Overview Page============*/
+.coin_title h1 {
+    font-size: 20px;
+    margin-bottom: 0px;
+    }
+.coin-inner-body h5{
+    text-align: left;
+}
+.sidebar-width .col-lg-6.col-md-6.col-sm-12.text-end {
+    text-align: left!important;
+    margin-top: 17px;
+}
+.USD_balane{
+    float:left;
+}
+
+
 }
 
 @media (max-width:420px){
@@ -1694,6 +1735,7 @@ form.multi-form {
     padding: 0 0!important;
     float: left;
 }
+
 }
 
 
@@ -1703,3 +1745,136 @@ form.multi-form {
     }   
 }
 
+
+.phrase_list ul li {
+    display: inline-block;
+    border: 1px solid #ff0707;
+    padding: 5px 7px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 11px 2px;
+}
+ul.recovery-text li p {
+    display: inline-block;
+    border: 1px solid #ff0707;
+    padding: 10px 7px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 11px 1px!important;
+}
+.recovery_page .phrase_box ul li {
+    display: inline-block;
+    margin-right: 9px;
+    position: relative;
+}
+ul.recovery-text li p svg {
+    margin-left: 9px;
+    position: absolute;
+    right: -6px;
+    top: 4px;
+}
+.submit_sec.p-3 {
+    border-top: 1px solid #3f3939;
+    margin-top: 30px;
+}
+.password_inner form {
+    padding: 0px;
+}
+.password_inner .form-field {
+    margin: 0px 9px;
+}
+.password_inner .submit_sec.p-3 {
+    padding-bottom: 0px!important;
+}
+button.btn.btn-primary {
+    border: 1px solid #850000 !important;
+    box-shadow: none !important;
+    height: 48px;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 500;
+    padding: 0 25px;
+    text-transform: uppercase;
+    background-color: transparent !important;
+    background-image: radial-gradient(red, #850000) !important;
+    line-height: 48px;
+    color: #fff !important;
+    transition: 0.5s;
+}
+button.transparent_buttons {
+    border: 1px solid #850000 !important;
+    background-color: transparent !important;
+    color: #fff;
+    line-height: 34px;
+    height: 48px;
+    margin-left: 10px;
+}
+.password_inner span {
+    display: block;
+    text-align: left;
+    padding: 0px 16px;
+    color: #f01212;
+    margin-bottom: 10px;
+}
+
+/*============Overview Page============*/
+.coin-inner-body .btn-check:focus+.btn-secondary, .coin-inner-body .btn-secondary:focus{
+	box-shadow:none;
+}
+.coin-inner-body h5 {
+    color: #fff;
+
+}
+.address p {
+    color: #fff!important;
+    text-align: left;
+    margin-bottom: 0px;
+}
+.address {
+    margin-top: 25px;
+    background: #6c6c6c;
+    padding: 12px 22px;
+}
+table.table.bitcoun_table.m-0 tr:hover {
+    background: #6c6c6c;
+}
+.balance-row .coin_balance {
+    text-align: left;
+    background: red!important;
+}
+.balance-row .USD_balane {
+    font-size: 20px;
+    color: #c5c2c2;
+}
+.row.balance-row button.btn-danger {
+    margin-bottom: 14px;
+    background: #606060;
+    /* border: 1px solid #fcfcfc; */
+    padding: 8px 30px;
+}
+.row.balance-row .btn-danger:hover {
+    border-color: red;
+    background: red;
+}
+.coin-inner-body button#dropdownMenuButton1 {
+    border: 1px solid #b94f4f;
+    padding: 12px 20px;
+    background: #fb1313;
+}
+.balance-row button svg {
+    margin-right: 4px;
+}
+.balance-row button {
+    padding: 8px 14px!important;
+}
+.row.balance-row svg {
+    color: red;
+    font-size: 22px;
+    margin-left: 17px;
+    cursor: pointer;
+}
+.address_txt {
+    display: flex;
+}

@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // import { toast } from 'react-toastify';
 // import appContext from '../../context/globalContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { getWallet, signin } from '../services/services';
+// import { getWallet, signin } from '../services/services';
 import { toast } from 'react-toastify';
 import appContext from '../context/globalContext';
 // import Swal from 'sweetalert2';
@@ -19,57 +19,57 @@ export const LoginPage = () => {
     let navigate = useNavigate()
 
 
-    const onSubmit = data => {
+    // const onSubmit = data => {
 
-        // contextData.setLoad(true)
-        signin(data).then(response => {
-            if (response.status === 200) {
-                //     contextData.setLoad(false)
-                //     contextData.setToken(response.data.data.token)
-                //     localStorage.setItem('token',response.data.data.token)
-                //     contextData.setId(response.data.data.id)
-                localStorage.setItem('id', response.data.data.id)
-                //     contextData.setName(response.data.data.fullname)
-                //     localStorage.setItem('name',response.data.data.fullname)
-                //     contextData.setEmail(response.data.data.email)
-                //     localStorage.setItem('email',response.data.data.email)
-                //     contextData.setUserImg(response.data.data.user_img)
-                //     localStorage.setItem('user-img',response.data.data.user_img)
-                //     contextData.setIsActive(response.data.data.is_active)
-                //     contextData.setUserLevel(response.data.data.level)
-                //     localStorage.setItem("level",response.data.data.level)
-                //     localStorage.setItem('is_active',response.data.data.is_active)
-                //     contextData.setReferralCode(response.data.data.referral_code)
-                //     localStorage.setItem('code',response.data.data.referral_code)
-                //     contextData.setWalletBalance(response.data.data.wallet_balance)
-                //     localStorage.setItem('balance',response.data.data.wallet_balance)
-                //     contextData.setReferredBy(response.data.data.referred_by)
-                //     localStorage.setItem('referrBy',response.data.data.referred_by)
-                //     Swal.fire({
-                //         "text":`${response.data.data.fullname} you are logged in successfully.`,
-                //         "icon":"success",
-                //         "timer":2500
-                //     })
-                getWallet(response.data.data.id).then(res => {
-                    if (res.status === 200) {
-                        if (res.data.data.length == 0) {
-                            navigate('/create-wallet')
-                        }
-                        else {
-                            navigate('/overview')
-                        }
-                    }
-                }).catch(err => {
-                    console.log(err.response.data.message)
-                })
+    //     // contextData.setLoad(true)
+    //     signin(data).then(response => {
+    //         if (response.status === 200) {
+    //             //     contextData.setLoad(false)
+    //             //     contextData.setToken(response.data.data.token)
+    //             //     localStorage.setItem('token',response.data.data.token)
+    //             //     contextData.setId(response.data.data.id)
+    //             localStorage.setItem('id', response.data.data.id)
+    //             //     contextData.setName(response.data.data.fullname)
+    //             //     localStorage.setItem('name',response.data.data.fullname)
+    //             //     contextData.setEmail(response.data.data.email)
+    //             //     localStorage.setItem('email',response.data.data.email)
+    //             //     contextData.setUserImg(response.data.data.user_img)
+    //             //     localStorage.setItem('user-img',response.data.data.user_img)
+    //             //     contextData.setIsActive(response.data.data.is_active)
+    //             //     contextData.setUserLevel(response.data.data.level)
+    //             //     localStorage.setItem("level",response.data.data.level)
+    //             //     localStorage.setItem('is_active',response.data.data.is_active)
+    //             //     contextData.setReferralCode(response.data.data.referral_code)
+    //             //     localStorage.setItem('code',response.data.data.referral_code)
+    //             //     contextData.setWalletBalance(response.data.data.wallet_balance)
+    //             //     localStorage.setItem('balance',response.data.data.wallet_balance)
+    //             //     contextData.setReferredBy(response.data.data.referred_by)
+    //             //     localStorage.setItem('referrBy',response.data.data.referred_by)
+    //             //     Swal.fire({
+    //             //         "text":`${response.data.data.fullname} you are logged in successfully.`,
+    //             //         "icon":"success",
+    //             //         "timer":2500
+    //             //     })
+    //             getWallet(response.data.data.id).then(res => {
+    //                 if (res.status === 200) {
+    //                     if (res.data.data.length == 0) {
+    //                         navigate('/create-wallet')
+    //                     }
+    //                     else {
+    //                         navigate('/overview')
+    //                     }
+    //                 }
+    //             }).catch(err => {
+    //                 console.log(err.response.data.message)
+    //             })
 
-            }
-        }).catch(err => {
-            console.log(err);
-            // contextData.setLoad(false)
-            toast.error(err.response.data.message)
-        })
-    }
+    //         }
+    //     }).catch(err => {
+    //         console.log(err);
+    //         // contextData.setLoad(false)
+    //         toast.error(err.response.data.message)
+    //     })
+    // }
 
     const togglePassword = () => {
         if (passwordType === "password") {

@@ -1,10 +1,10 @@
 import axios from "axios"
 
-let api_url = 'http://localhost:3000/api/'
-// let api_url = "https://backend.apcblockchain.com/api/"
+// let api_url = 'http://localhost:3008/api/'
+let api_url = "https://bwallet.apcblockchain.com/api/"
 
-export const signin = (payload) => {
-     return axios.post(api_url + 'user/signin', payload)
+export const create = (payload) => {
+     return axios.post(api_url + 'user/create-user', payload)
 }
 
 export const createWallet = (payload) => {
