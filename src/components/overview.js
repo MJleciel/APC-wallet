@@ -248,7 +248,7 @@ const WalletOverview = () => {
                                                 Balance
                                             </h5>
                                             <div class="USD_balane">
-                                                    0.00 USD
+                                                    {balance} TRX
                                             </div>
                                         </div>
                                     </div> 
