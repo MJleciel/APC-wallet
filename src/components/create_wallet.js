@@ -1,13 +1,16 @@
+import { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 const CreateWallet = () => {
     const loc=useLocation()
-
+    const [check,setCheck]=useState(false)
     let navigate=useNavigate()
+
+    console.log(check);
     return (
         <>
 
-            <section class="site_section d-flex align-items-center sidebar-width">
+            <section class="site_section d-flex align-items-center sidebar-width create__wallet">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-md-10 col-sm-12 col-12 text-left text-white site_scale">
@@ -35,7 +38,7 @@ const CreateWallet = () => {
                                         {/* gym used route identify fan fiction voyage sleep floor room gold tell abandon credit
                                         elder
                                         loan brief lonely impose tiny toward grocery surprise slender */}
-                                        {loc.state}
+                                        {loc.state.mnemonic}
                                     </p>
                                 </div>
                                 {/* <div class="advance_setting p-3 pb-1">
@@ -82,7 +85,7 @@ const CreateWallet = () => {
                                 </div> */}
                                 <div class="custom_checkbox p-3">
                                     <label>
-                                        <input type="checkbox" value="recovery" id="recovery" class="form-check-input"/>
+                                        <input type="checkbox" value="recovery" id="recovery" class="form-check-input" onChange={(e)=>setCheck(e.target.checked)}/>
                                             <span class="custom_d_checkbox"></span>
                                             I have safely stored my recovery phrase
                                     </label>
@@ -101,7 +104,7 @@ const CreateWallet = () => {
                                             </div>
                                             <div class="col-lg-9 col-md-9 col-sm-12 text-lg-end text-md-end text-left">
                                                 <a href="/" class="btn btn-primary w-auto">Cancel</a>
-                                                <a onClick={()=>navigate('/recovery')} class="btn btn-primary w-auto transparent_button">Next</a>
+                                                <a onClick={()=>check && navigate('/recovery',{state:loc.state})} class="btn btn-primary w-auto transparent_button">Next</a>
                                             </div>
                                         </div>
                                     </div>

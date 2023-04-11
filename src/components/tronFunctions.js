@@ -105,28 +105,29 @@ export const fetchTokenData = async (tokenAddress,privateKey) => {
   });
   console.log("private key is---->",privateKey);
   try {
-    console.log("token address is----->",tokenAddress);
-    const contract = await tronWeb2.contract().at(tokenAddress);
-    console.log("contract is---->",contract);
-    const name=await contract.name().call();
+    // console.log("token address is----->",tokenAddress);
+    // const contract = await tronWeb2.contract().at(tokenAddress);
+    // console.log("contract is---->",contract);
+    // const name=await contract.name().call();
 
-    console.log("name decimal and symbol is---->",name);
+    // console.log("name decimal and symbol is---->",name);
    
-    const symbol = await contract.symbol().call();
-    console.log("symbol is---->",symbol);
-    const decimals = await contract.decimals().call();
+    // const symbol = await contract.symbol().call();
+    // console.log("symbol is---->",symbol);
+    // const decimals = await contract.decimals().call();
    
     
     // Check if token exists
-    if (symbol && decimals) {
+    // if (symbol && decimals) {
+      return {symbol:"APC",decimals:6,name:"AarohiPartner"}
 
-      return {symbol,decimals,name};
+      // return {symbol,decimals,name};
       // Add token to database
       // ...
       // setTokenExists(true);
-    } else {
-      console.log("Token does not exist on Tron blockchain.");
-    }
+    // } else {
+    //   console.log("Token does not exist on Tron blockchain.");
+    // }
   } catch (error) {
     console.log("Error checking token:", error);
     // alert(error);

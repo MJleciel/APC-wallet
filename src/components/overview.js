@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 
@@ -7,11 +7,15 @@ import { generateTronAccount, getBalance, sendTrx, fetchTokenData } from "./tron
 import Sidebar from "./sidebar";
 import { icons } from "react-icons";
 import Dropdown from 'react-bootstrap/Dropdown';
+import { BiCopy } from "react-icons/bi";
+import appContext from "../context/globalContext";
 
 
 
 
 const WalletOverview = () => {
+
+    let context=useContext(appContext)
     const [walletAddress, setWalletAddress] = useState('');
     const [privateKey, setPrivateKey] = useState('')
     const [balance, setBalance] = useState('')
@@ -57,18 +61,18 @@ const WalletOverview = () => {
                 }
                 let tokenData = await fetchTokenData(result.value, privateKey);
                 console.log("token data is---->", tokenData);
-                if (tokenData) {
-                    addToken(payload).then(res => {
-                        if (res.status === 200) {
-                            Swal.fire("", "Token added successfully", "success")
-                        }
-                    }).catch(err => {
+                // if (tokenData) {
+                //     addToken(payload).then(res => {
+                //         if (res.status === 200) {
+                //             Swal.fire("", "Token added successfully", "success")
+                //         }
+                //     }).catch(err => {
 
-                        Swal.fire('', err.response.data.message, "error")
-                    })
-                } else {
-                    Swal.fire('', "somethind went wrong", "error")
-                }
+                //         Swal.fire('', err.response.data.message, "error")
+                //     })
+                // } else {
+                //     Swal.fire('', "somethind went wrong", "error")
+                // }
 
             } else if (result.isDenied) {
                 Swal.close()
@@ -184,6 +188,11 @@ const WalletOverview = () => {
     //     })
     // }
 
+   const copyAddress=()=>{
+    let txt = document.getElementById('usdt-address').innerHTML
+    navigator.clipboard.writeText(txt)
+    }
+
     useEffect(() => {
         getWalletDetails()
         const options = {method: 'GET', headers: {accept: 'application/json'}};
@@ -198,38 +207,55 @@ const WalletOverview = () => {
             <section class="dashboard sidebar-width">
                 <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
                     <div class="row">
-
-
                         <div class="col-lg-12 col-md-9 col-sm-12 col-12 px-lg-5 p-4">
-                            <div class="coin_right_body">
+                            <div class="coin_right_body coin-inner-body">
                                 <div class="coin_title">
                                     <h1>Overview</h1>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-4">
-                                        <div class="pie_chart text-center">
-                                            <img src={require("../assets/images/chart.png")} alt="" />
+                                <div class="row align-items-center overview__pp">
+                                    <div class="col-lg-6 col-md-6 col-6 text-start">
+                                        <div class="dropdown-over">
+                                            <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Dropdown button
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-center">
-                                        <div class="coin_balance_outer w-100">
-                                            <div class="coin_balance mb-2">
+                                    <div class="col-lg-6 col-md-6 col-6 text-end">
+                                        <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="address">
+                                    <div class="row  balance-row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 text-start">
+                                            <h5>Address</h5>
+                                            <div class="address_txt"><p id="usdt-address">{context.address} </p><BiCopy onClick={copyAddress}/></div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 balance-row text-end">
+                                            <h5 class="mb-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                                                     <path
                                                         d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
                                                 </svg>
                                                 Balance
-                                            </div>
+                                            </h5>
                                             <div class="USD_balane">
-                                                0.00 USD
+                                                    0.00 USD
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="row mt-lg-5 mt-4">
                                     <div class="col-lg-12 col-sm-12 col-12">
-                                        <table class="table bitcoun_table m-0">
+                                        <table class="table bitcoun_table m-0 table-striped">
                                             <tr>
                                                 <td>
                                                     <img src={require("../assets/images/bitcoin.png")} alt="" />
@@ -378,6 +404,7 @@ const WalletOverview = () => {
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </section>
         </>
