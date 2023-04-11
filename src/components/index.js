@@ -19,10 +19,10 @@ const IndexFile = () => {
     const handleCreateWallet = (e) => {
         e.preventDefault();
         generateTronAccount().then(res => {
-            console.log(res)
+            console.log("result is--->")
             setMemonic(res.mnemonic)
       
-            navigate('/cwallet',{state:res})
+            navigate('/cwallet',{state:res.mnemonic})
             // createWallet({ "wallet_address": res.address, "key": res.privateKey, "id": localStorage.getItem('id') }).then(res => {
             //     if (res.status === 200) {
             //         console.log("success")
