@@ -22,7 +22,7 @@ const IndexFile = () => {
             console.log("result is--->")
             setMemonic(res.mnemonic)
       
-            navigate('/cwallet',{state:res.mnemonic})
+            navigate('/cwallet',{state:res})
             // createWallet({ "wallet_address": res.address, "key": res.privateKey, "id": localStorage.getItem('id') }).then(res => {
             //     if (res.status === 200) {
             //         console.log("success")
