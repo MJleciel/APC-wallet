@@ -1235,6 +1235,7 @@ form.multi-form input {
     padding: 12px;
     border-radius: 5px;
     margin-bottom: 20px;
+    color: white;
 }
 .input-form {
     position: relative;
@@ -1877,4 +1878,26 @@ table.table.bitcoun_table.m-0 tr:hover {
 }
 .address_txt {
     display: flex;
+}
+
+.get-started {
+    background: unset;
+    visibility: hidden!important;
+}
+.modal-scan .modal-content {
+    text-align: center;
+}
+.modal-scan .modal-footer {
+    text-align: center;
+    justify-content: center;
+}
+.modal-scan .modal-content {
+    text-align: center;
+    height: 400px;
+    width: 364px;
+    padding-top: 60px;
+}
+.modal-scan .modal-body svg {
+    width: 200px!important;
+    height: 200px;
 }

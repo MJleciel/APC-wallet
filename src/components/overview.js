@@ -15,27 +15,17 @@ import appContext from "../context/globalContext";
 
 const WalletOverview = () => {
 
-    let context=useContext(appContext)
-    const [walletAddress, setWalletAddress] = useState('');
-    const [privateKey, setPrivateKey] = useState('')
-    const [balance, setBalance] = useState('')
+    let context = useContext(appContext)
+    const [balance, setBalance] = useState(0)
+
+
     const getWalletDetails = async () => {
-        getWallet(localStorage.getItem('id')).then(async (res) => {
-            if (res.status === 200) {
-                setWalletAddress(res.data.data[0].wallet_address);
-                setPrivateKey(res.data.data[0].private_key);
-                let bal = await getBalance(res.data.data[0].wallet_address)
-                console.log("balance is---->", bal);
-                if (bal) {
-                    setBalance(bal);
-                }
-                //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
-                //   console.log("transaction histroy is---->",transaction);
-            }
-        }).catch(err => {
-            console.log(err?.response?.data?.message)
-        })
+        let bal = await getBalance(context.address)
+        console.log("balance is---->", bal)
+        setBalance(bal);
+
     }
+
 
 
 
@@ -55,69 +45,29 @@ const WalletOverview = () => {
             console.log("token", result);
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                const payload = {
-                    "user_id": localStorage.getItem('id'),
-                    "token_add": result.value
-                }
-                let tokenData = await fetchTokenData(result.value, privateKey);
+
+                let tokenData = await fetchTokenData(result.value, context.key);
                 console.log("token data is---->", tokenData);
-                // if (tokenData) {
-                //     addToken(payload).then(res => {
-                //         if (res.status === 200) {
-                //             Swal.fire("", "Token added successfully", "success")
-                //         }
-                //     }).catch(err => {
-
-                //         Swal.fire('', err.response.data.message, "error")
-                //     })
-                // } else {
-                //     Swal.fire('', "somethind went wrong", "error")
-                // }
-
-            } else if (result.isDenied) {
-                Swal.close()
-            }
-        })
-
-
-    }
-
-    const handleSendTrxModal = () => {
-        Swal.fire({
-            title: 'Send',
-            html: 'To:<input id="swal-input1" class="swal2-input"></br>' +
-                'Amount:<input id="swal-input2" class="swal2-input">',
-            preConfirm: () => {
-                return {
-                    walletAddrress: document.getElementById('swal-input1').value,
-                    amount: document.getElementById('swal-input2').value
-                }
-            }
-
-        }).then((result) => {
-            console.log("token", result);
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
                 const payload = {
-                    fromAddress: walletAddress,
-                    toAddress: result.value.walletAddrress,
-                    amount: result.value.amount,
-                    privateKey: privateKey
-
+                    "user": context.id,
+                    "token": result.value,
+                    "name": tokenData.name,
+                    "symbol": tokenData.symbol,
+                    "decimal": tokenData.decimals
                 }
-                sendTrx(payload).then(res => {
-                    console.log("resulut is", res)
-                    if (res.result === true) {
-                        Swal.fire({
-                            html: `<p>Transaction id: ${res.txid}</p>` +
-                                "<p>Transaction successfull</p>",
-                            icon: "success"
-                        })
-                    }
-                }).catch(err => {
+                if (tokenData) {
+                    addToken(payload).then(res => {
+                        if (res.status === 200) {
+                            Swal.fire("", "Token added successfully", "success")
+                        }
+                    }).catch(err => {
 
-                    Swal.fire('', err.response.data.message, "error")
-                })
+                        Swal.fire('', err.response.data.message, "error")
+                    })
+                } else {
+                    Swal.fire('', "somethind went wrong", "error")
+                }
+
             } else if (result.isDenied) {
                 Swal.close()
             }
@@ -125,6 +75,8 @@ const WalletOverview = () => {
 
 
     }
+
+
 
     const handleKeyModal = () => {
         Swal.fire({
@@ -178,23 +130,24 @@ const WalletOverview = () => {
 
     //GET USER ADDED TOKEN API
 
-    // const getUserTokens=()=>{
-    //     getTokens(localStorage.getItem('id')).then(res=>{
-    //         if(res.status===200){
-    //             console.log(res.data.data);
-    //         }
-    //     }).catch(err=>{
-    //         console.log(err);
-    //     })
-    // }
+    const getUserTokens = () => {
+        getTokens(context.id).then(res => {
+            if (res.status === 200) {
+                console.log(res.data.data);
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
-   const copyAddress=()=>{
-    let txt = document.getElementById('usdt-address').innerHTML
-    navigator.clipboard.writeText(txt)
+    const copyAddress = () => {
+        let txt = document.getElementById('usdt-address').innerHTML
+        navigator.clipboard.writeText(txt)
     }
 
     useEffect(() => {
         getWalletDetails()
+        getUserTokens()
     }, [])
     return (
         <>
@@ -209,28 +162,29 @@ const WalletOverview = () => {
                                 <div class="row align-items-center overview__pp">
                                     <div class="col-lg-6 col-md-6 col-6 text-start">
                                         <div class="dropdown-over">
-                                            <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Dropdown button
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
-                                            </div>
+                                            <Dropdown>
+                                                <Dropdown.Toggle id="dropdown-basic">
+                                                    Dropdown Button
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    {/* <Dropdown.Item >Action</Dropdown.Item> */}
+                                                    <Dropdown.Item >Testnet</Dropdown.Item>
+                                                    <Dropdown.Item >Mainnet</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-6 text-end">
                                         <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
                                     </div>
                                 </div>
-                                
+
                                 <div class="address">
                                     <div class="row  balance-row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 text-start">
                                             <h5>Address</h5>
-                                            <div class="address_txt"><p id="usdt-address">{context.address} </p><BiCopy onClick={copyAddress}/></div>
+                                            <div class="address_txt"><p id="usdt-address">{context.address} </p><BiCopy onClick={copyAddress} /></div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 balance-row text-end">
                                             <h5 class="mb-2">
@@ -242,10 +196,10 @@ const WalletOverview = () => {
                                                 Balance
                                             </h5>
                                             <div class="USD_balane">
-                                                    0.00 USD
+                                                {balance} USD
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="row mt-lg-5 mt-4">
                                     <div class="col-lg-12 col-sm-12 col-12">
@@ -398,7 +352,7 @@ const WalletOverview = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
         </>

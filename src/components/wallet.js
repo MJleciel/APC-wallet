@@ -1,42 +1,105 @@
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getBalance, sendTrx } from "./tronFunctions";
+import appContext from "../context/globalContext";
+import Swal from "sweetalert2";
+import { QRCodeSVG } from "qrcode.react";
+import { Modal } from "react-bootstrap";
 
 const UserWallet = () => {
-    let navigate=useNavigate()
+    let navigate = useNavigate()
+    let context = useContext(appContext)
+    const [balance, setBalance] = useState(0)
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
+    const getWalletDetails = async () => {
+        let bal = await getBalance(context.address)
+        console.log("balance is---->", bal)
+        setBalance(bal);
+
+    }
+    const handleSendTrxModal = () => {
+        Swal.fire({
+            title: 'Send',
+            html: 'To:<input id="swal-input1" class="swal2-input"></br>' +
+                'Amount:<input id="swal-input2" class="swal2-input">',
+            preConfirm: () => {
+                return {
+                    walletAddrress: document.getElementById('swal-input1').value,
+                    amount: document.getElementById('swal-input2').value
+                }
+            }
+
+        }).then((result) => {
+            console.log("token", result);
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                const payload = {
+                    fromAddress: context.address,
+                    toAddress: result.value.walletAddrress,
+                    amount: result.value.amount,
+                    privateKey: context.key
+
+                }
+                sendTrx(payload).then(res => {
+                    console.log("resulut is", res)
+                    if (res.result === true) {
+                        Swal.fire({
+                            html: `<p>Transaction id: ${res.txid}</p>` +
+                                "<p>Transaction successfull</p>",
+                            icon: "success"
+                        })
+                    }
+                }).catch(err => {
+
+                    Swal.fire('', err.response.data.message, "error")
+                })
+            } else if (result.isDenied) {
+                Swal.close()
+            }
+        })
+
+
+    }
+
+    useEffect(() => {
+        getWalletDetails()
+    }, [])
     return (
         <>
             <section class="dashboard sidebar-width">
                 <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
                     <div class="row">
-
-                       
-
-
                         <div class="col-lg-2 col-md-3 col-sm-12 col-12 p-0">
                             <div class="bitcoin_list">
                                 <ul>
                                     <li class="active">
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
-                                    </li>
-                                    <li>
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
                                         <img src={require("../assets/images/bitcoin.png")} alt="" />
-                                            Bitcoin
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/algorand.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/algorand.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/algorand.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
+                                    </li>
+                                    <li>
+                                        <img src={require("../assets/images/algorand.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                 </ul>
                             </div>
@@ -47,8 +110,8 @@ const UserWallet = () => {
                                 <div class="bitcoin_details d-lg-flex d-md-flex align-items-center justify-content-between">
                                     <div class="coin_title mb-lg-0 mb-md-0 mb-4">
                                         <h1 class="m-0 p-0">
-                                            <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                                Overview <span>BTC</span>
+                                            <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                            Overview <span>BTC</span>
                                         </h1>
                                     </div>
                                     <div class="bitcoin_detail d-flex align-items-center">
@@ -80,14 +143,14 @@ const UserWallet = () => {
                                                 <span>0</span> BTC
                                             </div>
                                             <div class="USD_balane">
-                                                0.00 USD
+                                                {balance} USD
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row my-4">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-3 mb-md-4 mb-4">
-                                        <a href="" class="btn btn-primary bg-green text-start">
+                                        <a onClick={handleShow} class="btn btn-primary bg-green text-start">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
@@ -97,7 +160,7 @@ const UserWallet = () => {
                                             </svg>Receive</a>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-3 mb-md-4 mb-4">
-                                        <a href="" class="btn btn-primary bg-purple text-start">
+                                        <a onClick={handleSendTrxModal} class="btn btn-primary bg-purple text-start">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
@@ -106,7 +169,7 @@ const UserWallet = () => {
                                                     d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
                                             </svg>Send</a>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-4 mb-4">
+                                    {/* <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-4 mb-4" >
                                         <a href="" class="btn btn-primary bg-blue text-start">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-cash-coin" viewBox="0 0 16 16">
@@ -127,7 +190,8 @@ const UserWallet = () => {
                                                 <path
                                                     d="M0 5a5.002 5.002 0 0 0 4.027 4.905 6.46 6.46 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05c0-.046 0-.093.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.46 3.46 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98c-.003.046-.003.097-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5zm16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0zm-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787H8.25zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674l.077.018z" />
                                             </svg>Exchange</a>
-                                    </div>
+                                    </div> */}
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-6 col-sm-12 col-12 d-flex align-items-center">
@@ -211,6 +275,23 @@ const UserWallet = () => {
                         </div>
                     </div>
                 </div>
+                <Modal className="modal-scan" show={show} onHide={handleClose}>
+                    {/* <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header> */}
+                    <Modal.Body>
+                        <QRCodeSVG value={context.address} />,
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {/* <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                        </Button> */}
+                        {context.address}
+                    </Modal.Footer>
+                </Modal>
             </section>
         </>
     )
