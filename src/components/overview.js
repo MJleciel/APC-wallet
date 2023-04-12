@@ -19,23 +19,13 @@ const WalletOverview = () => {
     const [walletAddress, setWalletAddress] = useState('');
     const [privateKey, setPrivateKey] = useState('')
     const [balance, setBalance] = useState('')
-    const getWalletDetails = async () => {
-        getWallet(localStorage.getItem('id')).then(async (res) => {
-            if (res.status === 200) {
-                setWalletAddress(res.data.data[0].wallet_address);
-                setPrivateKey(res.data.data[0].private_key);
-                let bal = await getBalance(res.data.data[0].wallet_address)
-                console.log("balance is---->", bal);
-                if (bal) {
-                    setBalance(bal);
-                }
-                //   let transaction=await fetchTransactionHistory(res.data.data[0].wallet_address)
-                //   console.log("transaction histroy is---->",transaction);
-            }
-        }).catch(err => {
-            console.log(err?.response?.data?.message)
-        })
-    }
+
+   
+    useEffect(()=>{
+      
+  
+    },[])
+   
 
 
 
@@ -194,14 +184,41 @@ const WalletOverview = () => {
     }
 
     useEffect(() => {
-        getWalletDetails()
-        const options = {method: 'GET', headers: {accept: 'application/json'}};
-
-        fetch('https://api.shasta.trongrid.io/v1/accounts/TLtQ2dRkWBcrdFKmEgdzWTAj3QNytisTzV/transactions', options)
-          .then(response => response.json())
-          .then(response => console.log("transaction histroy is",response))
-          .catch(err => console.error(err))
-    }, [])
+        // setWalletAddress(localStorage.getItem("address"));
+        // setPrivateKey(localStorage.getItem("key"));
+        // console.log("local storage private key is---->", privateKey);
+        const getWalletDetails = async () => {
+          getWallet(localStorage.getItem("id"))
+            .then(async (res) => {
+              console.log("wallet details result is----->", res);
+              if (res.status === 200) {
+                setWalletAddress(res.data.data[0].wallet_address);
+                setPrivateKey(res.data.data[0].private_key);
+    
+                let bal = await getBalance(walletAddress);
+                console.log("balance is---->", bal);
+                if (bal) {
+                  setBalance(bal);
+                }
+              }
+            })
+            .catch((err) => {
+              console.log(err?.response?.data?.message);
+            });
+        };
+    
+        getWalletDetails();
+        const options = { method: "GET", headers: { accept: "application/json" } };
+    
+        fetch(
+          `https://api.shasta.trongrid.io/v1/accounts/${walletAddress}/transactions`,
+          options
+        )
+          .then((response) => response.json())
+          .then((response) => console.log("transaction histroy is", response))
+          .catch((err) => console.error(err));
+      }, [walletAddress]);
+    
     return (
         <>
             <section class="dashboard sidebar-width">
@@ -227,9 +244,9 @@ const WalletOverview = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-6 text-end">
+                                    {/* <div class="col-lg-6 col-md-6 col-6 text-end">
                                         <button class="btn-danger" onClick={handleTokennModal}>Add Token</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 
                                 <div class="address">

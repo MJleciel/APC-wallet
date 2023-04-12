@@ -12,7 +12,7 @@ export const createWallet = (payload) => {
 }
 
 export const getWallet = (id) => {
-     return axios.get(api_url + `user/get-wallet/${id}`)
+     return axios.get(api_url + `wallet/get-wallet/${id}`)
 }
 
 export const addToken = (payload) => {

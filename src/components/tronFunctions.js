@@ -6,6 +6,8 @@ const solidityNode = 'https://api.shasta.trongrid.io';
 const eventServer = 'https://api.shasta.trongrid.io';
 const tronWeb = new TronWeb(fullNode, solidityNode, eventServer);
 
+const tronWebMainet = new TronWeb(fullNode, solidityNode, eventServer);
+
 export async function generateTronAccount(mnemonic = null) {
   // If no mnemonic is provided, generate a random one
   if (!mnemonic) {
