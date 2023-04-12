@@ -380,7 +380,7 @@ const UserWallet = () => {
                                                                 <td>{contract.type}</td>
                                                                 <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td>
-                                                                <td>{contract.amount}</td>
+                                                                <td>{Number(contract.amount)/1000000}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -496,7 +496,7 @@ const UserWallet = () => {
                         </div>
                     </div>
                 </div>
-                <Modal className="modal-scan" show={show} onHide={handleClose}>
+                <Modal className="modal-scan" show={show} onHide={handleClose} centered>
                     {/* <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
                     </Modal.Header> */}

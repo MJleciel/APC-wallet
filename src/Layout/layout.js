@@ -9,6 +9,7 @@ const Layout = (props) => {
     // const { collapseSidebar } = useProSidebar();
     let loc=useLocation()
     const context = useContext(appContext)
+
     const abcd = () => {
         let ele = document.getElementById('ms_bar');
         if (ele.classList.contains('ps-collapsed')) {
@@ -20,8 +21,9 @@ const Layout = (props) => {
 
     useEffect(() => {
        
-        {context.token && (context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
+        {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
             // alert('hi')
+            // console.log('hii')
             abcd()
         }
     }, []);
@@ -34,7 +36,7 @@ const Layout = (props) => {
                 }
 
                 {props.children}
-                <div class="overwraper" id="wrapperblock"></div>
+                <div class={context.token?"overwraper":"get-started"} id="wrapperblock"></div>
             </div>
 
 

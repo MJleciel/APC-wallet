@@ -60,7 +60,7 @@ const NewSidebar = () => {
         }
     }
     const collaspeClosed = () => {
-        if (window.matchMedia("(max-width: 700px)").matches) {
+        if (window.matchMedia("(max-width: 600px)").matches) {
             collapseSidebar()
             document.getElementById('wrapperblock').style.display = 'none';
         }
@@ -74,9 +74,9 @@ const NewSidebar = () => {
     }
 
     useEffect(() => {
-        if (window.matchMedia("(max-width: 700px)").matches) {
+        if (window.matchMedia("(max-width: 600px)").matches) {
             setShowSidebar(true)
-            document.getElementById('wrapperblock').style.display = 'none';
+            document.getElementById('wrapperblock').style.display = 'block';
         }
 
     }, [])
