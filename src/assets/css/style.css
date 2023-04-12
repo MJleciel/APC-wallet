@@ -1901,3 +1901,20 @@ table.table.bitcoun_table.m-0 tr:hover {
     width: 200px!important;
     height: 200px;
 }
+.transection_history tr td, .transection_history thead tr {
+    color: #fff;
+}
+.transection_history {
+    overflow-x: scroll;
+}
+.transection_history table th {
+    font-size: 20px;
+    color: #df0e0e;
+}
+.transection_history table th, .transection_history table tr {
+    text-align: left;
+    padding: 0px 27px;
+}
+.transection_history tr td{
+    padding: 8px 27px; 
+}
