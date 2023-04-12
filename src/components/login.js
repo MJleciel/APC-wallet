@@ -10,6 +10,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { getWallet, signin } from '../services/services';
 import { toast } from 'react-toastify';
 import appContext from '../context/globalContext';
+import { signin } from '../services/services';
 // import Swal from 'sweetalert2';
 
 export const LoginPage = () => {
@@ -80,6 +81,28 @@ export const LoginPage = () => {
         }
     }
 
+    const onSubmit=data=>{
+        const payload={
+            email:data.email,
+            password:data.password
+        }
+        signin(payload).then(res=>{
+            if(res.status===200){
+                context.setToken(res.data.data.token)
+                context.setId(res.data.data.id)
+                context.setEmail(res.data.data.email)
+                context.setAddress(res.data.data.wallet_address)
+                context.setKey(res.data.data.private_key)
+                localStorage.setItem('token',res.data.data.token)
+                localStorage.setItem('id',res.data.data.id)
+                localStorage.setItem('email',res.data.data.email)
+                localStorage.setItem('address',res.data.data.wallet_address)
+                localStorage.setItem('key',res.data.data.private_key)
+                navigate('/overview')
+            }
+        })
+    }
+
     return (
         <>
             <section class="klevar-extention text-white">
@@ -89,18 +112,19 @@ export const LoginPage = () => {
                             <div class="klevar-inner multi-connect">
                                 <div class="logo-klevar"><img src={require("../assets/images/apc-logo.png")} /></div>
                                 <p class="connects"> Stay Multi-Connected Wherever you go</p>
-                                <form class="multi-form">
+                                <form class="multi-form" onSubmit={handleSubmit(onSubmit)}>
                                 <div class="input-form">
                                         <label>Email</label>
-                                        <input type="email" id="email" placeholder="Insert Your Email" />
-                                        <i class="far fa-eye"></i>
+                                        <input type="email" id="email" placeholder="Insert Your Email" {...register('email',{required:"Email is required."})} />
+                                        {errors.email && <span>{errors.email.message}</span>}
                                     </div>
                                     <div class="input-form">
                                         <label>Password</label>
-                                        <input type="password" id="email" placeholder="Insert Your Password" />
+                                        <input type="password" id="email" placeholder="Insert Your Password" {...register('password',{required:'Password is required.'})} />
                                         <i class="far fa-eye"></i>
+                                        {errors.password && <span>{errors.password.message}</span>}
                                     </div>
-                                    <button type="submit" class="btn-danger" onClick={()=>{context.setToken("123");navigate('/overview')}}>Unlock</button>
+                                    <button type="submit" class="btn-danger" >Unlock</button>
                                 </form>
                                 <p>You Cannot login? Try another method</p>
                                 <div class="wallet-links">

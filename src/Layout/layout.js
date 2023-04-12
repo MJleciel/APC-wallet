@@ -3,9 +3,11 @@ import NewSidebar from "../components/sidebar"
 import { useProSidebar } from "react-pro-sidebar";
 import { useContext, useEffect } from "react";
 import appContext from "../context/globalContext";
+import { useLocation } from "react-router-dom";
 
 const Layout = (props) => {
     // const { collapseSidebar } = useProSidebar();
+    let loc=useLocation()
     const context = useContext(appContext)
     const abcd = () => {
         let ele = document.getElementById('ms_bar');
@@ -18,16 +20,16 @@ const Layout = (props) => {
 
     useEffect(() => {
        
-        {context.token &&
+        {context.token && (context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
             // alert('hi')
             abcd()
         }
     }, []);
-    // console.log(context);
+    
     return (
         <>
             <div className="all-pages">
-                {context.token &&
+                {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
                     <NewSidebar />
                 }
 

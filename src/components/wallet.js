@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+// import { useContext, useEffect, useState } from "react";
 import axios from "axios"
 import Swal from "sweetalert2";
 import {
@@ -174,28 +175,28 @@ const UserWallet = () => {
                             <div class="bitcoin_list">
                                 <ul>
                                     <li class="active">
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
-                                    </li>
-                                    <li>
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
                                         <img src={require("../assets/images/bitcoin.png")} alt="" />
-                                            Bitcoin
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/algorand.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/bitcoin.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/algorand.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                     <li>
-                                        <img src={require("../assets/images/algorand.png")} alt=""/>
-                                            Bitcoin
+                                        <img src={require("../assets/images/bitcoin.png")} alt="" />
+                                        Bitcoin
+                                    </li>
+                                    <li>
+                                        <img src={require("../assets/images/algorand.png")} alt="" />
+                                        Bitcoin
                                     </li>
                                 </ul>
                             </div>

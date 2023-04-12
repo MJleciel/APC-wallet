@@ -7,6 +7,10 @@ export const create = (payload) => {
      return axios.post(api_url + 'user/create-user', payload)
 }
 
+export const signin = (payload) => {
+     return axios.post(api_url + 'user/signin', payload)
+}
+
 export const createWallet = (payload) => {
      return axios.post(api_url + 'user/create-wallet', payload)
 }
