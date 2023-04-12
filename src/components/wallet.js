@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 // import { useContext, useEffect, useState } from "react";
+import bs58 from 'bs58';
 import axios from "axios"
 import Swal from "sweetalert2";
 import {
@@ -73,6 +74,8 @@ const UserWallet = () => {
             const contract = raw_data.contract[0];
             const { type, value } = contract.parameter;
             const { owner_address, to_address, amount } = value;
+            let ownerAddress=hexToBase58(owner_address)
+            console.log("owner address is---->",ownerAddress)
             return { txID, type, owner_address, to_address, amount };
           });
           console.log("formatedd data is--->",formattedData);
@@ -165,10 +168,17 @@ const UserWallet = () => {
       }
     });
   };
+  const hexToBase58 = (hex) => {
+    const addressInBytes = Buffer.from(hex, 'hex');
+    const truncatedAddress = addressInBytes.slice(1);
+    const prefixedAddress = Buffer.concat([Buffer.from('41', 'hex'), truncatedAddress]);
+    return bs58.encode(prefixedAddress);
+  };
 
   return (
     <>
       <section class="dashboard sidebar-width">
+      {loading?<Loader/>:""}
         <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
           <div class="row">
             {/* <div class="col-lg-2 col-md-3 col-sm-12 col-12 p-0">
@@ -389,8 +399,8 @@ const UserWallet = () => {
           <tr key={contract.txID}>
             <td>{contract.txID}</td>
             <td>{contract.type}</td>
-            <td>{contract.owner_address}</td>
-            <td>{contract.to_address}</td>
+            <td>{hexToBase58(contract.owner_address)}</td>
+            <td>{hexToBase58(contract.to_address)}</td>
             <td>{contract.amount}</td>
           </tr>
         ))}
