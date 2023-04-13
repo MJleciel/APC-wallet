@@ -4,7 +4,7 @@ import * as bip39 from 'bip39';
 const fullNode = 'https://api.shasta.trongrid.io';
 const solidityNode = 'https://api.shasta.trongrid.io';
 const eventServer = 'https://api.shasta.trongrid.io';
-const tronWeb = new TronWeb(fullNode, solidityNode, eventServer);
+export  const tronWeb = new TronWeb(fullNode, solidityNode, eventServer);
 const tronWebMainnet = new TronWeb(fullNode, solidityNode, eventServer);
 
 const tronWebMainet = new TronWeb(fullNode, solidityNode, eventServer);

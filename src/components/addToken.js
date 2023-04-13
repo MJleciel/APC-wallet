@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-
+import TronWeb from 'tronweb'; 
 import { addToken, createWallet, getPrivateKey, getTokens, getWallet } from "../services/services";
 import { generateTronAccount, getBalance, sendTrx, fetchTokenData } from "./tronFunctions";
 import appContext from "../context/globalContext";
+import { tronWeb } from "./tronFunctions";
 
 const AddToken = () => {
 
@@ -13,6 +14,46 @@ const AddToken = () => {
     const [privateKey, setPrivateKey] = useState('')
     const [balance, setBalance] = useState('')
     const [tokenAddress,setTokenAddress]=useState()
+    const [address, setAddress] = useState('');
+    const [name, setName] = useState('');
+    const [symbol, setSymbol] = useState('');
+    const [icon, setIcon] = useState('');
+    const [error, setError] = useState('');
+  
+    const handleAddressChange = (event) => {
+      setAddress(event.target.value);
+    };
+  
+    const handleTokenDetails = async () => {
+      try {
+        // const tronWeb = new TronWeb({
+        //   fullHost: 'https://api.trongrid.io',
+        // });
+        let tronWeb2 = new TronWeb({
+            fullHost: 'https://api.shasta.trongrid.io',
+            solidityNode: 'https://api.shasta.trongrid.io',
+            eventServer: 'https://api.shasta.trongrid.io',
+            privateKey:context.key
+           
+          });
+        console.log("token address is--------->",address,context.key);
+        const contract = await tronWeb2.contract().at(address);
+        const name = await contract.name().call();
+        const symbol = await contract.symbol().call();
+        // const icon = await contract.icon().call();
+        setName(name);
+        setSymbol(symbol);
+        console.log("name and symbol is--->",name,symbol);
+        // setIcon(icon);
+        setError('');
+      } catch (e) {
+        console.log("error is---->",e)
+        setName('');
+        setSymbol('');
+        setIcon('');
+        setError('Invalid token address.');
+      }
+    };
 
     const addToken=async()=>{
       try{
@@ -61,7 +102,7 @@ const AddToken = () => {
                                     <div class="input-group">
                                         <div class="form-outline">
                                             <input value={tokenAddress} type="search" id="form1" class="form-control" placeholder="Token Contract Address" 
-                                            onChange={(event) => setTokenAddress (event.target.value)} />
+                                            onChange={handleAddressChange} />
                                             <i class="fas fa-search"></i>
                                         </div>
                                     </div>
@@ -81,6 +122,14 @@ const AddToken = () => {
                                     </form>
                                 </div>
                                 <div class="assest_inner">
+                                {error && <div>{error}</div>}
+      {name && symbol && (
+        <div>
+          <p>Name: {name}</p>
+          <p>Symbol: {symbol}</p>
+          <img src={icon} alt="Token Icon" />
+        </div>
+      )}
                                     <div class="row">
                                         <div class="col-lg-2 col-md-2 col-2">
                                             <img src={require("../assets/images/token.png")} />
@@ -92,10 +141,10 @@ const AddToken = () => {
                                         <div class="col-lg-1 col-md-2 col-1">
                                             <i class="far fa-check-circle"></i>
                                         </div>
-                                        <button>Add Token</button>
+                                        
                                     </div>
                                     <div class="row row-addtoken">
-                                        <button class="add__token">Add Token</button>
+                                        <button class="add__token" onClick={handleTokenDetails}>Add Token</button>
                                     </div>
                                 </div>
                             </div>
