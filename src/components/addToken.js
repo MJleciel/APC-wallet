@@ -1,4 +1,48 @@
+import { useContext, useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import Swal from "sweetalert2";
+
+import { addToken, createWallet, getPrivateKey, getTokens, getWallet } from "../services/services";
+import { generateTronAccount, getBalance, sendTrx, fetchTokenData } from "./tronFunctions";
+import appContext from "../context/globalContext";
+
 const AddToken = () => {
+
+    let context=useContext(appContext)
+    const [walletAddress, setWalletAddress] = useState('');
+    const [privateKey, setPrivateKey] = useState('')
+    const [balance, setBalance] = useState('')
+    const [tokenAddress,setTokenAddress]=useState()
+
+    const addToken=async()=>{
+      try{
+        let tokenData = await fetchTokenData(tokenAddress, context.key);
+        console.log("token data is---->", tokenData);
+        const payload = {
+            "user": context.id,
+            "token": tokenAddress,
+            "name": tokenData.name,
+            "symbol": tokenData.symbol,
+            "decimal": tokenData.decimals
+        }
+        if (tokenData) {
+            addToken(payload).then(res => {
+                if (res.status === 200) {
+                    // Swal.fire("", "Token added successfully", "success")
+                }
+            }).catch(err => {
+
+                // Swal.fire('', err.response.data.message, "error")
+            })
+        } else {
+            // Swal.fire('', "somethind went wrong", "error")
+        }
+
+      }catch(e){
+
+      }
+    }
+
     return (
         <>
             <section class="klevar-extention text-white sidebar-width">
@@ -16,7 +60,8 @@ const AddToken = () => {
                                 <div class="assests-input">
                                     <div class="input-group">
                                         <div class="form-outline">
-                                            <input type="search" id="form1" class="form-control" placeholder="Token Name/ID/Contract Address" />
+                                            <input value={tokenAddress} type="search" id="form1" class="form-control" placeholder="Token Contract Address" 
+                                            onChange={(event) => setTokenAddress (event.target.value)} />
                                             <i class="fas fa-search"></i>
                                         </div>
                                     </div>
@@ -47,6 +92,7 @@ const AddToken = () => {
                                         <div class="col-lg-1 col-md-2 col-1">
                                             <i class="far fa-check-circle"></i>
                                         </div>
+                                        <button>Add Token</button>
                                     </div>
                                 </div>
                             </div>
