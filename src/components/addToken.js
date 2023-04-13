@@ -43,7 +43,26 @@ const AddToken = () => {
         // const icon = await contract.icon().call();
         setName(name);
         setSymbol(symbol);
+
+        
         console.log("name and symbol is--->",name,symbol);
+        const payload = {
+            "user": context.id,
+            "token": tokenAddress,
+            "name": name,
+            "symbol":symbol,
+            "decimal": 6
+        }
+       
+         addToken(payload).then(res => {
+                if (res.status === 200) {
+                    Swal.fire("", "Token added successfully", "success")
+                }
+            }).catch(err => {
+
+                Swal.fire('', err, "error")
+            })
+        
         // setIcon(icon);
         setError('');
       } catch (e) {
@@ -55,35 +74,7 @@ const AddToken = () => {
       }
     };
 
-    const addToken=async()=>{
-      try{
-        let tokenData = await fetchTokenData(tokenAddress, context.key);
-        console.log("token data is---->", tokenData);
-        const payload = {
-            "user": context.id,
-            "token": tokenAddress,
-            "name": tokenData.name,
-            "symbol": tokenData.symbol,
-            "decimal": tokenData.decimals
-        }
-        if (tokenData) {
-            addToken(payload).then(res => {
-                if (res.status === 200) {
-                    // Swal.fire("", "Token added successfully", "success")
-                }
-            }).catch(err => {
-
-                // Swal.fire('', err.response.data.message, "error")
-            })
-        } else {
-            // Swal.fire('', "somethind went wrong", "error")
-        }
-
-      }catch(e){
-
-      }
-    }
-
+   
     return (
         <>
             <section class="klevar-extention text-white sidebar-width">
