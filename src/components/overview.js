@@ -15,15 +15,15 @@ import appContext from "../context/globalContext";
 
 const WalletOverview = () => {
 
-    let context=useContext(appContext)
+    let context = useContext(appContext)
     const [walletAddress, setWalletAddress] = useState('');
     const [privateKey, setPrivateKey] = useState('')
     const [balance, setBalance] = useState('')
 
-   
-   
-   
-  
+
+
+
+
 
 
     const getWalletDetails = async () => {
@@ -156,42 +156,42 @@ const WalletOverview = () => {
         // setWalletAddress(localStorage.getItem("address"));
         // setPrivateKey(localStorage.getItem("key"));
         // console.log("local storage private key is---->", privateKey);
-        const getWalletDetails = async () => {
-          getWallet(localStorage.getItem("id"))
-            .then(async (res) => {
-              console.log("wallet details result is----->", res);
-              if (res.status === 200) {
-                setWalletAddress(res.data.data[0].wallet_address);
-                setPrivateKey(res.data.data[0].private_key);
-    
-                let bal = await getBalance(walletAddress);
-                console.log("balance is---->", bal);
-                if (bal) {
-                  setBalance(bal);
-                }
-              }
-            })
-            .catch((err) => {
-              console.log(err?.response?.data?.message);
-            });
-        };
-    
+        // const getWalletDetails = async () => {
+        //     getWallet(localStorage.getItem("id"))
+        //         .then(async (res) => {
+        //             console.log("wallet details result is----->", res);
+        //             if (res.status === 200) {
+        //                 setWalletAddress(res.data.data[0].wallet_address);
+        //                 setPrivateKey(res.data.data[0].private_key);
+
+        //                 let bal = await getBalance(walletAddress);
+        //                 console.log("balance is---->", bal);
+        //                 if (bal) {
+        //                     setBalance(bal);
+        //                 }
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.log(err?.response?.data?.message);
+        //         });
+        // };
+
         getWalletDetails();
         const options = { method: "GET", headers: { accept: "application/json" } };
-    
+
         fetch(
-          `https://api.shasta.trongrid.io/v1/accounts/${walletAddress}/transactions`,
-          options
+            `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
+            options
         )
-          .then((response) => response.json())
-          .then((response) => console.log("transaction histroy is", response))
-          .catch((err) => console.error(err));
-      }, [walletAddress]);
-    
+            .then((response) => response.json())
+            .then((response) => console.log("transaction histroy is", response))
+            .catch((err) => console.error(err));
+    }, [context.address]);
+
     return (
         <>
             <section class="dashboard sidebar-width">
-                <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
+                <div class="container-fluid ps-lg-0 pe-lg-4 p-0 ">
                     <div class="row">
                         <div class="col-lg-12 col-md-9 col-sm-12 col-12 px-lg-5 p-4">
                             <div class="coin_right_body coin-inner-body">
@@ -199,19 +199,27 @@ const WalletOverview = () => {
                                     <h1>Overview</h1>
                                 </div>
                                 <div class="row align-items-center overview__pp">
-                                    <div class="col-lg-6 col-md-6 col-6 text-start">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 text-start">
                                         <div class="dropdown-over">
-                                            <Dropdown>
+                                            {/* <Dropdown>
                                                 <Dropdown.Toggle id="dropdown-basic">
                                                     Dropdown Button
                                                 </Dropdown.Toggle>
 
-                                                <Dropdown.Menu>
-                                                    {/* <Dropdown.Item >Action</Dropdown.Item> */}
-                                                    <Dropdown.Item >Testnet</Dropdown.Item>
+                                                <Dropdown.Menu> */}
+                                            {/* <Dropdown.Item >Action</Dropdown.Item> */}
+                                            {/* <Dropdown.Item active >Testnet</Dropdown.Item>
                                                     <Dropdown.Item >Mainnet</Dropdown.Item>
                                                 </Dropdown.Menu>
-                                            </Dropdown>
+                                            </Dropdown> */}
+                                            <div class="form-group">
+                                               
+                                                <select id="demo_overview_minimal" class="form-control" data-role="select-dropdown" data-profile="minimal">
+                                                   <option>Testnet</option>
+                                                   <option>Mainnet</option>
+                                                   
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     {/* <div class="col-lg-6 col-md-6 col-6 text-end">
@@ -221,7 +229,7 @@ const WalletOverview = () => {
 
                                 <div class="address">
                                     <div class="row  balance-row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 text-start">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 text-start svg-icon">
                                             <h5>Address</h5>
                                             <div class="address_txt"><p id="usdt-address">{context.address} </p><BiCopy onClick={copyAddress} /></div>
                                         </div>
@@ -235,7 +243,7 @@ const WalletOverview = () => {
                                                 Balance
                                             </h5>
                                             <div class="USD_balane">
-                                                    {balance} TRX
+                                                {balance} TRX
                                             </div>
                                         </div>
                                     </div>

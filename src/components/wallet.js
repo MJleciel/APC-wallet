@@ -158,7 +158,7 @@ const UserWallet = () => {
     return (
         <>
             <section class="dashboard sidebar-width">
-                <div class="container-fluid ps-lg-0 pe-lg-4 p-0">
+                <div class="container-fluid ps-lg-0 pe-lg-4 p-0 overview-page">
                     <div class="row">
                         {/* <div class="col-lg-2 col-md-3 col-sm-12 col-12 p-0">
                             <div class="bitcoin_list">
@@ -228,7 +228,7 @@ const UserWallet = () => {
                                 <div class="row mt-5">
                                     <div class="col-lg-12 col-md-6 col-sm-12 col-12 d-flex align-items-center">
                                         <div class="coin_balance_outer inner_balance w-100">
-                                            <div class="coin_balance mb-2">
+                                            <div class="coin_balance mb-2 cn_bl">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     width="16"

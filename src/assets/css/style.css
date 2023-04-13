@@ -69,6 +69,7 @@ section.site_welcome {
   border-radius: 5px;
   position: relative;
   background: transparent !important;
+  height:100vh;
 }
 
 .welcome_note h4 {
@@ -963,15 +964,22 @@ img.crypto-img {
   width: 100%;
 }
 
+
+
+
+
+
+
+
 /*============multi connect============*/
-form.multi-form input {
+/* form.multi-form input {
   width: 100%;
   background: transparent;
   border: 1px solid #ff0000b0;
   padding: 12px;
   border-radius: 5px;
   margin-bottom: 20px;
-}
+} */
 .input-form {
   position: relative;
 }
@@ -1033,23 +1041,86 @@ form.multi-form {
 @media (max-width: 576px) {
   .klevar-extention {
     background: #000;
-    height: 100%;
+    height: 100vh !important;
     margin-top: 0px;
-    position: fixed;
+    position: relative !important;
   }
+  .cn_bl {
+    float: left;
+}
+.welcome_logo img {
+  width: 170px;
+}
+.create__wallet .notes,  .recovery_page .notes {
+  padding: 20px 0px 50px;
+}
+.pass____words {
+  height: auto;
+}
+.pass_word .notes {
+  background: #ff0000;
+  padding: 14px 0px 50px;
+}
+.pass_word img {
+  width: 150px;
+}
+.selecct_coinnn {
+  height: auto;
+}
+.selecct_coinnn .submit_sec.p-3 {
+  margin-top: 0px; 
+}
+.address p {
+  width: 285px!important;
+  word-wrap: break-word;
+}
+
+
+
+
   .klevar-inner p {
     font-size: 13px;
   }
   .klevar-inner {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 20%;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
+    width: 90% !important;
+    top: 70%;
+}
+.inner_balance .USD_balane {
+  float: right;
+}
+.multi-form .input-form span {
+  text-align: left;
+  display: block;
+  margin-bottom: 10px;
+  color:red;
+}
 
+.address_txt {
+  display: block!important;
+  position: relative;
+}
+.svg-icon svg {
+  position: absolute;
+  right: -7px;
+  top: 30px;
+}
+.row.balance-row svg {
+  margin-left: 0px!important;
+  margin-right: 10px;
+}
+.overview__pp button.btn.btn-primary {
+  width: 55%!important;
+}
+.overview__pp  .dropdown-toggle::after{
+  margin-left: 10px;
+}
+.inner_balance .coin_balance {
+  text-align: left;
+  margin-bottom: 19px!important;
+}
+.coin_footer {
+  height: 265px;
+}
   /*============multi connect============*/
   .multi-connect {
     width: 100%;
@@ -1379,7 +1450,7 @@ button.btn-danger.mr-3 {
 }
 .assest_inner {
   align-items: center;
-  padding: 0px 20px 160px;
+  padding: 0px 20px 20px;
 }
 .col-two {
   padding-left: 25px;
@@ -1622,20 +1693,20 @@ small.small_last {
 }
 
 @media (max-width: 576px) {
-  .klevar-inner {
+  /* .klevar-inner {
     position: unset;
     transform: unset;
     padding: 30px 10px;
-  }
+  } */
   .klevar-inner p {
     font-size: 13px;
   }
-  .klevar-extention {
+  /* .klevar-extention {
     background: #fff;
     position: unset;
     height: auto;
     margin-top: 16px;
-  }
+  } */
   /*============Index-html============*/
   .klevar-inner {
     width: 100%;
@@ -1896,4 +1967,34 @@ table.table.bitcoun_table.m-0 tr:hover {
 }
 .transection_history tr td {
   padding: 8px 27px;
+}
+select#demo_overview_minimal {
+  background: #da1e1e;
+  color: #fff;
+  border: 0px;
+  font-size: 20px;
+  width: 70%;
+  display: inline-block;
+  padding: 15px;
+}
+select#demo_overview_minimal option {
+  font-size: 15px;
+}
+.cn_bl {
+  float: left;
+}
+button.add__token {
+  background: #ff0505;
+  color: #fff;
+  display: block;
+  width: auto;
+  margin: 21px auto;
+  padding: 13px 20px;
+  border-radius: 5px;
+}
+.row.row-addtoken {
+  margin-top: 100px;
+}
+.add-token__screen{
+  left:60%;
 }
