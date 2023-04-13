@@ -11,6 +11,7 @@ import {
     sendTrx,
     fetchTokenData,
 } from "./tronFunctions";
+import '../App.css'
 
 import Loader from "./Loader";
 
@@ -158,6 +159,7 @@ const UserWallet = () => {
     return (
         <>
             <section class="dashboard sidebar-width">
+            {loading?<Loader></Loader>:""}
                 <div class="container-fluid ps-lg-0 pe-lg-4 p-0 overview-page">
                     <div class="row">
                         {/* <div class="col-lg-2 col-md-3 col-sm-12 col-12 p-0">
