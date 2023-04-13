@@ -19,6 +19,19 @@ const AddToken = () => {
     const [symbol, setSymbol] = useState('');
     const [icon, setIcon] = useState('');
     const [error, setError] = useState('');
+    const [tokens, setTokens] = useState([]);
+
+    useEffect(() => {
+        async function fetchTokens() {
+          const response = await getTokens(context.id);
+          console.log("response is---->",response);
+        //   const json = await response.json();
+          setTokens(response.data.data);
+        }
+        fetchTokens();
+      }, [context.address]);
+
+    
   
     const handleAddressChange = (event) => {
       setAddress(event.target.value);
@@ -48,7 +61,7 @@ const AddToken = () => {
         console.log("name and symbol is--->",name,symbol);
         const payload = {
             "user": context.id,
-            "token": tokenAddress,
+            "token": address,
             "name": name,
             "symbol":symbol,
             "decimal": 6
@@ -122,6 +135,24 @@ const AddToken = () => {
         </div>
       )}
                                     <div class="row">
+                                    <table>
+      <thead>
+        <tr>
+        <th>Token Address</th>
+          <th>Name</th>
+          <th>Symbol</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tokens.map(token => (
+          <tr key={token.id}>
+          <td>{token.token_address}</td>
+            <td>{token.name}</td>
+            <td>{token.symbol}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
                                         <div class="col-lg-2 col-md-2 col-2">
                                             <img src={require("../assets/images/token.png")} />
                                         </div>
