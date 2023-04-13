@@ -49,7 +49,7 @@ const AddToken = () => {
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-md-8 col-sm-12">
-                            <div class="klevar-inner restore-connect">
+                            <div class="klevar-inner restore-connect add-token__screen">
                                 <div class="top-wallet">
                                     <h1>&#60;</h1>
                                     <div class="all-assets">
@@ -93,6 +93,9 @@ const AddToken = () => {
                                             <i class="far fa-check-circle"></i>
                                         </div>
                                         <button>Add Token</button>
+                                    </div>
+                                    <div class="row row-addtoken">
+                                        <button class="add__token">Add Token</button>
                                     </div>
                                 </div>
                             </div>

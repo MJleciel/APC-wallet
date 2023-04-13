@@ -11,7 +11,7 @@ const SelectCoin = () => {
                             <div class="text-center  mb-4">
                                 <img src={require("../assets/images/apc-logo.png")} alt="" width="200px" />
                             </div>
-                            <div class="wallet_note text-center">
+                            <div class="wallet_note text-center selecct_coinnn">
                                 <div class="walet_title px-3 pt-4">
                                     <h3 class="m-0">Select Coin</h3>
                                 </div>
