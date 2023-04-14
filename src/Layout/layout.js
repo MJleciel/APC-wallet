@@ -36,7 +36,7 @@ const Layout = (props) => {
                 }
 
                 {props.children}
-                <div class={context.token?"overwraper":"get-started"} id="wrapperblock"></div>
+                <div class={(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))?"overwraper":"get-started"} id="wrapperblock"></div>
             </div>
 
 
