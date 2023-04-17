@@ -44,17 +44,17 @@ const AddToken = () => {
       console.log("response is---->", response);
       const tokens = response.data.data;
 
-      const balanceRequests = tokens.map(async(token) =>{ 
-        console.log("address is---->",context.address)
+      const balanceRequests = tokens.map(async (token) => {
+        console.log("address is---->", context.address)
         const contract = await tronWeb2.contract().at(token.token_address);
         let balance = await contract.balanceOf(context.address).call();
-        console.log("balance oof token--->",token.token_address, balance.toString());
+        console.log("balance oof token--->", token.token_address, balance.toString());
         let res = balance.toString();
-        res=parseFloat(res)   
-        return res/1000000; 
-    });
+        res = parseFloat(res)
+        return res / 1000000;
+      });
       const balances = await Promise.all(balanceRequests);
-  
+
       const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
       console.log("updated tokens result is", tokensWithBalances);
       setTokens(tokensWithBalances);
@@ -128,10 +128,10 @@ const AddToken = () => {
               <div class="klevar-inner restore-connect add-token__screen">
                 <div class="top-wallet">
                   <h1>&#60;</h1>
-                  <div class="all-assets">
+                  {/* <div class="all-assets">
                     <h4>All Assets</h4>
                     <h5>Custom Token</h5>
-                  </div>
+                  </div> */}
                 </div>
                 <div class="assests-input">
                   <div class="input-group">
@@ -177,7 +177,7 @@ const AddToken = () => {
                     </div>
                   )}
                   <div class="row">
-                    <table>
+                    <table className="add-token__screen">
                       <thead>
                         <tr>
                           <th>Token Address</th>
@@ -189,26 +189,26 @@ const AddToken = () => {
                       <tbody>
                         {console.log("checkin for token map is----->", tokens)}
                         {tokens.map(token => (
-          <tr key={token.id}>
-          <td>{token.token_address}</td>
-            <td>{token.name}</td>
-            <td>{token.symbol}</td>
-            <td>{token.balance}</td>
-          </tr>
-        ))}
+                          <tr key={token.id}>
+                            <td>{token.token_address}</td>
+                            <td>{token.name}</td>
+                            <td>{token.symbol}</td>
+                            <td>{token.balance}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
-                    <div class="col-lg-2 col-md-2 col-2">
+                    {/* <div class="col-lg-2 col-md-2 col-2">
                       <img src={require("../assets/images/token.png")} />
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-5 col-two">
+                    </div> */}
+                    {/* <div class="col-lg-9 col-md-9 col-5 col-two">
                       <h3>
                         TRX <span class="text-muted">TRX</span>
                       </h3>
                       <h4>
                         15,010 <span class="text-muted">(85459)</span>
                       </h4>
-                    </div>
+                    </div> */}
                     <div class="col-lg-1 col-md-2 col-1">
                       <i class="far fa-check-circle"></i>
                     </div>

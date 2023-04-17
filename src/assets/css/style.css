@@ -1998,3 +1998,26 @@ button.add__token {
 .add-token__screen{
   left:60%;
 }
+
+
+.add-token__screen .assests-menu h5 {
+  display: inline-block;
+  margin-right: 24px;
+}
+.assests-menu .form-check {
+  display: none;
+}
+table.add-token__screen thead tr th {
+  text-align: left;
+}
+table.add-token__tabel {
+  width: 100%;
+}
+table.add-token__screen thead tr td {
+  text-align: left;
+  padding: 10px 0px;
+}
+table.add-token__screen tr td {
+  text-align: left;
+  padding: 10px 0px;
+}
