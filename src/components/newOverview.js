@@ -1,10 +1,18 @@
 
+import { useContext } from "react";
 import { AiOutlinePlus,AiOutlineCopy} from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import appContext from "../context/globalContext";
 
 
 const NewOverView = () => {
+    let context =useContext(appContext)
     let navigate=useNavigate()
+    const logout =()=>{
+        context.setToken('')
+        localStorage.clear()
+         navigate('/')
+    }
     return (
         <>
             <section class="mai___accc">
@@ -33,7 +41,7 @@ const NewOverView = () => {
                                                     </div>
                                             </div>
                                             <div class="acc_icons">
-                                                <a href="recovery.js"><div class="grater-icon"></div></a>
+                                                <Link to="/coins-list"><div class="grater-icon"></div></Link>
                                                 <span class="plus_icon"><AiOutlinePlus/></span>
                                             </div>
                                         </div>
@@ -253,7 +261,7 @@ const NewOverView = () => {
                                                         <p>Add Token</p>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-3">
+                                            <div class="col-lg-3 col-md-3 col-3" style={{cursor:"pointer"}} onClick={logout}>
                                                 <div class="trans_tabs">
                                                     <img src={require("../assets/images/send.png")}/>
                                                         <p>Sign Out</p>
