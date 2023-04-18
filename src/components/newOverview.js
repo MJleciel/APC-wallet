@@ -1,8 +1,10 @@
 
 import { AiOutlinePlus,AiOutlineCopy} from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 
 const NewOverView = () => {
+    let navigate=useNavigate()
     return (
         <>
             <section class="mai___accc">
@@ -245,7 +247,7 @@ const NewOverView = () => {
                                                         <p>Transfer</p>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-3">
+                                            <div class="col-lg-3 col-md-3 col-3" style={{cursor:"pointer"}} onClick={()=>navigate('/add-token')}>
                                                 <div class="trans_tabs">
                                                     <img src={require("../assets/images/add-coin.png")}/>
                                                         <p>Add Token</p>
