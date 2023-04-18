@@ -30,8 +30,8 @@ const Routing = () => {
             <Routes>
                 {context.token ?
                     <>
-                        <Route path='*' element={<WalletOverview />} />
-                        <Route path='/overview' element={<WalletOverview />} />
+                        <Route path='*' element={<NewOverView />} />
+                        <Route path='/overview' element={<NewOverView />} />
                         <Route path='/new-overview' element={<NewOverView />} />
                         <Route path='/wallet' element={<UserWallet />} />
                         <Route path='/add-token' element={<AddToken />} />

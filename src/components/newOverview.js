@@ -1,10 +1,79 @@
 
 import { AiOutlinePlus,AiOutlineCopy} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import Swal from "sweetalert2";
+
+import { addToken, createWallet, getPrivateKey, getTokens, getWallet } from "../services/services";
+import { generateTronAccount, getBalance, sendTrx, fetchTokenData } from "./tronFunctions";
+import Sidebar from "./sidebar";
+import { icons } from "react-icons";
+import Dropdown from 'react-bootstrap/Dropdown';
+import { BiCopy } from "react-icons/bi";
+import appContext from "../context/globalContext";
+import { tronWeb } from "./tronFunctions";
+import TronWeb from "tronweb";
 
 
 const NewOverView = () => {
+    let context = useContext(appContext)
+    const [walletAddress, setWalletAddress] = useState('');
+    const [privateKey, setPrivateKey] = useState('')
+    const [balance, setBalance] = useState('')
+    const [tokens, setTokens] = useState([]);
+    const [address, setAddress] = useState("");
+
     let navigate=useNavigate()
+
+    const getWalletDetails = async () => {
+        let bal = await getBalance(context.address)
+        console.log("balance is---->", bal)
+        setBalance(bal);
+
+    }
+
+    useEffect(() => {
+
+        getWalletDetails();
+    }, [context.address]);
+
+    let tronWeb2 = new TronWeb({
+        fullHost: "https://api.shasta.trongrid.io",
+        solidityNode: "https://api.shasta.trongrid.io",
+        eventServer: "https://api.shasta.trongrid.io",
+        privateKey: context.key,
+      });
+    
+      useEffect(() => {
+        async function fetchTokens() {
+          const response = await getTokens(context.id);
+          console.log("response is---->", response);
+          const tokens = response.data.data;
+    
+          const balanceRequests = tokens.map(async (token) => {
+            console.log("address is---->", context.address)
+            const contract = await tronWeb2.contract().at(token.token_address);
+            let balance = await contract.balanceOf(context.address).call();
+            console.log("balance oof token--->", token.token_address, balance.toString());
+            let res = balance.toString();
+            res = parseFloat(res)
+            return res / 1000000;
+          });
+          const balances = await Promise.all(balanceRequests);
+    
+          const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
+          console.log("updated tokens result is", tokensWithBalances);
+          setTokens(tokensWithBalances);
+        }
+        fetchTokens();
+      }, [context.address]);
+    
+      const handleAddressChange = (event) => {
+        setAddress(event.target.value);
+      };
+
+
     return (
         <>
             <section class="mai___accc">
@@ -40,7 +109,7 @@ const NewOverView = () => {
                                         <div class="Main_inner">
                                             <div class="new-over_pp">
                                                 <h3>APC - Main Account</h3>
-                                                <div class="over_position"><p>hfrjhfjhfjhfjhk</p><AiOutlineCopy/></div>
+                                                <div class="over_position"><p>{context.address}</p><AiOutlineCopy/></div>
                                             </div>
                                             <div class="">
                                                 <i class="fas fa-copy"></i>
