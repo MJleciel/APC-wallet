@@ -60,36 +60,42 @@ const NewOverView = () => {
     privateKey: context.key,
   });
 
-  useEffect(() => {
-    async function fetchTokens() {
-      const response = await getTokens(context.id);
-      console.log("response of tokens  is---->", response);
-      const additionalToken = { name: 'TRX', address: '0Tx00000' };
-      const tokens = response.data.data;
-      setTokens(tokens)
-      console.log("tokens are---->",tokens);
-      const balanceRequests = tokens.map(async (token) => {
-        console.log("address is---->", context.address);
-        const contract = await tronWeb2.contract().at(token.token_address);
-        let balance = await contract.balanceOf(context.address).call();
-        console.log(
-          "balance oof token--->",
-          token.token_address,
-          balance.toString()
-        );
-        let res = balance.toString();
-        res = parseFloat(res);
-        return res / 1000000;
-      });
-      const balances = await Promise.all(balanceRequests);
+  const fetchTokens=()=>{
+    getTokens(context.id).then(response=>{
+        console.log("response of tokens  is---->", response);
+        const additionalToken = { name: 'TRX', address: '0Tx00000' };
+        const tokens = response.data.data;
+        let tokensList=[...tokens,additionalToken]
+        setTokens(tokensList)
+        console.log("tokens are---->",tokensList);
+        const balanceRequests = tokens.map(async (token) => {
+          console.log("address is---->", context.address);
+          const contract =  tronWeb2.contract().at(token.token_address);
+          let balance =  contract.balanceOf(context.address).call();
+          console.log(
+            "balance oof token--->",
+            token.token_address,
+            balance.toString()
+          );
+          let res = balance.toString();
+          res = parseFloat(res);
+          return res / 1000000;
+        });
+        const balances =  Promise.all(balanceRequests);
+    
+        const tokensWithBalances = tokens.map((token, index) => ({
+          ...token,
+          balance: balances[index],
+        }));
+        console.log("updated tokens result is", tokensWithBalances);
+        setTokens(tokensWithBalances);
+    
+    });
+   
+  }
 
-      const tokensWithBalances = tokens.map((token, index) => ({
-        ...token,
-        balance: balances[index],
-      }));
-      console.log("updated tokens result is", tokensWithBalances);
-      setTokens(tokensWithBalances);
-    }
+  useEffect(() => {
+
     fetchTokens();
   }, [context.address]);
 
@@ -193,7 +199,7 @@ const NewOverView = () => {
                           <p>0.00</p>
                         </div>
                       </div>
-                      <div class="small_tabs row">
+                      <div class="small_tabs row justify-content-center">
                         <div class="col-lg-3 col-md-3 col-3">
                           <div class="inner_tabs">
                             <img
