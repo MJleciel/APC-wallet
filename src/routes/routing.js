@@ -21,6 +21,7 @@ import AddToken from "../components/addToken";
 import { useContext } from "react";
 import appContext from "../context/globalContext";
 import NewOverView from "../components/newOverview";
+import CoinList from "../components/coins-list";
 
 
 const Routing = () => {
@@ -33,6 +34,7 @@ const Routing = () => {
                         <Route path='*' element={<NewOverView />} />
                         <Route path='/overview' element={<NewOverView />} />
                         <Route path='/new-overview' element={<NewOverView />} />
+                        <Route path='/coins-list' element={<CoinList />} />
                         <Route path='/wallet' element={<UserWallet />} />
                         <Route path='/add-token' element={<AddToken />} />
                         <Route path='/token-list' element={<TokenList />} />

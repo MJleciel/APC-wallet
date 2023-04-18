@@ -51,7 +51,7 @@ function isValidTronPrivateKey(privateKey) {
 }
 
 export async function getBalance(address) {
-  console.log("address is---->",address);
+  console.log("address is---->",address,await tronWeb.trx);
   let balance = (await tronWeb.trx.getBalance(address))/1000000;
 
   return balance;
