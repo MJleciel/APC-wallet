@@ -20,6 +20,7 @@ import RestoreWallet from "../components/restore-wallet";
 import AddToken from "../components/addToken";
 import { useContext } from "react";
 import appContext from "../context/globalContext";
+import NewOverView from "../components/newOverview";
 
 
 const Routing = () => {
@@ -31,6 +32,7 @@ const Routing = () => {
                     <>
                         <Route path='*' element={<WalletOverview />} />
                         <Route path='/overview' element={<WalletOverview />} />
+                        <Route path='/new-overview' element={<NewOverView />} />
                         <Route path='/wallet' element={<UserWallet />} />
                         <Route path='/add-token' element={<AddToken />} />
                         <Route path='/token-list' element={<TokenList />} />
@@ -53,8 +55,7 @@ const Routing = () => {
 
                     </>
                 }
-                {/* <Route path='/new-wallet' element={<NewWallet/>}/>
-                <Route path='/new-sidebar' element={<NewSidebar/>}/> */}
+               
             </Routes>
         </>
     )

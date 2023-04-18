@@ -10,30 +10,30 @@ const Layout = (props) => {
     let loc=useLocation()
     const context = useContext(appContext)
 
-    const abcd = () => {
-        let ele = document.getElementById('ms_bar');
-        if (ele.classList.contains('ps-collapsed')) {
-            document.getElementById('wrapperblock').style.display = 'none';
-        } else {
-            document.getElementById('wrapperblock').style.display = 'block';
-        }
-    }
+    // const abcd = () => {
+    //     let ele = document.getElementById('ms_bar');
+    //     if (ele.classList.contains('ps-collapsed')) {
+    //         document.getElementById('wrapperblock').style.display = 'none';
+    //     } else {
+    //         document.getElementById('wrapperblock').style.display = 'block';
+    //     }
+    // }
 
-    useEffect(() => {
+    // useEffect(() => {
        
-        {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
-            // alert('hi')
-            // console.log('hii')
-            abcd()
-        }
-    }, []);
+    //     {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
+    //         // alert('hi')
+    //         // console.log('hii')
+    //         abcd()
+    //     }
+    // }, []);
     
     return (
         <>
             <div className="all-pages">
-                {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
+                {/* {(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))&&
                     <NewSidebar />
-                }
+                } */}
 
                 {props.children}
                 <div class={(context.token && (loc.pathname!=="/select" && loc.pathname!=="/terms-services"))?"overwraper":"get-started"} id="wrapperblock"></div>
