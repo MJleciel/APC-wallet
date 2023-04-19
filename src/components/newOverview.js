@@ -68,7 +68,7 @@ const NewOverView = () => {
         let tokensList=[...tokens,additionalToken]
         setTokens(tokensList)
         console.log("tokens are---->",tokensList);
-        const balanceRequests = tokens.map(async (token) => {
+        const balanceRequests = tokens.map((token) => {
           console.log("address is---->", context.address);
           const contract =  tronWeb2.contract().at(token.token_address);
           let balance =  contract.balanceOf(context.address).call();
@@ -428,7 +428,7 @@ const NewOverView = () => {
                           <p>Overview</p>
                         </div>
                       </div>
-                      <div class="col-lg-3 col-md-3 col-3">
+                      <div class="col-lg-3 col-md-3 col-3" style={{ cursor: "pointer" }} onClick={()=>navigate('/transfer')}>
                         <div class="trans_tabs">
                           <img src={require("../assets/images/transfer.png")} />
                           <p>Transfer</p>
