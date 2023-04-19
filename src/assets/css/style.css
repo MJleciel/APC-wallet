@@ -2731,3 +2731,184 @@ img.transfer_coin_img {
 .form__row.MY_FORM_ROW input:focus{
   outline: 0px;
 }
+
+/*============Send Page============*/
+form.send_inner_form label {
+  color: #ffff;
+  width: 80px;
+}
+.form_flex input {
+  width: 86%;
+  padding: 10px;
+}
+.form_flex {
+  margin-bottom: 30px;
+}
+.send-page h2.page__title {
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.form_flex input::placeholder {
+  color: #9999;
+}
+.padding_send {
+  padding: 60px 40px !important;
+}
+.send-page button.btn-danger {
+  margin: 0 auto;
+  display: block;
+}
+
+
+@media (max-width:576px){
+  .form_flex input {
+    width: 100% !important;
+  }
+  .padding_send {
+    padding: 15px !important;
+  }
+}
+
+@media (min-width:630px) and (max-width:685px){
+  .form_flex input {
+    width: 76%;
+  }
+  .transfer-page .page.page--main {
+    width: 66%;
+  }
+}
+
+@media (min-width:100px) and (max-width:602px){
+  .transfer-page .page.page--main {
+    width: 90%;
+  }
+  .form_flex input {
+    width: 80%;
+  }
+}
+@media (min-width:603px) and (max-width:687px){
+  .transfer-page .page.page--main {
+    width: 80%;
+  }
+  .form_flex input {
+    width: 80%;
+  }
+}
+
+@media (min-width:686px) and (max-width:688px){
+  .form_flex input {
+    width: 78%;
+  }
+  .transfer-page .page.page--main {
+    width: 65%;
+  }
+}
+
+@media (min-width:689px) and (max-width:799px){
+  .transfer-page .page.page--main {
+    width: 70%;
+  }
+  .form_flex input {
+    width: 80%;
+  }
+}
+
+@media (min-width:800px) and (max-width:830px){
+.transfer-page .page.page--main {
+  width: 70%;
+}
+}
+
+@media (min-width:780px) and (max-width:831px){
+  .form_flex input {
+    width: 82%;
+}
+}
+
+@media (min-width:830px) and (max-width:963px){
+  .transfer-page .page.page--main {
+    width: 70%;
+  }
+  .form_flex input {
+    width: 82%;
+}
+}
+
+@media (min-width:964px) and (max-width:1104px){
+  .form_flex input {
+    width: 80%;
+}
+}
+
+@media (min-width:1105px) and (max-width:1164px){
+  .form_flex input {
+    width: 83%;
+}
+}
+
+@media (min-width:1164px) and (max-width:1306px){
+  .form_flex input {
+    width: 84%;
+}
+}
+
+
+.recieve_adress p {
+  color: #fff;
+  margin-bottom: 0px;
+  display: inline-block;
+  padding-right: 25px;
+}
+.recieve_adress svg {
+  color: red;
+}
+.recieve_adress {
+  margin-top: 40px;
+}
+.recieve_page .page.page--main {
+  width: 35%;
+}
+.recieve_adress .padding_send {
+  padding: 100px 60px !important;
+}
+
+
+@media (min-width:767px) and (max-width:900px){
+  .recieve_page .page.page--main {
+    width: 50%;
+}
+}
+
+@media (min-width:900px) and (max-width:1316px){
+  .recieve_page .page.page--main {
+    width: 45%;
+  }
+  .recieve_adress p {
+    font-size: 15px;
+}
+}
+@media (max-width:768px){
+  .recieve_page .page.page--main {
+    width: 65%;
+  }
+  .recieve_adress p {
+    font-size: 13px;
+    padding-right: 10px;
+  }
+}
+@media (max-width:576px){
+  .recieve_page .page.page--main {
+    width: 90%;
+}
+.recieve_page .padding_send {
+  padding: 20px !important;
+  word-break: break-all;
+  border: 0px !important;
+  }
+  .recieve_adress p {
+    font-size: 12px;
+    padding-right: 5px;
+  }
+}

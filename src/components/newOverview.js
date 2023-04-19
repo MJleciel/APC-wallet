@@ -200,15 +200,15 @@ const NewOverView = () => {
                         </div>
                       </div>
                       <div class="small_tabs row justify-content-center">
-                        <div class="col-lg-3 col-md-3 col-3">
-                          <div class="inner_tabs">
+                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/send')}>
+                          <div class="inner_tabs" >
                             <img
                               src={require("../assets/images/paper-plane.png")}
                             />
                             <p>Send</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3">
+                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/recieve')}>
                           <div class="inner_tabs">
                             <img
                               src={require("../assets/images/recieve.png")}
