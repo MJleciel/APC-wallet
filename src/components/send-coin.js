@@ -1,4 +1,8 @@
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
 const SendCoin = () => {
+    let navigate=useNavigate()
     return (
         <>
             <section class="transfer-page send-page">
@@ -6,7 +10,7 @@ const SendCoin = () => {
                     <div class="page page--main" data-page="buy">
                         
                         <div class="page__content page__content--with-header page__content--with-bottom-nav padding_send">
-                           
+                        <div className="BackBtn" onClick={()=>navigate(-1)}><IoMdArrowRoundBack/></div>
                             <h2 class="page__title">Send</h2>
                             <div class="send_form">
                                 <form class="send_inner_form">

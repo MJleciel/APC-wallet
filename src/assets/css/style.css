@@ -2912,3 +2912,12 @@ form.send_inner_form label {
     padding-right: 5px;
   }
 }
+
+.BackBtn {
+  color: red;
+  position: absolute;
+  top: -7px;
+  left: 5px;
+  font-size: 32px;
+  cursor: pointer;
+}
