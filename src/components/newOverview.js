@@ -63,32 +63,41 @@ const NewOverView = () => {
   const fetchTokens=()=>{
     getTokens(context.id).then(response=>{
         console.log("response of tokens  is---->", response);
-        const additionalToken = { name: 'TRX', address: '0Tx00000' };
+      
         const tokens = response.data.data;
+        const additionalToken = { 
+            id: tokens.length+1, 
+            name: 'TRX', 
+            symbol: 'TRX', 
+            decimals: '6', 
+            token_address: '0Tx000', 
+            user_id: tokens[0].user_id, 
+            created_on: new Date().toISOString() 
+          };
         let tokensList=[...tokens,additionalToken]
         setTokens(tokensList)
         console.log("tokens are---->",tokensList);
-        const balanceRequests = tokens.map(async (token) => {
-          console.log("address is---->", context.address);
-          const contract =  tronWeb2.contract().at(token.token_address);
-          let balance =  contract.balanceOf(context.address).call();
-          console.log(
-            "balance oof token--->",
-            token.token_address,
-            balance.toString()
-          );
-          let res = balance.toString();
-          res = parseFloat(res);
-          return res / 1000000;
-        });
-        const balances =  Promise.all(balanceRequests);
+        // const balanceRequests = tokens.map(async (token) => {
+        //   console.log("address is---->", context.address);
+        //   const contract =  tronWeb2.contract().at(token.token_address);
+        //   let balance =  contract.balanceOf(context.address).call();
+        //   console.log(
+        //     "balance oof token--->",
+        //     token.token_address,
+        //     balance.toString()
+        //   );
+        //   let res = balance.toString();
+        //   res = parseFloat(res);
+        //   return res / 1000000;
+        // });
+        // const balances =  Promise.all(balanceRequests);
     
-        const tokensWithBalances = tokens.map((token, index) => ({
-          ...token,
-          balance: balances[index],
-        }));
-        console.log("updated tokens result is", tokensWithBalances);
-        setTokens(tokensWithBalances);
+        // const tokensWithBalances = tokens.map((token, index) => ({
+        //   ...token,
+        //   balance: balances[index],
+        // }));
+        // console.log("updated tokens result is", tokensWithBalances);
+        // setTokens(tokensWithBalances);
     
     });
    
@@ -154,11 +163,11 @@ const NewOverView = () => {
                               id="token-dropdown"
                               onChange={handleTokenSelect}
                             >
-                              <option  value="">
+                              {/* <option  value="">
                                 {selectedTokenName
                                   ? selectedTokenName
                                   : "Select A token"}
-                              </option>
+                              </option> */}
                               {tokens.map((token) => (
                                 <option
                                   key={token.address}
