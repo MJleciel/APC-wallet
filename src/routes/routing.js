@@ -22,6 +22,9 @@ import { useContext } from "react";
 import appContext from "../context/globalContext";
 import NewOverView from "../components/newOverview";
 import CoinList from "../components/coins-list";
+import Transfer from "../components/transfer";
+import SendCoin from "../components/send-coin";
+import Recieve from "../components/recieve";
 
 
 const Routing = () => {
@@ -32,9 +35,12 @@ const Routing = () => {
                 {context.token ?
                     <>
                         <Route path='*' element={<NewOverView />} />
-                        <Route path='/overview' element={<NewOverView />} />
+                        <Route path='/overview' element={<WalletOverview />} />
                         <Route path='/new-overview' element={<NewOverView />} />
                         <Route path='/coins-list' element={<CoinList />} />
+                        <Route path='/transfer' element={<Transfer />} />
+                        <Route path='/send' element={<SendCoin />} />
+                        <Route path='/recieve' element={<Recieve />} />
                         <Route path='/wallet' element={<UserWallet />} />
                         <Route path='/add-token' element={<AddToken />} />
                         <Route path='/token-list' element={<TokenList />} />

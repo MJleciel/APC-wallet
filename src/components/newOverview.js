@@ -77,20 +77,20 @@ const NewOverView = () => {
         let tokensList=[...tokens,additionalToken]
         setTokens(tokensList)
         console.log("tokens are---->",tokensList);
-        // const balanceRequests = tokens.map(async (token) => {
-        //   console.log("address is---->", context.address);
-        //   const contract =  tronWeb2.contract().at(token.token_address);
-        //   let balance =  contract.balanceOf(context.address).call();
-        //   console.log(
-        //     "balance oof token--->",
-        //     token.token_address,
-        //     balance.toString()
-        //   );
-        //   let res = balance.toString();
-        //   res = parseFloat(res);
-        //   return res / 1000000;
-        // });
-        // const balances =  Promise.all(balanceRequests);
+        const balanceRequests = tokens.map((token) => {
+          console.log("address is---->", context.address);
+          const contract =  tronWeb2.contract().at(token.token_address);
+          let balance =  contract.balanceOf(context.address).call();
+          console.log(
+            "balance oof token--->",
+            token.token_address,
+            balance.toString()
+          );
+          let res = balance.toString();
+          res = parseFloat(res);
+          return res / 1000000;
+        });
+        const balances =  Promise.all(balanceRequests);
     
         // const tokensWithBalances = tokens.map((token, index) => ({
         //   ...token,
@@ -209,15 +209,15 @@ const NewOverView = () => {
                         </div>
                       </div>
                       <div class="small_tabs row justify-content-center">
-                        <div class="col-lg-3 col-md-3 col-3">
-                          <div class="inner_tabs">
+                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/send')}>
+                          <div class="inner_tabs" >
                             <img
                               src={require("../assets/images/paper-plane.png")}
                             />
                             <p>Send</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3">
+                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/recieve')}>
                           <div class="inner_tabs">
                             <img
                               src={require("../assets/images/recieve.png")}
@@ -437,7 +437,7 @@ const NewOverView = () => {
                           <p>Overview</p>
                         </div>
                       </div>
-                      <div class="col-lg-3 col-md-3 col-3">
+                      <div class="col-lg-3 col-md-3 col-3" style={{ cursor: "pointer" }} onClick={()=>navigate('/transfer')}>
                         <div class="trans_tabs">
                           <img src={require("../assets/images/transfer.png")} />
                           <p>Transfer</p>
