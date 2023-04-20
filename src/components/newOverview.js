@@ -61,7 +61,7 @@ const NewOverView = () => {
   });
 
   const fetchTokens=()=>{
-    getTokens(context.id).then(response=>{
+    getTokens(context.id).then(async(response)=>{
         console.log("response of tokens  is---->", response);
       
         const tokens = response.data.data;
@@ -77,10 +77,12 @@ const NewOverView = () => {
         let tokensList=[...tokens,additionalToken]
         setTokens(tokensList)
         console.log("tokens are---->",tokensList);
-        const balanceRequests = tokens.map((token) => {
+        const balanceRequests = tokens.map(async(token) => {
           console.log("address is---->", context.address);
-          const contract =  tronWeb2.contract().at(token.token_address);
-          let balance =  contract.balanceOf(context.address).call();
+          const contract =  await tronWeb2.contract().at(token.token_address);
+          
+          let balance =  await contract.balanceOf(context.address).call();
+
           console.log(
             "balance oof token--->",
             token.token_address,
@@ -112,7 +114,8 @@ const NewOverView = () => {
     setAddress(event.target.value);
   };
 
-  const handleTokenSelect = (event) => {
+  const handleTokenSelect = async(event) => {
+    
     const tokenValue = event.target.value;
     console.log("token value is-------->",tokenValue)
     const [tokenName, tokenAddress] = tokenValue.split(',');
@@ -121,6 +124,33 @@ const NewOverView = () => {
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
+
+    console.log("token address is---->",tokenAddress);
+    try{
+      if(tokenAddress!=="0Tx000"){
+        const contract =  await tronWeb2.contract().at(tokenAddress);
+          
+        let balance =  await contract.balanceOf(context.address).call();
+  
+        console.log(
+          "balance of selected token address is token--->",
+          tokenAddress,
+          balance.toString()
+        );
+        let res = balance.toString();
+          res = parseFloat(res);
+          
+        setBalance(res / 1000000);
+      }else{
+        let bal = await getBalance(context.address);
+        console.log("balance is---->", bal);
+        setBalance(bal);
+      }
+     
+    }catch(e){
+         console.log("error is---->",e);
+    }
+    
     // console.log("selected token address is---->",selectedTokenAddress)
     // setSelectedToken({ name: tokenName, address: tokenAddress });
   };
@@ -193,8 +223,8 @@ const NewOverView = () => {
                         </div>
                         <div class="Main_inner__btm">
                           <div class="">
-                            <h3>0.00</h3>
-                            <p>-0.00 USB</p>
+                            <h3>{balance}</h3>
+                            <p>{selectedTokenName}</p>
                           </div>
                         </div>
                       </div>
@@ -286,7 +316,7 @@ const NewOverView = () => {
                                       src={require("../assets/images/coin.png")}
                                     />
                                     <h6>Bitcoin</h6>
-                                    <p>BTC</p>
+                                    <p>BTCaaaaaaaaaaa</p>
                                   </div>
                                   <div class="col-lg-6 col-md-6 col-sm-12 text-end">
                                     <h6>$34,879</h6>
