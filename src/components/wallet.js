@@ -27,9 +27,7 @@ const UserWallet = () => {
     const [loading, setLoading] = useState(false);
     const [contractData, setContractData] = useState([]);
     useEffect(() => {
-        // setWalletAddress(localStorage.getItem("address"));
-        // setPrivateKey(localStorage.getItem("key"));
-        // console.log("local storage private key is---->", privateKey);
+        
         const getWalletDetails = async () => {
 
 
@@ -72,42 +70,7 @@ const UserWallet = () => {
             .catch((err) => console.error(err));
     }, [context.address]);
 
-    //   useEffect(() => {
-    //     const options = { method: "GET", headers: { accept: "application/json" } };
-    //     async function fetchData() {
-    //      fetch(
-    //       `https://api.shasta.trongrid.io/v1/accounts/${walletAddress}/transactions`,
-    //       options
-    //     )
-    //       .then((response) => {response.json()
-
-    //     })
-    //       .then((response) => {
-    //         console.log("transaction histroy is", response)
-    //         console.log("response of history isss---->",response)
-    // const transactions = response.data;
-    //   console.log("transaction of historey is--->",transactions)
-    //   const contractTransactions = transactions.filter(txn => {
-    //     const { raw_data } = txn;
-    //     return raw_data.contract && raw_data.contract.length > 0;
-    //   });
-    //   const formattedData = contractTransactions.map(txn => {
-    //     const { txID, raw_data } = txn;
-    //     const contract = raw_data.contract[0];
-    //     const { type, value } = contract.parameter;
-    //     const { owner_address, to_address, amount } = value;
-    //     return { txID, type, owner_address, to_address, amount };
-    //   });
-    //   setContractData(formattedData);
-
-    //     })
-    //       .catch((err) => console.error(err));
-
-
-    //     }
-    //     fetchData();
-    //   }, [walletAddress]);
-
+   
     const handleSendTrxModal = () => {
         Swal.fire({
             title: "Send",

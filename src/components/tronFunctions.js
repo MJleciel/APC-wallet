@@ -1,5 +1,10 @@
 import TronWeb from 'tronweb'; 
 import * as bip39 from 'bip39';
+// import { ethers } from "ethers";
+
+// const AbiCoder = ethers.utils.AbiCoder;
+// const ADDRESS_PREFIX_REGEX = /^(41)/;
+// const ADDRESS_PREFIX = "41";
 
 const fullNode = 'https://api.shasta.trongrid.io';
 const solidityNode = 'https://api.shasta.trongrid.io';
@@ -16,6 +21,8 @@ export async function generateTronAccount(mnemonic = null) {
   }
 
  
+ 
+
 const privateKey = await TronWeb.fromMnemonic(mnemonic);
 let c=await TronWeb.fromMnemonic(mnemonic);
 console.log("c isssssiiss------>",c);
@@ -33,6 +40,29 @@ console.log("valid private kys is---->",validprivatekey);
     address: privateKey.address
   };
 }
+
+// export async function decodeParams(types, output, ignoreMethodHash) {
+//   if (!output || typeof output === "boolean") {
+//     ignoreMethodHash = output;
+//     output = types;
+//   }
+
+//   if (ignoreMethodHash && output.replace(/^0x/, "").length % 64 === 8)
+//     output = "0x" + output.replace(/^0x/, "").substring(8);
+
+//   const abiCoder = new AbiCoder();
+
+//   if (output.replace(/^0x/, "").length % 64)
+//     throw new Error(
+//       "The encoded string is not valid. Its length must be a multiple of 64."
+//     );
+//   return abiCoder.decode(types, output).reduce((obj, arg, index) => {
+//     if (types[index] == "address")
+//       arg = ADDRESS_PREFIX + arg.substr(2).toLowerCase();
+//     obj.push(arg);
+//     return obj;
+//   }, []);
+// }
 
 function isValidTronPrivateKey(privateKey) {
   try {
@@ -69,31 +99,56 @@ export async function sendTrx(data) {
    
   });
   console.log("11111111")
-  const fromAccount = await tronWeb1.trx.getAccount(data.fromAddress);
-  console.log("22222222")
-  const fromBalance = fromAccount.balance;
-  console.log("3333333333333")
-  if (fromBalance < parseFloat((data.amount)*1000000)) {
-    alert("Insufficient Balance")
-    throw new Error('Insufficient balance');
-  }
-  try{
-    const transaction = await tronWeb1.transactionBuilder.sendTrx(data.toAddress, parseFloat((data.amount)*1000000), data.fromAddress)
-    console.log("44444444",transaction.txID)
-   
-    const signedTransaction = await tronWeb1.trx.sign(transaction);
-    console.log("555555",signedTransaction);
-    const result = await tronWeb1.trx.sendRawTransaction(signedTransaction);
-    console.log("66666666",result);
+  if(data.tokenAddress=="0Tx000"){
+    console.log("in TRX");
+    const fromAccount = await tronWeb1.trx.getAccount(data.fromAddress);
+    console.log("22222222")
+    const fromBalance = fromAccount.balance;
+    console.log("3333333333333")
+    if (fromBalance < parseFloat((data.amount)*1000000)) {
+      alert("Insufficient Balance")
+      throw new Error('Insufficient balance');
+    }
+    try{
+      const transaction = await tronWeb1.transactionBuilder.sendTrx(data.toAddress, parseFloat((data.amount)*1000000), data.fromAddress)
+      console.log("44444444",transaction)
+      console.log("44444444",transaction.txID)
+     
+      const signedTransaction = await tronWeb1.trx.sign(transaction);
+      console.log("555555",signedTransaction);
+      const result = await tronWeb1.trx.sendRawTransaction(signedTransaction);
+      console.log("66666666",result);
+      
+      // let a=await tronWeb.trx.getUnconfirmedTransactionInfo(transaction.txID);
+      // console.log("status is------>",a);
+      
+      console.log(`Transaction ID: ${result.txid}`);
+      return result;
+    }catch(e){
+         console.log("error is",e)
+    }
+  }else{
+    console.log("in trc20")
+    try{
+      const contract = await tronWeb1.contract().at(data.tokenAddress);
+      const amountWithDecimals = data.amount * Math.pow(10, 6);
+
+      const transaction = await contract.transfer(data.toAddress, amountWithDecimals).send({
+        shouldPollResponse: true,
+        feeLimit: 1e8, // Set the maximum amount of TRX to spend on transaction fees
+      });
+      
+      return transaction;
+
+    }catch(e){
+      console.log("error is--->",e);
+      return e;
+
+    }
     
-    // let a=await tronWeb.trx.getUnconfirmedTransactionInfo(transaction.txID);
-    // console.log("status is------>",a);
-    
-    console.log(`Transaction ID: ${result.txid}`);
-    return result;
-  }catch(e){
-       console.log("error is",e)
+
   }
+  
 
  
 }

@@ -17,6 +17,7 @@ import {
   getBalance,
   sendTrx,
   fetchTokenData,
+  // decodeParams
 } from "./tronFunctions";
 import Sidebar from "./sidebar";
 import { icons } from "react-icons";
@@ -33,9 +34,11 @@ const NewOverView = () => {
   const [privateKey, setPrivateKey] = useState("");
   const [balance, setBalance] = useState("");
   const [tokens, setTokens] = useState([]);
+  const [tokensBalance,setTokensBalance]=useState([]);
   const [address, setAddress] = useState("");
   const [selectedTokenName, setSelectedTokenName] = useState("TRX");
-  const [selectedTokenAddress,setSelectedTokenAddress]=useState("")
+  const [selectedTokenAddress,setSelectedTokenAddress]=useState("");
+  const [contractData, setContractData] = useState([]);
 
   let navigate = useNavigate();
 
@@ -62,7 +65,7 @@ const NewOverView = () => {
 
   const fetchTokens=()=>{
     getTokens(context.id).then(async(response)=>{
-        console.log("response of tokens  is---->", response);
+       
       
         const tokens = response.data.data;
         const additionalToken = { 
@@ -76,30 +79,27 @@ const NewOverView = () => {
           };
         let tokensList=[...tokens,additionalToken]
         setTokens(tokensList)
-        console.log("tokens are---->",tokensList);
+       
         const balanceRequests = tokens.map(async(token) => {
-          console.log("address is---->", context.address);
+          
           const contract =  await tronWeb2.contract().at(token.token_address);
           
           let balance =  await contract.balanceOf(context.address).call();
 
-          console.log(
-            "balance oof token--->",
-            token.token_address,
-            balance.toString()
-          );
+         
           let res = balance.toString();
+          console.log("balance of set tokens is----->",res);
           res = parseFloat(res);
           return res / 1000000;
         });
-        const balances =  Promise.all(balanceRequests);
+        const balances =  await Promise.all(balanceRequests);
     
-        // const tokensWithBalances = tokens.map((token, index) => ({
-        //   ...token,
-        //   balance: balances[index],
-        // }));
-        // console.log("updated tokens result is", tokensWithBalances);
-        // setTokens(tokensWithBalances);
+        const tokensWithBalances = tokens.map((token, index) => ({
+          ...token,
+          balance: balances[index],
+        }));
+        console.log("updated tokens result is", tokensWithBalances);
+        setTokensBalance(tokensWithBalances);
     
     });
    
@@ -110,6 +110,60 @@ const NewOverView = () => {
     fetchTokens();
   }, [context.address]);
 
+
+  useEffect(() => {
+        
+    const getWalletDetails = async () => {
+
+
+        let bal = await getBalance(context.address);
+        console.log("balance is---->", bal);
+
+        setBalance(bal);
+
+    }
+
+
+    getWalletDetails();
+    const options = { method: "GET", headers: { accept: "application/json" } };
+
+    fetch(
+        `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
+        options
+    )
+        .then((response) => response.json())
+        .then((response) => {
+            // console.log("transaction histroy is", response)
+            const transactions = response.data;
+            console.log("transaction data is--->", transactions);
+            const contractTransactions = transactions.filter(txn => {
+                const { raw_data } = txn;
+                return raw_data.contract && raw_data.contract.length > 0;
+            });
+            // console.log("contract transaction is--->", contractTransactions);
+            const formattedData = contractTransactions.map(txn => {
+                const { txID, raw_data } = txn;
+                const contract = raw_data.contract[0];
+                console.log("contract parameter is------>>>",contract);
+                let type=contract?.type
+                if(type=="TriggerSmartContract"){
+                  return;
+                }
+                console.log("type is----->",type);
+                
+                console.log("value is------->",contract?.parameter)
+                const  amount  = contract?.parameter?.value?.amount;
+                console.log("value is------->",amount)
+                // const { owner_address, to_address, amount } = value;
+                return { txID, type, amount };
+            });
+            // console.log("formatedd data is--->", formattedData);
+
+            setContractData(formattedData);
+        })
+        .catch((err) => console.error(err));
+}, [context.address]);
+
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
@@ -117,33 +171,27 @@ const NewOverView = () => {
   const handleTokenSelect = async(event) => {
     
     const tokenValue = event.target.value;
-    console.log("token value is-------->",tokenValue)
+  
     const [tokenName, tokenAddress] = tokenValue.split(',');
-    // Set the selectedToken state with the name and address of the selected token
-    console.log("token address is---->",tokenAddress);
+   
+  
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
 
-    console.log("token address is---->",tokenAddress);
     try{
       if(tokenAddress!=="0Tx000"){
         const contract =  await tronWeb2.contract().at(tokenAddress);
           
         let balance =  await contract.balanceOf(context.address).call();
   
-        console.log(
-          "balance of selected token address is token--->",
-          tokenAddress,
-          balance.toString()
-        );
         let res = balance.toString();
           res = parseFloat(res);
           
         setBalance(res / 1000000);
       }else{
         let bal = await getBalance(context.address);
-        console.log("balance is---->", bal);
+       
         setBalance(bal);
       }
      
@@ -151,8 +199,6 @@ const NewOverView = () => {
          console.log("error is---->",e);
     }
     
-    // console.log("selected token address is---->",selectedTokenAddress)
-    // setSelectedToken({ name: tokenName, address: tokenAddress });
   };
 
   return (
@@ -239,7 +285,12 @@ const NewOverView = () => {
                         </div>
                       </div>
                       <div class="small_tabs row justify-content-center">
-                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/send')}>
+                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>{
+                          let data={
+                            address:selectedTokenAddress?selectedTokenAddress:"0Tx000",
+                            balance:balance
+                          }
+                          navigate('/send',{state:data})}}>
                           <div class="inner_tabs" >
                             <img
                               src={require("../assets/images/paper-plane.png")}
@@ -307,76 +358,27 @@ const NewOverView = () => {
                           role="tabpanel"
                           aria-labelledby="home-tab"
                         >
-                          <ul>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTCaaaaaaaaaaa</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                         <table className="add-token__screen">
+                      <thead>
+                        <tr>
+                          <th>Token Address</th>
+                          <th>Name</th>
+                          <th>Symbol</th>
+                          <th>Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {console.log("checkin for token map is----->", tokensBalance)}
+                        {tokensBalance.map(token => (
+                          <tr key={token.id}>
+                            <td>{token.token_address}</td>
+                            <td>{token.name}</td>
+                            <td>{token.symbol}</td>
+                            <td>{token.balance}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                         </div>
                         <div
                           class="tab-pane fade"
@@ -384,76 +386,29 @@ const NewOverView = () => {
                           role="tabpanel"
                           aria-labelledby="profile-tab"
                         >
-                          <ul>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="Balance-_row">
-                                <div class="__main_cnt row">
-                                  <div class="col-lg-6 col-md-6 col-sm-12 col-1st">
-                                    <img
-                                      src={require("../assets/images/coin.png")}
-                                    />
-                                    <h6>Bitcoin</h6>
-                                    <p>BTC</p>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-12 text-end">
-                                    <h6>$34,879</h6>
-                                    <p class="text-danger">+8%</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                         <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tx Hash</th>
+                                                            <th>Type</th>
+                                                            {/* <th>From</th>
+                                                            <th>To</th> */}
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {contractData.map(async(contract) => (
+                                                         
+                                                            <tr key={contract.txID}>
+                                                                <td>{contract.txID}</td>
+                                                                <td>{contract.type}</td>
+                                                                {/* <td>{contract.owner_address}</td>
+                                                                <td>{contract.to_address}</td> */}
+                                                                <td>{Number(contract.amount)/1000000}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
                         </div>
                       </div>
                     </div>
@@ -467,7 +422,7 @@ const NewOverView = () => {
                           <p>Overview</p>
                         </div>
                       </div>
-                      <div class="col-lg-3 col-md-3 col-3" style={{ cursor: "pointer" }} onClick={()=>navigate('/transfer')}>
+                      <div class="col-lg-3 col-md-3 col-3" style={{ cursor: "pointer" }} onClick={()=>navigate('/transfer',{state:selectedTokenAddress?selectedTokenAddress:""})}>
                         <div class="trans_tabs">
                           <img src={require("../assets/images/transfer.png")} />
                           <p>Transfer</p>
