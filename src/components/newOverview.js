@@ -32,11 +32,11 @@ const NewOverView = () => {
   let context = useContext(appContext);
   const [walletAddress, setWalletAddress] = useState("");
   const [privateKey, setPrivateKey] = useState("");
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState("0");
   const [tokens, setTokens] = useState([]);
   const [tokensBalance,setTokensBalance]=useState([]);
   const [address, setAddress] = useState("");
-  const [selectedTokenName, setSelectedTokenName] = useState("TRX");
+  const [selectedTokenName, setSelectedTokenName] = useState("");
   const [selectedTokenAddress,setSelectedTokenAddress]=useState("");
   const [contractData, setContractData] = useState([]);
 
@@ -53,7 +53,7 @@ const NewOverView = () => {
   };
 
   useEffect(() => {
-    getWalletDetails();
+    // getWalletDetails();
   }, [context.address]);
 
   let tronWeb2 = new TronWeb({
@@ -147,7 +147,7 @@ const NewOverView = () => {
     }
 
 
-    getWalletDetails();
+    // getWalletDetails();
     const options = { method: "GET", headers: { accept: "application/json" } };
 
     fetch(
@@ -201,6 +201,7 @@ const NewOverView = () => {
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
+    console.log("selected token name and address is---->",tokenName,tokenAddress);
 
     try{
       if(tokenAddress!=="0Tx000"){
@@ -308,12 +309,21 @@ const NewOverView = () => {
                       </div>
                       <div class="small_tabs row justify-content-center">
                         <div class="col-lg-3 col-md-3 col-3" onClick={()=>{
+                          console.log("selected token name and address is--->",selectedTokenName,selectedTokenAddress)
+                          if(selectedTokenName==undefined||selectedTokenName==""){
+                            alert("please select a token")
+                            return;
+                          }
                           let data={
                             address:selectedTokenAddress?selectedTokenAddress:"0Tx000",
                             balance:balance,
                             tokenName:selectedTokenName?selectedTokenName:"TRX"
                           }
-                          navigate('/send',{state:data})}}>
+                          navigate('/send',{state:data})
+
+                          }
+                          }
+                          >
                           <div class="inner_tabs" >
                             <img
                               src={require("../assets/images/paper-plane.png")}
