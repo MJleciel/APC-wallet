@@ -69,15 +69,38 @@ const NewOverView = () => {
       
         const tokens = response.data.data;
         const additionalToken = { 
-            id: tokens.length+1, 
+            id: tokens?.length+1, 
             name: 'TRX', 
             symbol: 'TRX', 
             decimals: '6', 
             token_address: '0Tx000', 
-            user_id: tokens[0].user_id, 
+            user_id: tokens[0]?.user_id, 
             created_on: new Date().toISOString() 
-          };
+          }
+          // { 
+          //   id: tokens?.length+2, 
+          //   name:'Aarohi Partner', 
+          //   symbol: 'APC', 
+          //   decimals: '6', 
+          //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
+          //   user_id: tokens[0]?.user_id, 
+          //   created_on: new Date().toISOString() 
+          // },
+        
         let tokensList=[...tokens,additionalToken]
+        
+        const additionalToken2 = { 
+            id: tokens?.length+2, 
+            name:'Aarohi Partner', 
+            symbol: 'APC', 
+            decimals: '6', 
+            token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
+            user_id: tokens[0]?.user_id, 
+            created_on: new Date().toISOString() 
+          }
+        
+        tokensList=[...tokens,additionalToken2,additionalToken]
+        console.log("token list is----->",tokensList)
         setTokens(tokensList)
        
         const balanceRequests = tokens.map(async(token) => {
@@ -144,16 +167,16 @@ const NewOverView = () => {
             const formattedData = contractTransactions.map(txn => {
                 const { txID, raw_data } = txn;
                 const contract = raw_data.contract[0];
-                console.log("contract parameter is------>>>",contract);
+                // console.log("contract parameter is------>>>",contract);
                 let type=contract?.type
-                if(type=="TriggerSmartContract"){
-                  return;
-                }
-                console.log("type is----->",type);
+                // if(type=="TriggerSmartContract"){
+                //   return;
+                // }
+                // console.log("type is----->",type);
                 
-                console.log("value is------->",contract?.parameter)
+                // console.log("value is------->",contract?.parameter)
                 const  amount  = contract?.parameter?.value?.amount;
-                console.log("value is------->",amount)
+                // console.log("value is------->",amount)
                 // const { owner_address, to_address, amount } = value;
                 return { txID, type, amount };
             });
@@ -197,6 +220,7 @@ const NewOverView = () => {
      
     }catch(e){
          console.log("error is---->",e);
+         setBalance(0)
     }
     
   };
@@ -239,11 +263,9 @@ const NewOverView = () => {
                               id="token-dropdown"
                               onChange={handleTokenSelect}
                             >
-                              {/* <option  value="">
-                                {selectedTokenName
-                                  ? selectedTokenName
-                                  : "Select A token"}
-                              </option> */}
+                              <option  value="">
+                              Select token
+                              </option>
                               {tokens.map((token) => (
                                 <option
                                   key={token.address}
@@ -288,7 +310,8 @@ const NewOverView = () => {
                         <div class="col-lg-3 col-md-3 col-3" onClick={()=>{
                           let data={
                             address:selectedTokenAddress?selectedTokenAddress:"0Tx000",
-                            balance:balance
+                            balance:balance,
+                            tokenName:selectedTokenName?selectedTokenName:"TRX"
                           }
                           navigate('/send',{state:data})}}>
                           <div class="inner_tabs" >
@@ -397,7 +420,7 @@ const NewOverView = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {contractData.map(async(contract) => (
+                                                        {contractData.map(contract => (
                                                          
                                                             <tr key={contract.txID}>
                                                                 <td>{contract.txID}</td>

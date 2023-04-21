@@ -68,7 +68,7 @@ const SendCoin = () => {
               <div className="BackBtn" onClick={() => navigate(-1)}>
                 <IoMdArrowRoundBack />
               </div>
-              <h2 class="page__title">Send</h2>
+              <h2 class="page__title">Send {loc.state.tokenName}</h2>
               <div class="send_form">
                 <form class="send_inner_form">
                   <div class="form_flex">
@@ -100,7 +100,7 @@ const SendCoin = () => {
                 type="submit"
                 onClick={handleSendTrxModal}
               >
-                Okay
+                Send {loc.state.tokenName}
               </button>
             </div>
           </div>
