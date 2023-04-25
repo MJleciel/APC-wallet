@@ -122,7 +122,7 @@ const NewOverView = () => {
         ...token,
         balance: balances[index],
       }));
-      console.log("updated tokens result is", tokensWithBalances);name
+      console.log("updated tokens result is", tokensWithBalances);
       setTokensBalance(tokensWithBalances);
 
     });
@@ -271,7 +271,7 @@ const NewOverView = () => {
                               {tokens.map((token) => (
                                 <option
                                   key={token.address}
-                                  value={`${token.name},${token.token_address}`}
+                                  value={`${token.symbol},${token.token_address}`}
                                 >
                                   {token.symbol}
                                 </option>
