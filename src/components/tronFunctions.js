@@ -19,26 +19,31 @@ export async function generateTronAccount(mnemonic = null) {
   if (!mnemonic) {
     mnemonic = bip39.generateMnemonic();
   }
-
+try{
+  const privateKey = await TronWeb.fromMnemonic(mnemonic);
+  let c=await TronWeb.fromMnemonic(mnemonic);
+  console.log("c isssssiiss------>",c);
+  console.log("private key is",privateKey);
+  let validprivatekey=isValidTronPrivateKey(privateKey.privateKey);
+  console.log("valid private kys is---->",validprivatekey);
+  
+  
+  
+    console.log("address is----->",privateKey.address);
+  
+    return {
+      mnemonic: mnemonic,
+      privateKey: validprivatekey,
+      address: privateKey.address
+    };
+}catch(e){
+  console.log("error is",e.Error)
+  alert(e)
+}
  
  
 
-const privateKey = await TronWeb.fromMnemonic(mnemonic);
-let c=await TronWeb.fromMnemonic(mnemonic);
-console.log("c isssssiiss------>",c);
-console.log("private key is",privateKey);
-let validprivatekey=isValidTronPrivateKey(privateKey.privateKey);
-console.log("valid private kys is---->",validprivatekey);
 
-
-
-  console.log("address is----->",privateKey.address);
-
-  return {
-    mnemonic: mnemonic,
-    privateKey: validprivatekey,
-    address: privateKey.address
-  };
 }
 
 // export async function decodeParams(types, output, ignoreMethodHash) {

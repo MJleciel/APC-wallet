@@ -131,7 +131,7 @@ const ConfirmRecovery = () => {
                                             </svg>
                                         </div>
                                         <div class="col-lg-9 col-md-9 col-9 text-lg-end text-md-end text-left">
-                                            <a href="#" class="btn btn-primary w-auto">Cancel</a>
+                                            <a href="/" class="btn btn-primary w-auto">Cancel</a>
                                             {/* <a href="#" class="btn btn-primary w-auto transparent_button">Skip</a> */}
                                             <a onClick={checkPhrase} class="btn btn-primary w-auto transparent_button mt-lg-0 mt-md-0 mt-1" >Confirm</a>
                                         </div>

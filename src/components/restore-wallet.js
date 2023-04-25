@@ -1,4 +1,49 @@
+import { useContext, useEffect, useState } from "react";
+
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  addToken,
+  createWallet,
+  getPrivateKey,
+  getTokens,
+  getWallet,
+} from "../services/services";
+import {
+  generateTronAccount,
+  getBalance,
+  sendTrx,
+  fetchTokenData,
+  // decodeParams
+} from "./tronFunctions";
+
 const RestoreWallet = () => {
+    const [seedPhrase,setSeedPhrase]=useState()
+    let navigate = useNavigate()
+
+    const restoreWallet=(seedPhrase)=>{
+        generateTronAccount(seedPhrase).then(res => {
+            console.log("result is--->",res)
+            navigate('/password',{state:res})
+            // setMemonic(res.mnemonic)
+      
+            // navigate('/cwallet',{state:res})
+            // createWallet({ "wallet_address": res.address, "key": res.privateKey, "id": localStorage.getItem('id') }).then(res => {
+            //     if (res.status === 200) {
+            //         console.log("success")
+            //         localStorage.setItem("account", res.address);
+                   
+            //         setShow(true)
+
+                    
+            //     }
+            // })
+        })
+    }
+    const handleSeedPhrase=async()=>{
+        
+        let res=await restoreWallet(seedPhrase);
+        console.log("result of restore waller ",res);
+    }
     return (
         <>
             <section class="klevar-extention text-white">
@@ -16,7 +61,10 @@ const RestoreWallet = () => {
                                 <div class="restre-inner-text">
                                     <h5>Recovery Phase</h5>
                                     <form>
-                                        <textarea class="form-control" id="textAreaExample1" rows="4"></textarea>
+                                        <textarea class="form-control" id="textAreaExample1" onChange={(e)=>{
+                                            console.log("value of input is",e.target.value)
+                                            setSeedPhrase(e.target.value);
+                                        }} rows="4"></textarea>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
                                                 <label class="form-check-label" for="flexCheckDefault">
@@ -28,7 +76,7 @@ const RestoreWallet = () => {
                                 <div class="restore-footer">
                                     <div class="restore-buttons">
                                         <img src={require("../assets/images/icon.png")}/>
-                                            <button class="btn-danger btn-1">ok</button>
+                                            <button class="btn-danger btn-1" onClick={handleSeedPhrase}>ok</button>
                                             <button class="btn-danger">Cancel</button>
                                     </div>
                                 </div>
