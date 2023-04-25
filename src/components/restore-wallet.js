@@ -40,7 +40,11 @@ const RestoreWallet = () => {
         })
     }
     const handleSeedPhrase=async()=>{
-        
+        console.log("seed phrase is----->",seedPhrase);
+        if(seedPhrase==""|| seedPhrase==undefined){
+            alert("Please Enter Mnemonic");
+            return;
+        }
         let res=await restoreWallet(seedPhrase);
         console.log("result of restore waller ",res);
     }
@@ -65,19 +69,21 @@ const RestoreWallet = () => {
                                             console.log("value of input is",e.target.value)
                                             setSeedPhrase(e.target.value);
                                         }} rows="4"></textarea>
-                                        <div class="form-check">
+                                        {/* <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     Advanced Settings
                                                 </label>
-                                        </div>
+                                        </div> */}
                                     </form>
                                 </div>
                                 <div class="restore-footer">
                                     <div class="restore-buttons">
                                         <img src={require("../assets/images/icon.png")}/>
                                             <button class="btn-danger btn-1" onClick={handleSeedPhrase}>ok</button>
-                                            <button class="btn-danger">Cancel</button>
+                                            <button class="btn-danger" onClick={()=>{
+                                                navigate("/")
+                                            }}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
