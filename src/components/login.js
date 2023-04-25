@@ -100,7 +100,7 @@ export const LoginPage = () => {
                 localStorage.setItem('key',res.data.data.private_key)
                 navigate('/overview')
             }
-        })
+        }).catch(err=>toast.error(err.response.data.message))
     }
 
     return (

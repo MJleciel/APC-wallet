@@ -17,9 +17,12 @@ import {
 } from "./tronFunctions";
 import appContext from "../context/globalContext";
 import { tronWeb } from "./tronFunctions";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const AddToken = () => {
   let context = useContext(appContext);
+  let navigate = useNavigate()
   const [walletAddress, setWalletAddress] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [balance, setBalance] = useState("");
@@ -105,7 +108,7 @@ const AddToken = () => {
           }
         })
         .catch((err) => {
-          Swal.fire("", err, "error");
+          Swal.fire("", err.response.data.message, "error");
         });
 
       // setIcon(icon);
@@ -121,13 +124,16 @@ const AddToken = () => {
 
   return (
     <>
-      <section class="klevar-extention text-white sidebar-width">
+      <section class="klevar-extention text-white sidebar-width add_token_screen">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8 col-md-8 col-sm-12">
               <div class="klevar-inner restore-connect add-token__screen">
                 <div class="top-wallet">
-                  <h1>&#60;</h1>
+                  {/* <h1>&#60;</h1> */}
+                  <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
+                    <IoMdArrowRoundBack />
+                  </div>
                   {/* <div class="all-assets">
                     <h4>All Assets</h4>
                     <h5>Custom Token</h5>

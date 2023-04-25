@@ -60,7 +60,7 @@ const RestoreWallet = () => {
                                     <i class="fas fa-times"></i>
                                 </div>
                                 <div class="required">
-                                    <p><img src={require("../assets/images/chain.png")}/>APC Wallet is requiring you to perform a secure action</p>
+                                    <p><img src={require("../assets/images/restore_ap.png")}/>APC Wallet is requiring you to perform a secure action</p>
                                 </div>
                                 <div class="restre-inner-text">
                                     <h5>Recovery Phase</h5>

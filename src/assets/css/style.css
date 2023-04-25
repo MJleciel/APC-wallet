@@ -1358,12 +1358,14 @@ form.multi-form {
   background: #595757;
   padding: 3px 20px 0px;
   border-bottom: 5px solid #f00;
+  text-align: left;
 }
 .required p {
   margin-bottom: 12px !important;
 }
 .restre-inner-text {
   padding: 32px 30px;
+  text-align: left;
 }
 .restre-inner-text .form-check {
   margin-top: 20px;
@@ -1382,6 +1384,7 @@ form.multi-form {
 .restore-buttons {
   padding: 10px 30px;
   border-top: 1px solid #9999;
+  text-align: left;
 }
 .restore-footer {
   border-top: 1px solid #9999;
@@ -1988,6 +1991,7 @@ button.add__token {
 }
 .add-token__screen {
   left: 50%;
+  width: 100%;
 }
 
 .add-token__screen .assests-menu h5 {
@@ -2222,6 +2226,10 @@ span.plus_icon svg {
   margin-bottom: 30px;
   padding: 0px 20px;
 }
+.btm_main .col {
+  padding-top: 20px;
+  background: #323232;
+}
 .inner_tabs img {
   width: 32px;
   margin-bottom: 15px;
@@ -2231,9 +2239,19 @@ span.plus_icon svg {
   margin-bottom: 15px;
 }
 .transations__tbs {
-  background: #585757;
-  padding-top: 10px;
+  background: #423f3f;
   display: flex;
+  border-top: 1px solid #787575;
+}
+.transations__tbs .col-lg-3 {
+  padding-top: 10px;
+  border-right: 1px solid #787878;
+}
+.transations__tbs .col-lg-3:hover{
+  background: #6d6d6d;
+}
+.transations__tbs .active-tab {
+  background: #6d6d6d;
 }
 .inner_main__content {
   padding: 20px;
@@ -2265,6 +2283,13 @@ ul#myTab {
 .small_tabs .col-lg-3.col-md-3.col-3 {
   width: 22%;
 }
+.mai___accc select#token-dropdown {
+  background: #000000;
+  color: #fff;
+  padding: 9px 10px;
+  border: 1px solid #999;
+  font-weight: 600;
+}
 @media (min-width:576px) and (max-width:699px){
   .main_account_apc {
     width: 80%;
@@ -2287,22 +2312,44 @@ ul#myTab {
   .small_tabs .col-lg-3.col-md-3.col-3 {
     width: 25% !important;
   }
+  .get_started .klevar-inner {
+    padding: 0px;
+    width: 70%;
+  }
+}
+
+
+@media (max-width:768px){
+  .get_started .klevar-inner {
+    padding: 0px;
+  }
+  .multi-connect {
+    width: 70% !important;
+  }
 }
 
 @media (max-width:576px){
   .main_account_apc {
-    margin: 20px 0px;
     padding: 10px 10px 0px 10px !important;
     width: 100%;
+    height: 100vh;
 }
 .small_tabs {
   padding: 0px 9px;
 }
 .over_view_tabsss {
   padding: 0px 3px;
+  padding-bottom: 20px !important;
 }
 .btm_main {
   z-index: 1111;
+}
+.btm_main  .col-3 {
+  flex: 0 0 auto;
+  width: 24%;
+}
+.mai___accc .inner_tabs {
+  padding: 8px;
 }
 .acc_icons i.fas.fa-plus {
   font-size: 20px;
@@ -2366,14 +2413,55 @@ ul#myTab {
   margin-right: calc(var(--bs-gutter-x) * -.5);
   margin-left: calc(var(--bs-gutter-x) * -.5);
 }
+.new-over_pp {
+    word-wrap: break-word;
+}
+.mai___accc .over_position p {
+  padding-right: 30px;
+}
+.klevar-inner {
+  border: 0px;
+  padding: 0px;
+}
+.welcome_note {
+  border: 0px;
+}
+.wallet_note{
+  border: 0px;
+}
+.create__wallet a.btn.btn-primary {
+  font-size: 12px;
+  padding: 0 17px;
+}
+.create__wallet .submit_sec .col-lg-3 {
+  margin-bottom: 0px !important;
+}
+.create__wallet.submit_sec.p-3{
+  border:0px !important;
+}
+.submit_sec.p-3 {
+  border-top: 0px solid #3f3939;
+}
+.create__wallet hr.m-0 {
+  display: none;
+}
+.main__acc_row{
+  display: block;
+}
+.mai___accc select#token-dropdown {
+  width: 100%;
+  margin-top: 20px;
+}
 }
 
 @media (min-width:100px) and (max-width:400px){
   .inner_main__content {
     padding: 20px 2px;
   }
-  .inner_tabs {
-    padding: 10px;
+  .create__wallet a.btn.btn-primary {
+    font-size: 12px;
+    padding: 0 17px;
+    margin-right: 10px;
   }
 }
 
@@ -2762,12 +2850,38 @@ form.send_inner_form label {
 }
 
 
+@media (max-width:1200px){
+  .main_account_apc {
+    width: 70%;
+  } 
+}
+
 @media (max-width:576px){
   .form_flex input {
     width: 100% !important;
   }
   .padding_send {
-    padding: 15px !important;
+    padding: 0px !important;
+  }
+  .transfer-page .page__content.page__content--with-header.page__content--with-bottom-nav {
+    border: 0px;
+    padding: 10px;
+  }
+  .main_account_apc {
+    width: 100%;
+  }
+  .main_account_apc{
+    border: 0px;
+  }
+  .send-page button.btn-danger {
+    width: 100%;
+  }
+  .send-page form.send_inner_form label {
+    color: #ffff;
+    width: 100%;
+    display: block;
+    text-align: left;
+    margin-bottom: 9px;
   }
 }
 
@@ -2908,8 +3022,9 @@ form.send_inner_form label {
   border: 0px !important;
   }
   .recieve_adress p {
-    font-size: 12px;
+    font-size: 10px;
     padding-right: 5px;
+    text-align: left;
   }
 }
 
@@ -2920,4 +3035,99 @@ form.send_inner_form label {
   left: 5px;
   font-size: 32px;
   cursor: pointer;
+}
+.add-token__screen .form-outline input {
+  padding: 8px 47px;
+  background: #6e6c6c;
+  margin-top: 25px;
+}
+.add-token__screen .assests-menu {
+  text-align: left;
+}
+.add_token_screen {
+  overflow-x: hidden;
+}
+.add-token__screen {
+  left: 50%;
+  width: 100%;
+  overflow: scroll;
+}
+.active-tab {
+  background: #6d6d6d;
+}
+
+.Portfolio_page .main__acc_row img {
+  width: 24px;
+  float: right;
+  margin-left: 40px;
+}
+.portfolio_eye i.far.fa-eye {
+  font-size: 20px;
+}
+.portfolio_eye h3 {
+  font-weight: 600;
+}
+.balance_portfolio h3 {
+  font-size: 42px;
+}
+.portfolio_eye p {
+  color: #dd1010;
+}
+.row.portfolio_row .col__end i {
+  font-size: 11px;
+  background: #fff;
+  color: #000;
+  padding: 4px 4px;
+  border-radius: 3px;
+}
+.portfolio_row h5.first {
+  color: #a04c4c;
+  text-align: left;
+  padding-left: 30px;
+}
+.row.portfolio_row.align-items-center {
+  padding: 14px 0px;
+}
+.tabs_All a.card-coin {
+  width: 100%;
+}
+.over_view_tabsss .nav-tabs .nav-link {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.tabs_all .card-coin {
+  width:100%;
+  position: relative;
+}
+.tabs_all .card-coin__logo img {
+  display: block;
+  width: 50px;
+  position: unset;
+}
+.tabs_all a:hover{
+  color:red;
+}
+.over_view_tabsss a:hover{
+  color:red;
+}
+.react_plus svg {
+  font-size: 30px;
+}
+.portfolio_eye {
+  text-align: left;
+}
+.portfolio_row .col__end svg {
+  margin-right: 6px;
+}
+.card-coin__price.text-center span {
+  text-align: center !important;
+}
+.card-coins_porfolio {
+  display: flex;
+  justify-content: space-between;
+}
+
+.one {
+  padding-left: 80px;
 }

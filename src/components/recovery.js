@@ -23,12 +23,17 @@ const ConfirmRecovery = () => {
 
     const insertInList = (event, item) => {
         if (confirmPhrase.length != mnemonic.length) {
+            let item_index=shuffledMnemnoics.indexOf(item)
+            shuffledMnemnoics.splice(item_index,1)
             var temp = [...confirmPhrase]
             temp.push(item)
             setConfirmPhrase(temp)
         }
     }
-    const removeFromList = (event, index) => {
+    const removeFromList = (event,item, index) => {
+        var shuffleTemp=[...shuffledMnemnoics]
+        shuffleTemp.push(item)
+        setShuffledMnemonics(shuffleTemp)
         var temp = [...confirmPhrase]
         temp.splice(index, 1)
         setConfirmPhrase(temp)
@@ -84,7 +89,7 @@ const ConfirmRecovery = () => {
                                     <ul class="recovery-text">
                                         {confirmPhrase && confirmPhrase.map((item, index) =>
                                             <li>
-                                                <p class="m-0">{item}<ImCancelCircle onClick={(e) => removeFromList(e, index)} /></p>
+                                                <p class="m-0">{item}<ImCancelCircle onClick={(e) => removeFromList(e,item, index)} /></p>
                                             </li>
                                         )}
 

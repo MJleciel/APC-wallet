@@ -27,6 +27,7 @@ import appContext from "../context/globalContext";
 import { tronWeb } from "./tronFunctions";
 import TronWeb from "tronweb";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const NewOverView = () => {
   let context = useContext(appContext);
@@ -34,10 +35,10 @@ const NewOverView = () => {
   const [privateKey, setPrivateKey] = useState("");
   const [balance, setBalance] = useState("0");
   const [tokens, setTokens] = useState([]);
-  const [tokensBalance,setTokensBalance]=useState([]);
+  const [tokensBalance, setTokensBalance] = useState([]);
   const [address, setAddress] = useState("");
   const [selectedTokenName, setSelectedTokenName] = useState("");
-  const [selectedTokenAddress,setSelectedTokenAddress]=useState("");
+  const [selectedTokenAddress, setSelectedTokenAddress] = useState("");
   const [contractData, setContractData] = useState([]);
 
   let navigate = useNavigate();
@@ -63,69 +64,69 @@ const NewOverView = () => {
     privateKey: context.key,
   });
 
-  const fetchTokens=()=>{
-    getTokens(context.id).then(async(response)=>{
-       
-      
-        const token = response.data.data;
-        const additionalToken = { 
-            id: token?.length+1, 
-            name: 'TRX', 
-            symbol: 'TRX', 
-            decimals: '6', 
-            token_address: '0Tx000', 
-            user_id: token[0]?.user_id, 
-            created_on: new Date().toISOString() 
-          }
-          // { 
-          //   id: tokens?.length+2, 
-          //   name:'Aarohi Partner', 
-          //   symbol: 'APC', 
-          //   decimals: '6', 
-          //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
-          //   user_id: tokens[0]?.user_id, 
-          //   created_on: new Date().toISOString() 
-          // },
-        
-        let tokensList=[...token,additionalToken]
-        
-        const additionalToken2 = { 
-            id: token?.length+2, 
-            name:'Aarohi Partner', 
-            symbol: 'APC', 
-            decimals: '6', 
-            token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
-            user_id: token[0]?.user_id, 
-            created_on: new Date().toISOString() 
-          }
-        
-        tokensList=[...token,additionalToken2,additionalToken]
-        console.log("token list is----->",tokensList)
-        setTokens(tokensList)
-       
-        const balanceRequests = tokensList.map(async(token) => {
-          console.log("in tokenlist map ---->",token);
-          const contract =  await tronWeb2.contract().at(token.token_address);
-          
-          let balance =  await contract.balanceOf(context.address).call();
+  const fetchTokens = () => {
+    getTokens(context.id).then(async (response) => {
 
-         
-          let res = balance.toString();
-          console.log("balance of set tokens is----->",res);
-          res = parseFloat(res);
-          return res / 1000000;
-        });
-        const balances =  await Promise.all(balanceRequests);
-    
-        const tokensWithBalances = tokens.map((token, index) => ({
-          ...token,
-          balance: balances[index],
-        }));
-        console.log("updated tokens result is", tokensWithBalances);
-        setTokensBalance(tokensWithBalances);
-    
+
+      const tokens = response.data.data;
+      const additionalToken = {
+        id: tokens?.length + 1,
+        name: 'TRX',
+        symbol: 'TRX',
+        decimals: '6',
+        token_address: '0Tx000',
+        user_id: tokens[0]?.user_id,
+        created_on: new Date().toISOString()
+      }
+      // { 
+      //   id: tokens?.length+2, 
+      //   name:'Aarohi Partner', 
+      //   symbol: 'APC', 
+      //   decimals: '6', 
+      //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
+      //   user_id: tokens[0]?.user_id, 
+      //   created_on: new Date().toISOString() 
+      // },
+
+      let tokensList = [...tokens, additionalToken]
+
+      const additionalToken2 = {
+        id: tokens?.length + 2,
+        name: 'Aarohi Partner',
+        symbol: 'APC',
+        decimals: '6',
+        token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
+        user_id: tokens[0]?.user_id,
+        created_on: new Date().toISOString()
+      }
+
+      tokensList = [...tokens, additionalToken2, additionalToken]
+      console.log("token list is----->", tokensList)
+      setTokens(tokensList)
+
+      const balanceRequests = tokens.map(async (token) => {
+
+        const contract = await tronWeb2.contract().at(token.token_address);
+
+        let balance = await contract.balanceOf(context.address).call();
+
+
+        let res = balance.toString();
+        console.log("balance of set tokens is----->", res);
+        res = parseFloat(res);
+        return res / 1000000;
+      });
+      const balances = await Promise.all(balanceRequests);
+
+      const tokensWithBalances = tokens.map((token, index) => ({
+        ...token,
+        balance: balances[index],
+      }));
+      console.log("updated tokens result is", tokensWithBalances);
+      setTokensBalance(tokensWithBalances);
+
     });
-   
+
   }
 
   useEffect(() => {
@@ -135,14 +136,14 @@ const NewOverView = () => {
 
 
   useEffect(() => {
-        
+
     const getWalletDetails = async () => {
 
 
-        let bal = await getBalance(context.address);
-        console.log("balance is---->", bal);
+      let bal = await getBalance(context.address);
+      console.log("balance is---->", bal);
 
-        setBalance(bal);
+      setBalance(bal);
 
     }
 
@@ -151,79 +152,79 @@ const NewOverView = () => {
     const options = { method: "GET", headers: { accept: "application/json" } };
 
     fetch(
-        `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
-        options
+      `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
+      options
     )
-        .then((response) => response.json())
-        .then((response) => {
-            // console.log("transaction histroy is", response)
-            const transactions = response.data;
-            console.log("transaction data is--->", transactions);
-            const contractTransactions = transactions.filter(txn => {
-                const { raw_data } = txn;
-                return raw_data.contract && raw_data.contract.length > 0;
-            });
-            // console.log("contract transaction is--->", contractTransactions);
-            const formattedData = contractTransactions.map(txn => {
-                const { txID, raw_data } = txn;
-                const contract = raw_data.contract[0];
-                // console.log("contract parameter is------>>>",contract);
-                let type=contract?.type
-                // if(type=="TriggerSmartContract"){
-                //   return;
-                // }
-                // console.log("type is----->",type);
-                
-                // console.log("value is------->",contract?.parameter)
-                const  amount  = contract?.parameter?.value?.amount;
-                // console.log("value is------->",amount)
-                // const { owner_address, to_address, amount } = value;
-                return { txID, type, amount };
-            });
-            // console.log("formatedd data is--->", formattedData);
+      .then((response) => response.json())
+      .then((response) => {
+        // console.log("transaction histroy is", response)
+        const transactions = response.data;
+        console.log("transaction data is--->", transactions);
+        const contractTransactions = transactions.filter(txn => {
+          const { raw_data } = txn;
+          return raw_data.contract && raw_data.contract.length > 0;
+        });
+        // console.log("contract transaction is--->", contractTransactions);
+        const formattedData = contractTransactions.map(txn => {
+          const { txID, raw_data } = txn;
+          const contract = raw_data.contract[0];
+          // console.log("contract parameter is------>>>",contract);
+          let type = contract?.type
+          // if(type=="TriggerSmartContract"){
+          //   return;
+          // }
+          // console.log("type is----->",type);
 
-            setContractData(formattedData);
-        })
-        .catch((err) => console.error(err));
-}, [context.address]);
+          // console.log("value is------->",contract?.parameter)
+          const amount = contract?.parameter?.value?.amount;
+          // console.log("value is------->",amount)
+          // const { owner_address, to_address, amount } = value;
+          return { txID, type, amount };
+        });
+        // console.log("formatedd data is--->", formattedData);
+
+        setContractData(formattedData);
+      })
+      .catch((err) => console.error(err));
+  }, [context.address]);
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
 
-  const handleTokenSelect = async(event) => {
-    
+  const handleTokenSelect = async (event) => {
+
     const tokenValue = event.target.value;
-  
+
     const [tokenName, tokenAddress] = tokenValue.split(',');
-   
-  
+
+
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
-    console.log("selected token name and address is---->",tokenName,tokenAddress);
+    console.log("selected token name and address is---->", tokenName, tokenAddress);
 
-    try{
-      if(tokenAddress!=="0Tx000"){
-        const contract =  await tronWeb2.contract().at(tokenAddress);
-          
-        let balance =  await contract.balanceOf(context.address).call();
-  
+    try {
+      if (tokenAddress !== "0Tx000") {
+        const contract = await tronWeb2.contract().at(tokenAddress);
+
+        let balance = await contract.balanceOf(context.address).call();
+
         let res = balance.toString();
-          res = parseFloat(res);
-          
+        res = parseFloat(res);
+
         setBalance(res / 1000000);
-      }else{
+      } else {
         let bal = await getBalance(context.address);
-       
+
         setBalance(bal);
       }
-     
-    }catch(e){
-         console.log("error is---->",e);
-         setBalance(0)
+
+    } catch (e) {
+      console.log("error is---->", e);
+      setBalance(0)
     }
-    
+
   };
 
   return (
@@ -264,8 +265,8 @@ const NewOverView = () => {
                               id="token-dropdown"
                               onChange={handleTokenSelect}
                             >
-                              <option  value="">
-                              Select token
+                              <option value="">
+                                Select token
                               </option>
                               {tokens.map((token) => (
                                 <option
@@ -307,23 +308,23 @@ const NewOverView = () => {
                           <p>0.00</p>
                         </div>
                       </div>
-                      <div class="small_tabs row justify-content-center">
-                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>{
-                          console.log("selected token name and address is--->",selectedTokenName,selectedTokenAddress)
-                          if(selectedTokenName==undefined||selectedTokenName==""){
-                            alert("please select a token")
+                      <div class="small_tabs row ">
+                        <div class="col-lg-3 col-md-3 col-3" onClick={() => {
+                          console.log("selected token name and address is--->", selectedTokenName, selectedTokenAddress)
+                          if (selectedTokenName == undefined || selectedTokenName == "") {
+                            toast.info("please select a token")
                             return;
                           }
-                          let data={
-                            address:selectedTokenAddress?selectedTokenAddress:"0Tx000",
-                            balance:balance,
-                            tokenName:selectedTokenName?selectedTokenName:"TRX"
+                          let data = {
+                            address: selectedTokenAddress ? selectedTokenAddress : "0Tx000",
+                            balance: balance,
+                            tokenName: selectedTokenName ? selectedTokenName : "TRX"
                           }
-                          navigate('/send',{state:data})
+                          navigate('/send', { state: data })
 
-                          }
-                          }
-                          >
+                        }
+                        }
+                        >
                           <div class="inner_tabs" >
                             <img
                               src={require("../assets/images/paper-plane.png")}
@@ -331,7 +332,7 @@ const NewOverView = () => {
                             <p>Send</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3" onClick={()=>navigate('/recieve')}>
+                        <div class="col-lg-3 col-md-3 col-3" onClick={() => navigate('/recieve')}>
                           <div class="inner_tabs">
                             <img
                               src={require("../assets/images/recieve.png")}
@@ -339,13 +340,13 @@ const NewOverView = () => {
                             <p>Recieve</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3">
+                        <div class="col-lg-3 col-md-3 col-3 d-none">
                           <div class="inner_tabs">
                             <img src={require("../assets/images/charge.png")} />
                             <p>Transfer</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3">
+                        <div class="col-lg-3 col-md-3 col-3 d-none">
                           <div class="inner_tabs">
                             <img src={require("../assets/images/scan.png")} />
                             <p>Scan</p>
@@ -353,7 +354,7 @@ const NewOverView = () => {
                         </div>
                       </div>
                     </div>
-                    <div class="over_view_tabsss">
+                    <div class="over_view_tabsss tabs_all">
                       <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                           <button
@@ -366,7 +367,7 @@ const NewOverView = () => {
                             aria-controls="home"
                             aria-selected="true"
                           >
-                            Balance
+                            Tokens
                           </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -385,63 +386,43 @@ const NewOverView = () => {
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
-                        <div
-                          class="tab-pane fade show active"
-                          id="home"
-                          role="tabpanel"
-                          aria-labelledby="home-tab"
-                        >
-                         <table className="add-token__screen">
-                      <thead>
-                        <tr>
-                          <th>Token Address</th>
-                          <th>Name</th>
-                          <th>Symbol</th>
-                          <th>Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {console.log("checkin for token map is----->", tokensBalance)}
-                        {tokensBalance.map(token => (
-                          <tr key={token.id}>
-                            <td>{token.token_address}</td>
-                            <td>{token.name}</td>
-                            <td>{token.symbol}</td>
-                            <td>{token.balance}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
+                        <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
+                        <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
                         </div>
                         <div
                           class="tab-pane fade"
                           id="profile"
                           role="tabpanel"
-                          aria-labelledby="profile-tab"
-                        >
-                         <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Tx Hash</th>
-                                                            <th>Type</th>
-                                                            {/* <th>From</th>
-                                                            <th>To</th> */}
-                                                            <th>Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {contractData.map(contract => (
-                                                         
-                                                            <tr key={contract.txID}>
-                                                                <td>{contract.txID}</td>
-                                                                <td>{contract.type}</td>
-                                                                {/* <td>{contract.owner_address}</td>
-                                                                <td>{contract.to_address}</td> */}
-                                                                <td>{Number(contract.amount)/1000000}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
+                          aria-labelledby="profile-tab">
+                            <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
+                        <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
+                        <a class="card-coin" href="details.html">
+                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
+                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
+                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
+					              </a>
                         </div>
                       </div>
                     </div>
@@ -449,20 +430,39 @@ const NewOverView = () => {
 
                   <div class="btm_main">
                     <div class="transations__tbs">
-                      <div class="col-lg-3 col-md-3 col-3">
+                      <div class="col" onClick={()=>navigate('/portfolio')}>
+                        <div class="trans_tabs">
+                          <img src={require("../assets/images/portfolio.png")} />
+                          <p>Portfolio</p>
+                        </div>
+                      </div>
+                      <div class="col" style={{ cursor: "pointer" }} onClick={() => {
+                        if (selectedTokenName == undefined || selectedTokenName == "") {
+                          toast.info("please select a token")
+                          return;
+                        }
+                        let data = {
+                          address: selectedTokenAddress ? selectedTokenAddress : "0Tx000",
+                          balance: balance,
+                          tokenName: selectedTokenName ? selectedTokenName : "TRX"
+                        }
+                        navigate('/send', { state: data })
+                      }
+                      }>
+
+                        <div class="trans_tabs">
+                          <img src={require("../assets/images/transfer.png")} />
+                          <p>Transfer</p>
+                        </div>
+                      </div> 
+                      <div class="col  active-tab">
                         <div class="trans_tabs">
                           <img src={require("../assets/images/overview.png")} />
                           <p>Overview</p>
                         </div>
                       </div>
-                      <div class="col-lg-3 col-md-3 col-3" style={{ cursor: "pointer" }} onClick={()=>navigate('/transfer',{state:selectedTokenAddress?selectedTokenAddress:""})}>
-                        <div class="trans_tabs">
-                          <img src={require("../assets/images/transfer.png")} />
-                          <p>Transfer</p>
-                        </div>
-                      </div>
                       <div
-                        class="col-lg-3 col-md-3 col-3"
+                        class="col"
                         style={{ cursor: "pointer" }}
                         onClick={() => navigate("/add-token")}
                       >
@@ -472,7 +472,7 @@ const NewOverView = () => {
                         </div>
                       </div>
                       <div
-                        class="col-lg-3 col-md-3 col-3"
+                        class="col"
                         style={{ cursor: "pointer" }}
                         onClick={logout}
                       >
