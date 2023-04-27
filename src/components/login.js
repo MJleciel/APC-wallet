@@ -109,7 +109,7 @@ export const LoginPage = () => {
                 <div class="container">
                     <div class="row justify-content-center text-center">
                         <div class="col-lg-8 col-md-8 col-sm-12">
-                            <div class="klevar-inner multi-connect">
+                            <div class="klevar-inner multi-connect login_page">
                                 <div class="logo-klevar"><img src={require("../assets/images/apc-logo.png")} /></div>
                                 <p class="connects"> Stay Multi-Connected Wherever you go</p>
                                 <form class="multi-form" onSubmit={handleSubmit(onSubmit)}>

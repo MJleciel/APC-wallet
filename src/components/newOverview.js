@@ -227,9 +227,14 @@ const NewOverView = () => {
 
   };
 
+  const copyAddress = () => {
+    let txt = document.getElementById('usdt-address').innerHTML
+    navigator.clipboard.writeText(txt)
+}
+
   return (
     <>
-      <section class="mai___accc">
+      <section class="mai___accc new_over">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8 col-md-8 col-sm-12">
@@ -249,7 +254,7 @@ const NewOverView = () => {
                         </div>
                       </div>
                       <div class="bg_light_new">
-                        <div class="main__acc_row">
+                        <div class="main__acc_row row_flex_portfolio">
                           <div class="icon_mains">
                             <img
                               src={require("../assets/images/aarohi-coin.png")}
@@ -282,9 +287,9 @@ const NewOverView = () => {
                         <div class="Main_inner">
                           <div class="new-over_pp">
                             <h3>{selectedTokenName} - Main Account</h3>
-                            <div class="over_position">
-                              <p>{context.address}</p>
-                              <AiOutlineCopy />
+                            <div class="over_position" >
+                              <p id="usdt-address">{context.address}</p>
+                              <AiOutlineCopy onClick={copyAddress} />
                             </div>
                           </div>
                           <div class="">
@@ -308,8 +313,8 @@ const NewOverView = () => {
                           <p>0.00</p>
                         </div>
                       </div>
-                      <div class="small_tabs row ">
-                        <div class="col-lg-3 col-md-3 col-3" onClick={() => {
+                      <div class="small_tabs row">
+                        <div class="col-lg-3 col-md-3 col-6" onClick={() => {
                           console.log("selected token name and address is--->", selectedTokenName, selectedTokenAddress)
                           if (selectedTokenName == undefined || selectedTokenName == "") {
                             toast.info("please select a token")
@@ -332,7 +337,7 @@ const NewOverView = () => {
                             <p>Send</p>
                           </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-3" onClick={() => navigate('/recieve')}>
+                        <div class="col-lg-3 col-md-3 col-6" onClick={() => navigate('/recieve')}>
                           <div class="inner_tabs">
                             <img
                               src={require("../assets/images/recieve.png")}
@@ -353,8 +358,7 @@ const NewOverView = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="over_view_tabsss tabs_all">
+                      <div class="over_view_tabsss tabs_All">
                       <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                           <button
@@ -386,57 +390,86 @@ const NewOverView = () => {
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
-                        <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
-                        <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
+                        <div
+                          class="tab-pane fade show active"
+                          id="home"
+                          role="tabpanel"
+                          aria-labelledby="home-tab"
+                        >
+                          {/* <table className="add-token__screen">
+                            <thead>
+                              <tr>
+                                <th>Token Address</th>
+                                <th>Name</th>
+                                <th>Symbol</th>
+                                <th>Balance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {console.log("checkin for token map is----->", tokensBalance)}
+                              {tokensBalance.map(token => (
+                                <tr key={token.id}>
+                                  <td>{token.token_address}</td>
+                                  <td>{token.name}</td>
+                                  <td>{token.symbol}</td>
+                                  <td>{token.balance}</td>
+                                </tr>
+                              
+                              ))}
+                            </tbody>
+                          </table> */}
+                          {tokensBalance.map(token => (
+                            <div class="card-coin">
+                              <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                              <div class="card-coin__price text-center"><strong>{token.tpken_address}</strong></div>
+                              <div class="card-coin__price"><strong>${token.balance}</strong></div>
+                            </div>))}
                         </div>
                         <div
                           class="tab-pane fade"
                           id="profile"
                           role="tabpanel"
-                          aria-labelledby="profile-tab">
-                            <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
-                        <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
-                        <a class="card-coin" href="details.html">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                          <div class="card-coin__chart"><canvas class="chartup" width="50" height="30"></canvas></div>
-                          <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-					              </a>
+                          aria-labelledby="profile-tab"
+                        >
+                          <table class="overview__table">
+                            <thead>
+                              <tr>
+                                <th>Tx Hash</th>
+                                <th>Type</th>
+                                {/* <th>From</th>
+                                                            <th>To</th> */}
+                                <th>Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {contractData.map(contract => (
+
+                                <tr key={contract.txID}>
+                                  <td>{contract.txID}</td>
+                                  <td>{contract.type}</td>
+                                  {/* <td>{contract.owner_address}</td>
+                                                                <td>{contract.to_address}</td> */}
+                                  <td>{Number(contract.amount) / 1000000}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
+                    </div>
+                    
                   </div>
 
                   <div class="btm_main">
                     <div class="transations__tbs">
-                      <div class="col" onClick={()=>navigate('/portfolio')}>
+                      <div class={window.location.pathname == '/portfolio' ? "col active-tab" : "col"} onClick={() => navigate('/portfolio')}>
                         <div class="trans_tabs">
                           <img src={require("../assets/images/portfolio.png")} />
                           <p>Portfolio</p>
                         </div>
                       </div>
-                      <div class="col" style={{ cursor: "pointer" }} onClick={() => {
+                      {/* <div class="col" style={{ cursor: "pointer" }} onClick={() => {
                         if (selectedTokenName == undefined || selectedTokenName == "") {
                           toast.info("please select a token")
                           return;
@@ -454,15 +487,15 @@ const NewOverView = () => {
                           <img src={require("../assets/images/transfer.png")} />
                           <p>Transfer</p>
                         </div>
-                      </div> 
-                      <div class="col  active-tab">
+                      </div> */}
+                      <div className={window.location.pathname == '/' ? "col active-tab" : "col"} onClick={() => navigate("/")}>
                         <div class="trans_tabs">
                           <img src={require("../assets/images/overview.png")} />
                           <p>Overview</p>
                         </div>
                       </div>
                       <div
-                        class="col"
+                        class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
                         style={{ cursor: "pointer" }}
                         onClick={() => navigate("/add-token")}
                       >
@@ -489,6 +522,8 @@ const NewOverView = () => {
           </div>
         </div>
       </section>
+
+
     </>
   );
 };

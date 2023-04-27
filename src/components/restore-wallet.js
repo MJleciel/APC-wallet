@@ -50,7 +50,7 @@ const RestoreWallet = () => {
     }
     return (
         <>
-            <section class="klevar-extention text-white">
+            <section class="klevar-extention text-white restore__wall_et">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-md-8 col-sm-12">
