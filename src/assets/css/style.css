@@ -3226,7 +3226,7 @@ table.add-token__screen tr td:nth-child(1) {
 }
 .over_position p{
   overflow: scroll;
-  max-width: 240px;
+  /* max-width: 240px; */
   text-overflow: ellipsis;
   white-space: nowrap;
 }

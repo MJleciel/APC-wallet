@@ -68,14 +68,14 @@ const NewOverView = () => {
     getTokens(context.id).then(async (response) => {
 
 
-      const tokens = response.data.data;
+      const token = response.data.data;
       const additionalToken = {
-        id: tokens?.length + 1,
+        id: token?.length + 1,
         name: 'TRX',
         symbol: 'TRX',
         decimals: '6',
         token_address: '0Tx000',
-        user_id: tokens[0]?.user_id,
+        user_id: token[0]?.user_id,
         created_on: new Date().toISOString()
       }
       // { 
@@ -88,41 +88,53 @@ const NewOverView = () => {
       //   created_on: new Date().toISOString() 
       // },
 
-      let tokensList = [...tokens, additionalToken]
+      let tokensList = [...token, additionalToken]
 
       const additionalToken2 = {
-        id: tokens?.length + 2,
+        id: token?.length + 2,
         name: 'Aarohi Partner',
         symbol: 'APC',
         decimals: '6',
         token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
-        user_id: tokens[0]?.user_id,
+        user_id: token[0]?.user_id,
         created_on: new Date().toISOString()
       }
 
-      tokensList = [...tokens, additionalToken2, additionalToken]
+      tokensList = [...token, additionalToken2, additionalToken]
       console.log("token list is----->", tokensList)
       setTokens(tokensList)
 
-      const balanceRequests = tokens.map(async (token) => {
+      const balanceRequests = tokensList.map(async (token) => {
+        try{
+          if(token.token_address==="0Tx000"){
+            let bal = await getBalance(context.address);
+            return bal.toString();
+          }else{
+            console.log("contract address is----->",token.token_address)
+            const contract = await tronWeb2.contract().at(token.token_address);
+  
+            let balance = await contract.balanceOf(context.address).call();
+    
+    
+            let res = balance.toString();
+            console.log("balance of set tokens is----->", res);
+            res = parseFloat(res);
+            return res / 1000000;
+          }
+        }catch(e){
+          console.log("error is---->",e);
+        }
+        
 
-        const contract = await tronWeb2.contract().at(token.token_address);
-
-        let balance = await contract.balanceOf(context.address).call();
-
-
-        let res = balance.toString();
-        console.log("balance of set tokens is----->", res);
-        res = parseFloat(res);
-        return res / 1000000;
+        
       });
       const balances = await Promise.all(balanceRequests);
 
-      const tokensWithBalances = tokens.map((token, index) => ({
+      const tokensWithBalances = tokensList.map((token, index) => ({
         ...token,
         balance: balances[index],
       }));
-      console.log("updated tokens result is", tokensWithBalances);
+      console.log("updated tokens result is--->", tokensWithBalances);
       setTokensBalance(tokensWithBalances);
 
     });
@@ -288,7 +300,7 @@ const NewOverView = () => {
                           <div class="new-over_pp">
                             <h3>{selectedTokenName} - Main Account</h3>
                             <div class="over_position" >
-                              <p id="usdt-address">{context.address}</p>
+                              <p id="usdt-address">{context.address.substring(0, 5)} ... {context.address.substring(context.address.length - 5)}</p>
                               <AiOutlineCopy onClick={copyAddress} />
                             </div>
                           </div>
@@ -421,8 +433,8 @@ const NewOverView = () => {
                           {tokensBalance.map(token => (
                             <div class="card-coin">
                               <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
-                              <div class="card-coin__price text-center"><strong>{token.tpken_address}</strong></div>
-                              <div class="card-coin__price"><strong>${token.balance}</strong></div>
+                              <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
+                              <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
                             </div>))}
                         </div>
                         <div
