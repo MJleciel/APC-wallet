@@ -156,8 +156,8 @@ const AddToken = () => {
                 </div>
                 <div class="assests-menu">
                   <div>
-                    <h5>Assest</h5>
-                    <h5>Collectibles</h5>
+                    <h5>Assest Collectibles</h5>
+                    <h5></h5>
                   </div>
                   <form>
                     <div class="form-check">

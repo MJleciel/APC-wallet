@@ -100,7 +100,7 @@ const ConfirmRecovery = () => {
                                     <div class="row">
                                         <div
                                             class="col-lg-12 col-md-12 col-sm-12 mb-lg-0 mb-md-0 mb-4 text-lg-end text-md-end text-left">
-                                            <a onClick={() => setConfirmPhrase([])} class="btn btn-primary w-auto transparent_button">Remove</a>
+                                            <a onClick={() => setConfirmPhrase([])} class="btn btn-primary w-auto">Remove</a>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@ const ConfirmRecovery = () => {
                                 </div>
                                 <hr class="m-0" />
                                 <div class="submit_sec p-3">
-                                    <div class="row">
+                                    <div class="row align-items-center">
                                         <div class="col-lg-3 col-md-3 col-3 d-flex align-items-center mb-lg-0 mb-md-0 mb-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#ff0000"
                                                 class="bi bi-file-earmark-lock-fill" viewBox="0 0 16 16">
@@ -136,9 +136,9 @@ const ConfirmRecovery = () => {
                                             </svg>
                                         </div>
                                         <div class="col-lg-9 col-md-9 col-9 text-lg-end text-md-end text-left">
-                                            <a href="/" class="btn btn-primary w-auto">Cancel</a>
+                                            <a onClick={()=>navigate(-1)} class="btn btn-primary w-auto">Cancel</a>
                                             {/* <a href="#" class="btn btn-primary w-auto transparent_button">Skip</a> */}
-                                            <a onClick={checkPhrase} class="btn btn-primary w-auto transparent_button mt-lg-0 mt-md-0 mt-1" >Confirm</a>
+                                            <a onClick={checkPhrase} class="btn btn-primary w-auto  mt-lg-0 mt-md-0 mt-1" >Confirm</a>
                                         </div>
                                     </div>
                                 </div>

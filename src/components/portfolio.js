@@ -25,15 +25,15 @@ const Portfolio = () => {
                                             <h5>Portfolio</h5>
                                         </div>
                                     </div>
-                                    <div class="acc_icons react_plus">
+                                    {/* <div class="acc_icons react_plus">
                                         <AiOutlinePlus />
                                         <img src={require('../assets/images/overview.png')} />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div class="Main_inner">
                                     <div class="portfolio_eye">
                                         <h3>Total Balance <BsFillEyeSlashFill /></h3>
-                                        <p>17 accounts / 23 assests</p>
+                                        <p>23 assests</p>
                                     </div>
                                     <div class="">
 
@@ -44,7 +44,7 @@ const Portfolio = () => {
                                         <h3>$ 0.00</h3>
                                     </div>
                                 </div>
-                                <div class="row portfolio_row align-items-center">
+                                {/* <div class="row portfolio_row align-items-center">
                                     <div class="col-lg-6 col-md-6 col-6">
                                         <h5 class="first">Search Tokens</h5>
 
@@ -52,7 +52,7 @@ const Portfolio = () => {
                                     <div class="col-lg-6 col-md-6 col-6 col__end">
                                         <h5><BsFilePlusFill />Tokens</h5>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div class="over_view_tabsss tabs_All">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation">
@@ -69,7 +69,7 @@ const Portfolio = () => {
                                                 Tokens
                                             </button>
                                         </li>
-                                        <li class="nav-item" role="presentation">
+                                        {/* <li class="nav-item" role="presentation">
                                             <button
                                                 class="nav-link"
                                                 id="profile-tab"
@@ -82,26 +82,16 @@ const Portfolio = () => {
                                             >
                                                 NFTs
                                             </button>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
                                             <div class="card-coins_porfolio">
-                                                <div class="one"><h6>A/z :</h6></div>
+                                                <div class="one one_tb"><h6> <img src={require("../assets/images/bitcoin.png")} /> A/z :</h6></div>
+                                                <div class="one"><h6> Address:</h6></div>
                                                 <div class="one"><h6>Price :</h6></div>
-                                                <div class="one"><h6>Flat Value :</h6></div>
                                             </div>
-                                            <a class="card-coin" href="details.html">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                                <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                            </a>
-                                            <a class="card-coin" href="details.html">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                                <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                            </a>
-                                            <a class="card-coin" href="details.html">
+                                            <a class="card-coin" href="">
                                                 <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
                                                 <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
                                                 <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
@@ -114,17 +104,7 @@ const Portfolio = () => {
                                             role="tabpanel"
                                             aria-labelledby="profile-tab"
                                         >
-                                            <a class="card-coin" href="details.html">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                                <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                            </a>
-                                            <a class="card-coin" href="details.html">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                                <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
-                                            </a>
-                                            <a class="card-coin" href="details.html">
+                                            <a class="card-coin" href="">
                                                 <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>Bitcoin <b>BTC</b></span></div>
                                                 <div class="card-coin__price text-center"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
                                                 <div class="card-coin__price"><strong>$41,827.71</strong><span class="plus">+10%</span></div>
@@ -136,13 +116,13 @@ const Portfolio = () => {
                             </div>
                             <div class="btm_main">
                                 <div class="transations__tbs">
-                                    <div class="col">
+                                    <div class={window.location.pathname=='/portfolio'?"col active-tab":"col"}>
                                         <div class="trans_tabs">
                                             <img src={require("../assets/images/portfolio.png")} />
                                             <p>Portfolio</p>
                                         </div>
                                     </div>
-                                    <div class="col" style={{ cursor: "pointer" }} onClick={() => {
+                                    {/* <div class="col" style={{ cursor: "pointer" }} onClick={() => {
                                         // if (selectedTokenName == undefined || selectedTokenName == "") {
                                         //   toast.info("please select a token")
                                         //   return;
@@ -160,15 +140,15 @@ const Portfolio = () => {
                                             <img src={require("../assets/images/transfer.png")} />
                                             <p>Transfer</p>
                                         </div>
-                                    </div>
-                                    <div class="col  active-tab">
+                                    </div> */}
+                                    <div class={window.location.pathname=='/'?"col active-tab":"col"} onClick={() => navigate("/")}>
                                         <div class="trans_tabs">
                                             <img src={require("../assets/images/overview.png")} />
                                             <p>Overview</p>
                                         </div>
                                     </div>
                                     <div
-                                        class="col"
+                                        class={window.location.pathname=='/add-token'?"col active-tab":"col"}
                                         style={{ cursor: "pointer" }}
                                         onClick={() => navigate("/add-token")}
                                     >

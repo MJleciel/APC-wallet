@@ -1041,12 +1041,34 @@ form.multi-form {
   .cn_bl {
     float: left;
   }
+  .Portfolio_page a.card-coin {
+    padding-bottom: 1px;
+    font-size: 12px;
+  }
+  .Portfolio_page .card-coins_porfolio .one_tb {
+    display: flex;
+    margin-left: -20px;
+  }
+  .Portfolio_page  .tabs_All .card-coin__logo img {
+    width: 35px;
+  }
+  .Portfolio_page .card-coins_porfolio .one_tb img {
+    width: 50px;
+    visibility: hidden;
+  }
+  .Portfolio_page .card-coins_porfolio {
+    justify-content: space-between;
+    align-items: center;
+  }
   .welcome_logo img {
     width: 170px;
   }
   .create__wallet .notes,
   .recovery_page .notes {
     padding: 20px 0px 50px;
+  }
+  .btm_main {
+    width: 95% !important;
   }
   .pass____words {
     height: auto;
@@ -1111,6 +1133,9 @@ form.multi-form {
   }
   .coin_footer {
     height: 265px;
+  }
+  .create__wallet .submit_sec {
+    margin-top: 0px;
   }
   /*============multi connect============*/
   .multi-connect {
@@ -1285,6 +1310,15 @@ img.crypto-img {
 }
 .klevar-inner button {
   width: 100%;
+}
+.submit_sec a.btn.btn-primary:nth-child(1), .submit_sec.p-3 button.btn.btn-primary.w-auto:nth-child(1) {
+  margin-right: 15px;
+}
+/* .submit_sec.p-3 a.btn.btn-primary{
+  width:100px !important;
+} */
+.submit_sec.p-3 .col-lg-3.col-md-3.col-3.d-flex.align-items-center.mb-lg-0.mb-md-0.mb-4 {
+  margin-bottom: 0px !important;
 }
 
 /*============multi connect============*/
@@ -1706,6 +1740,12 @@ small.small_last {
     width: 100%;
   }
 
+  table.overview__table tbody tr td:nth-child(1) {
+    max-width: 120px !important;
+  }
+  .overflow_scroll {
+    height: auto !important; 
+}
   /*============multi connect============*/
   .multi-connect {
     width: 100%;
@@ -1989,10 +2029,7 @@ button.add__token {
 .row.row-addtoken {
   margin-top: 100px;
 }
-.add-token__screen {
-  left: 50%;
-  width: 100%;
-}
+
 
 .add-token__screen .assests-menu h5 {
   display: inline-block;
@@ -2229,6 +2266,7 @@ span.plus_icon svg {
 .btm_main .col {
   padding-top: 20px;
   background: #323232;
+  cursor: pointer;
 }
 .inner_tabs img {
   width: 32px;
@@ -2266,17 +2304,21 @@ span.plus_icon svg {
 }
 .over_view_tabsss .nav-tabs .nav-item.show .nav-link, .over_view_tabsss .nav-tabs .nav-link.active {
   color: #fff7f7;
-  background-color: #fff0;
+  background-color: #f00;
   border-color: #dee2e600 #dee2e600 #fff0;
   border-bottom: 2px solid #f00;
+  border-radius: 9px;
 }
 .over_view_tabsss .nav-tabs .nav-link:focus,.over_view_tabsss .nav-tabs .nav-link:hover {
   border-color: #e9ecef00 #e9ecef00 #dee2e600;
   isolation: isolate;
 }
-.over_view_tabsss .nav-tabs .nav-link{
-  color:#fff;
+.over_view_tabsss .nav-tabs .nav-link {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
+
 ul#myTab {
   border: 0px;
 }
@@ -2337,19 +2379,43 @@ ul#myTab {
 .small_tabs {
   padding: 0px 9px;
 }
+.add-token__screen {
+  left: 50%;
+  width: 100%;
+}
+table.add-token__screen tr td{
+  text-align: center;
+}
+table.add-token__screen tr td:nth-child(1) {
+  max-width: 170px;
+}
 .over_view_tabsss {
   padding: 0px 3px;
   padding-bottom: 20px !important;
 }
+table.add-token__screen thead tr th {
+  padding-right: 20px;
+}
+.add-token__screen {
+  overflow: unset !important;
+}
+table.add-token__screen {
+  overflow: scroll !important;
+  width: 100%;
+  display: block;
+}
 .btm_main {
   z-index: 1111;
+}
+.mai___accc .apc__coin_cntr h6 {
+  font-size: 13px;
 }
 .btm_main  .col-3 {
   flex: 0 0 auto;
   width: 24%;
 }
 .mai___accc .inner_tabs {
-  padding: 8px;
+  padding: 13px;
 }
 .acc_icons i.fas.fa-plus {
   font-size: 20px;
@@ -2388,7 +2454,7 @@ ul#myTab {
   margin-bottom: 7px;
 }
 .inner_tabs p {
-  font-size: 9px;
+  font-size: 12px;
 }
 .inner_tabs img {
   width: 22px;
@@ -2432,6 +2498,8 @@ ul#myTab {
 .create__wallet a.btn.btn-primary {
   font-size: 12px;
   padding: 0 17px;
+  margin-right: 12px;
+  width: 90px !important;
 }
 .create__wallet .submit_sec .col-lg-3 {
   margin-bottom: 0px !important;
@@ -2449,8 +2517,13 @@ ul#myTab {
   display: block;
 }
 .mai___accc select#token-dropdown {
-  width: 100%;
-  margin-top: 20px;
+  width: auto;
+  margin-top: 0px;
+  font-size: 12px;
+}
+.row_flex_portfolio {
+  display: flex;
+  align-items: start;
 }
 }
 
@@ -2597,6 +2670,7 @@ color:red;
   -webkit-border-radius: 15px;
   border-radius: 15px;
   color: #fff;
+  position: relative;
 }
 .card-coin__logo {
   display: flex;
@@ -2789,6 +2863,9 @@ img.transfer_coin_img {
 }
 .transfer-page h2.page__title {
   font-size: 17px;
+}
+table.add-token__screen tr td:nth-child(1) {
+  padding-right: 21px;
 }
 }
 
@@ -3047,11 +3124,7 @@ form.send_inner_form label {
 .add_token_screen {
   overflow-x: hidden;
 }
-.add-token__screen {
-  left: 50%;
-  width: 100%;
-  overflow: scroll;
-}
+
 .active-tab {
   background: #6d6d6d;
 }
@@ -3130,4 +3203,191 @@ form.send_inner_form label {
 
 .one {
   padding-left: 80px;
+}
+table.overview__table {
+  width: 100%;
+}
+table.overview__table tbody tr td:nth-child(1) {
+  overflow: scroll;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 100px !important;
+  padding-right: 40px;
+  padding-top: 10px !important;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+}
+table.add-token__screen tr td:nth-child(1) {
+  overflow: hidden;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.over_position p{
+  overflow: scroll;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabs_All .card-coin__logo img {
+  width: 50px;
+  position: unset;
+  display: block;
+}
+.Portfolio_page .over_view_tabsss .nav-tabs .nav-link.active {
+  border: 0px;
+  font-size: 22px;
+  padding: 0px;
+  background: transparent;
+}
+.outerWrapper{
+  display: flex;
+  width: 300px;
+  border: 1px solid black;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.secondthird{
+  display: flex;
+  width: 60%;
+}
+
+.first{
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.second{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.third{
+  margin-left: 8px;
+}
+.row_flex_portfolio {
+  display: flex;
+  align-items: center;
+}
+
+ul.terms_service_pp li {
+  text-align: left;
+  list-style: decimal;
+  display: list-item;
+}
+ul.terms_service_pp {
+  padding: 0px 18px;
+}
+.terms_services p {
+  text-align: left;
+}
+.terms_services h3.text-start {
+  margin-bottom: 22px;
+  margin-left: 20px;
+}
+.terms_services .phrase_box {
+  overflow: scroll;
+  height: 530px;
+}
+.terms_services  .submit_sec.p-3 {
+  margin-top: 0px;
+}
+.terms_services  a.btn.btn-primary{
+  margin-right: 15px;
+}
+@Media (max-width:768xp){
+  .Portfolio_page .main__acc_row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width:576px){
+  .balance_portfolio h3 {
+    font-size: 22px;
+  }
+  .portfolio_eye h3 {
+    font-size: 15px;
+  }
+  .one {
+    padding-left: 0px;
+  }
+  .add-token__screen {
+    left: 50%;
+    width: 100%;
+    overflow: scroll;
+  }
+  .card-coin__price {
+    margin: 0px 20px;
+  }
+  .card-coin {
+    overflow:scroll;
+  }
+  .recovery_page .submit_sec .btn.btn-primary {
+    display: inline-block;
+    width: 70px !important;
+    font-size: 9px;
+    margin-right: 10px;
+    align-items: center;
+    padding: 0px;
+    margin-top: 0px !important;
+    height: 33px;
+    line-height: 33px;
+  }
+  .restore__wall_et .restore-buttons .btn-danger {
+    display: inline-block;
+    width: 70px !important;
+    font-size: 12px;
+    margin-right: 10px;
+    align-items: center;
+    padding: 0px;
+    margin-top: 0px !important;
+    height: 33px;
+    line-height: 33px;
+  }
+  .pass_word .submit_sec .btn.btn-primary {
+    display: inline-block;
+    width: 70px !important;
+    font-size: 12px;
+    margin-right: 10px;
+    align-items: center;
+    padding: 0px;
+    margin-top: 0px !important;
+    height: 33px;
+    line-height: 33px;
+  }
+  .login_page {
+    width: 90%!important;
+  }
+  .create__wallet .submit_sec .btn.btn-primary {
+    display: inline-block;
+    width: 73px !important;
+    font-size: 11px;
+    margin-right: 10px;
+    height: 33px;
+    line-height: 33px;
+  }
+  .recovery_page .submit_sec.p-3 {
+    margin-top: 10px;
+  }
+  .overflow_scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh !important;
+  }
+  .new_over .over_view_tabsss {
+    padding: 0px 3px;
+    padding-bottom: 270px !important;
+    height: 100vh;
+  }
+  .trans_tabs {
+    padding-bottom: 13px;
+    padding-top: 10px;
+  }
+  .new_over .inner_main__content {
+    margin-top: 20px;
+  }
 }

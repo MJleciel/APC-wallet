@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { create } from "../services/services";
 import { useContext } from "react";
 import appContext from "../context/globalContext";
+import { toast } from "react-toastify";
 
 const Password = () => {
     let navigate = useNavigate()
@@ -32,7 +33,7 @@ const Password = () => {
                 localStorage.setItem('key',res.data.data.private_key)
                 navigate('/select')
             }
-        })
+        }).catch(err=>toast.error(err.response.data.message))
     }
 
     return (
@@ -46,7 +47,7 @@ const Password = () => {
                             </div>
                             <div class="wallet_note pass____words">
                                 <div class="walet_title px-3">
-                                    <h3 class="m-0">Encrypt Password</h3>
+                                    <h3 class="m-0">Create Account</h3>
                                 </div>
                                 <div class="notes px-3">
                                     <h5>Aarohi Partner is required you to perform a secure action</h5>
@@ -86,8 +87,8 @@ const Password = () => {
                                                         </svg>
                                                     </div>
                                                     <div class="col-lg-9 col-md-9 col-9 text-lg-end text-md-end text-left">
-                                                        <button class="btn btn-primary w-auto" type="submit">Cancel</button>
-                                                        <button class="btn  w-auto transparent_buttons" type="submit">Submit</button>
+                                                        <button class="btn btn-primary w-auto" type="button" onClick={()=>navigate(-1)}>Cancel</button>
+                                                        <button class="btn  w-auto btn-primary " type="submit">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>       
