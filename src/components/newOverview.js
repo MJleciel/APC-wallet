@@ -1,10 +1,6 @@
-// import { useContext } from "react";
 import { AiOutlinePlus, AiOutlineCopy } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import Swal from "sweetalert2";
-
 import {
   addToken,
   createWallet,
@@ -19,14 +15,9 @@ import {
   fetchTokenData,
   // decodeParams
 } from "./tronFunctions";
-import Sidebar from "./sidebar";
-import { icons } from "react-icons";
-import Dropdown from "react-bootstrap/Dropdown";
-import { BiCopy } from "react-icons/bi";
+
 import appContext from "../context/globalContext";
-import { tronWeb } from "./tronFunctions";
 import TronWeb from "tronweb";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const NewOverView = () => {
@@ -240,8 +231,10 @@ const NewOverView = () => {
   };
 
   const copyAddress = () => {
-    let txt = document.getElementById('usdt-address').innerHTML
-    navigator.clipboard.writeText(txt)
+    let txt = context.address
+    navigator.clipboard.writeText(txt);
+    toast.success("Wallet Address Copied");
+    
 }
 
   return (

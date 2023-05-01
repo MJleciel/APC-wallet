@@ -12,7 +12,7 @@ export const signin = (payload) => {
 }
 
 export const createWallet = (payload) => {
-     return axios.post(api_url + 'user/create-wallet', payload)
+     return axios.post(api_url + 'user/create-wallet', payload);
 }
 
 export const getWallet = (id) => {
@@ -20,12 +20,16 @@ export const getWallet = (id) => {
 }
 
 export const addToken = (payload) => {
-     return axios.post(api_url + `user/add-token`,payload)
+     return axios.post(api_url + `user/add-token`,payload);
 }
 
 export const getTokens = (id) => {
-     return axios.get(api_url + `user/get-tokens/${id}`)
+     return axios.get(api_url + `user/get-tokens/${id}`);
 }
 export const getPrivateKey = (payload) => {
-     return axios.post(api_url + `user/getPrivateKey`,payload)
+     return axios.post(api_url + `user/getPrivateKey`,payload);
+}
+
+export const getTokenPrice = (payload) => {
+     return axios.post(api_url + `wallet/get-price`,payload);
 }
