@@ -14,7 +14,7 @@ import { signin } from '../services/services';
 // import Swal from 'sweetalert2';
 
 export const LoginPage = () => {
-       const context = useContext(appContext)
+    const context = useContext(appContext)
     const [passwordType, setPasswordType] = useState('')
     const { register, handleSubmit, formState: { errors } } = useForm()
     let navigate = useNavigate()
@@ -81,62 +81,101 @@ export const LoginPage = () => {
         }
     }
 
-    const onSubmit=data=>{
-        const payload={
-            email:data.email,
-            password:data.password
+    const onSubmit = data => {
+        const payload = {
+            email: data.email,
+            password: data.password
         }
-        signin(payload).then(res=>{
-            if(res.status===200){
+        signin(payload).then(res => {
+            if (res.status === 200) {
                 context.setToken(res.data.data.token)
                 context.setId(res.data.data.id)
                 context.setEmail(res.data.data.email)
                 context.setAddress(res.data.data.wallet_address)
                 context.setKey(res.data.data.private_key)
-                localStorage.setItem('token',res.data.data.token)
-                localStorage.setItem('id',res.data.data.id)
-                localStorage.setItem('email',res.data.data.email)
-                localStorage.setItem('address',res.data.data.wallet_address)
-                localStorage.setItem('key',res.data.data.private_key)
+                localStorage.setItem('token', res.data.data.token)
+                localStorage.setItem('id', res.data.data.id)
+                localStorage.setItem('email', res.data.data.email)
+                localStorage.setItem('address', res.data.data.wallet_address)
+                localStorage.setItem('key', res.data.data.private_key)
                 navigate('/overview')
             }
-        }).catch(err=>toast.error(err.response.data.message))
+        }).catch(err => toast.error(err.response.data.message))
     }
 
     return (
         <>
-            <section class="klevar-extention text-white">
-                <div class="container">
-                    <div class="row justify-content-center text-center">
-                        <div class="col-lg-8 col-md-8 col-sm-12">
-                            <div class="klevar-inner multi-connect login_page">
-                                <div class="logo-klevar"><img src={require("../assets/images/apc-logo.png")} /></div>
-                                <p class="connects"> Stay Multi-Connected Wherever you go</p>
-                                <form class="multi-form" onSubmit={handleSubmit(onSubmit)}>
-                                <div class="input-form">
-                                        <label>Email</label>
-                                        <input type="email" id="email" placeholder="Insert Your Email" {...register('email',{required:"Email is required."})} />
-                                        {errors.email && <span>{errors.email.message}</span>}
-                                    </div>
-                                    <div class="input-form">
-                                        <label>Password</label>
-                                        <input type="password" id="email" placeholder="Insert Your Password" {...register('password',{required:'Password is required.'})} />
-                                        <i class="far fa-eye"></i>
-                                        {errors.password && <span>{errors.password.message}</span>}
-                                    </div>
-                                    <button type="submit" class="btn-danger" >Unlock</button>
-                                </form>
-                                <p>You Cannot login? Try another method</p>
-                                <div class="wallet-links">
-                                    <a style={{cursor:"pointer"}} onClick={()=>navigate('/create-wallet')} class="text-danger">New User? Create account </a>
-                                    {/* <span class="or">Or </span>
+
+            <div class="d-lg-block d-md-block d-none w-100">
+                <section class="klevar-extention text-white">
+                    <div class="container">
+                        <div class="row justify-content-center text-center">
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="klevar-inner multi-connect login_page">
+                                    <div class="logo-klevar"><img src={require("../assets/images/apc-logo.png")} /></div>
+                                    <p class="connects"> Stay Multi-Connected Wherever you go</p>
+                                    <form class="multi-form" onSubmit={handleSubmit(onSubmit)}>
+                                        <div class="input-form">
+                                            <label>Email</label>
+                                            <input type="email" id="email" placeholder="Insert Your Email" {...register('email', { required: "Email is required." })} />
+                                            {errors.email && <span>{errors.email.message}</span>}
+                                        </div>
+                                        <div class="input-form">
+                                            <label>Password</label>
+                                            <input type="password" id="email" placeholder="Insert Your Password" {...register('password', { required: 'Password is required.' })} />
+                                            <i class="far fa-eye"></i>
+                                            {errors.password && <span>{errors.password.message}</span>}
+                                        </div>
+                                        <button type="submit" class="btn-danger" >Unlock</button>
+                                    </form>
+                                    <p>You Cannot login? Try another method</p>
+                                    <div class="wallet-links">
+                                        <a style={{ cursor: "pointer" }} onClick={() => navigate('/create-wallet')} class="text-danger">New User? Create account </a>
+                                        {/* <span class="or">Or </span>
                                     <a href="#" class="text-danger">Import Wallet </a> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+
+            <div class="d-lg-none d-md-none d-block w-100">
+                
+            <section class="klevar-extention text-white mobile_login d-flex align-items-center">
+                    <div class="container">
+                        <div class="row justify-content-center text-center">
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="klevar-inner multi-connect login_page">
+                                    <div class="logo-klevar"><img src={require("../assets/images/apc-logo.png")} /></div>
+                                    <p class="connects"> Stay Multi-Connected Wherever you go</p>
+                                    <form class="multi-form" onSubmit={handleSubmit(onSubmit)}>
+                                        <div class="input-form">
+                                            <label>Email</label>
+                                            <input type="email" id="email" placeholder="Insert Your Email" {...register('email', { required: "Email is required." })} />
+                                            {errors.email && <span>{errors.email.message}</span>}
+                                        </div>
+                                        <div class="input-form">
+                                            <label>Password</label>
+                                            <input type="password" id="email" placeholder="Insert Your Password" {...register('password', { required: 'Password is required.' })} />
+                                            <i class="far fa-eye"></i>
+                                            {errors.password && <span>{errors.password.message}</span>}
+                                        </div>
+                                        <button type="submit" class="btn-danger" >Unlock</button>
+                                    </form>
+                                    <p>You Cannot login? Try another method</p>
+                                    <div class="wallet-links">
+                                        <a style={{ cursor: "pointer" }} onClick={() => navigate('/create-wallet')} class="text-danger">New User? Create account </a>
+                                        {/* <span class="or">Or </span>
+                                    <a href="#" class="text-danger">Import Wallet </a> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </>
 
 
