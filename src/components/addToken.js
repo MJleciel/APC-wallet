@@ -124,23 +124,148 @@ const AddToken = () => {
 
   return (
     <>
-      <section class="klevar-extention text-white sidebar-width add_token_screen">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-8 col-sm-12">
-              <div class="klevar-inner restore-connect add-token__screen">
-                <div class="top-wallet">
-                  {/* <h1>&#60;</h1> */}
-                  <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
-                    <IoMdArrowRoundBack />
-                  </div>
-                  {/* <div class="all-assets">
+      <div class="d-lg-block d-md-block d-none w-100">
+        <section class="klevar-extention text-white sidebar-width add_token_screen">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="klevar-inner restore-connect add-token__screen">
+                  <div class="top-wallet">
+                    {/* <h1>&#60;</h1> */}
+                    <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
+                      <IoMdArrowRoundBack />
+                    </div>
+                    {/* <div class="all-assets">
                     <h4>All Assets</h4>
                     <h5>Custom Token</h5>
                   </div> */}
+                  </div>
+                  <div class="assests-input">
+                    <div class="input-group">
+                      <div class="form-outline">
+                        <input
+                          value={tokenAddress}
+                          type="search"
+                          id="form1"
+                          class="form-control"
+                          placeholder="Token Contract Address"
+                          onChange={handleAddressChange}
+                        />
+                        <i class="fas fa-search"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="assests-menu">
+                    <div>
+                      <h5>Assest Collectibles</h5>
+                      <h5></h5>
+                    </div>
+                    <form>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault1"
+                        />
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Hide Small Balances
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="assest_inner">
+                    {error && <div>{error}</div>}
+                    {name && symbol && (
+                      <div>
+                        <p>Name: {name}</p>
+                        <p>Symbol: {symbol}</p>
+                        <img src={icon} alt="Token Icon" />
+                      </div>
+                    )}
+                    <div class="row">
+                      <table className="add-token__screen">
+                        <thead>
+                          <tr>
+                            <th>Token Address</th>
+                            <th>Name</th>
+                            <th>Symbol</th>
+                            <th>Balance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {console.log("checkin for token map is----->", tokens)}
+                          {tokens.map(token => (
+                            <tr key={token.id}>
+                              <td>{token.token_address}</td>
+                              <td>{token.name}</td>
+                              <td>{token.symbol}</td>
+                              <td>{token.balance}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {/* <div class="col-lg-2 col-md-2 col-2">
+                      <img src={require("../assets/images/token.png")} />
+                    </div> */}
+                      {/* <div class="col-lg-9 col-md-9 col-5 col-two">
+                      <h3>
+                        TRX <span class="text-muted">TRX</span>
+                      </h3>
+                      <h4>
+                        15,010 <span class="text-muted">(85459)</span>
+                      </h4>
+                    </div> */}
+                      <div class="col-lg-1 col-md-2 col-1">
+                        <i class="far fa-check-circle"></i>
+                      </div>
+                    </div>
+                    <div class="row row-addtoken">
+                      <button class="add__token" onClick={handleTokenDetails}>
+                        Add Token
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div class="assests-input">
-                  <div class="input-group">
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="d-lg-none d-md-none d-block w-100">
+        <section class="klevar-extention mobile_add_token text-white mobile_login d-flex align-items-center">
+          <div class="top-wallet">
+            <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
+              <IoMdArrowRoundBack />
+            </div>
+          </div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="klevar-inner login_page">
+                  <div class="assests-input">
+                    <div class="input-group">
+                    </div>
+                  </div>
+                  <div class="assests-menu">
+                    <div>
+                    </div>
+                    <form>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault1"
+                        />
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Hide Small Balances
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="crypto_account_detail">
                     <div class="form-outline">
                       <input
                         value={tokenAddress}
@@ -152,84 +277,56 @@ const AddToken = () => {
                       />
                       <i class="fas fa-search"></i>
                     </div>
+                    <h3 class="m-0 text-start">Assest Collectibles</h3>
                   </div>
-                </div>
-                <div class="assests-menu">
-                  <div>
-                    <h5>Assest Collectibles</h5>
-                    <h5></h5>
-                  </div>
-                  <form>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        Hide Small Balances
-                      </label>
-                    </div>
-                  </form>
-                </div>
-                <div class="assest_inner">
-                  {error && <div>{error}</div>}
-                  {name && symbol && (
-                    <div>
-                      <p>Name: {name}</p>
-                      <p>Symbol: {symbol}</p>
-                      <img src={icon} alt="Token Icon" />
-                    </div>
-                  )}
-                  <div class="row">
-                    <table className="add-token__screen">
-                      <thead>
-                        <tr>
-                          <th>Token Address</th>
-                          <th>Name</th>
-                          <th>Symbol</th>
-                          <th>Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {console.log("checkin for token map is----->", tokens)}
-                        {tokens.map(token => (
-                          <tr key={token.id}>
-                            <td>{token.token_address}</td>
-                            <td>{token.name}</td>
-                            <td>{token.symbol}</td>
-                            <td>{token.balance}</td>
+                  <div class="assest_inner">
+                    {error && <div>{error}</div>}
+                    {name && symbol && (
+                      <div>
+                        <p>Name: {name}</p>
+                        <p>Symbol: {symbol}</p>
+                        <img src={icon} alt="Token Icon" />
+                      </div>
+                    )}
+                    <div class="row">
+                      <table className="portfolitable mt-0">
+                        <thead>
+                          <tr>
+                            <th>Token Address</th>
+                            <th>Name</th>
+                            <th>Symbol</th>
+                            <th>Balance</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    {/* <div class="col-lg-2 col-md-2 col-2">
-                      <img src={require("../assets/images/token.png")} />
-                    </div> */}
-                    {/* <div class="col-lg-9 col-md-9 col-5 col-two">
-                      <h3>
-                        TRX <span class="text-muted">TRX</span>
-                      </h3>
-                      <h4>
-                        15,010 <span class="text-muted">(85459)</span>
-                      </h4>
-                    </div> */}
-                    <div class="col-lg-1 col-md-2 col-1">
-                      <i class="far fa-check-circle"></i>
+                        </thead>
+                        <tbody>
+                          {console.log("checkin for token map is----->", tokens)}
+                          {tokens.map(token => (
+                            <tr key={token.id}>
+                              <td><div class="token">{token.token_address}</div></td>
+                              <td><div class="token">{token.name}</div></td>
+                              <td>{token.symbol}</td>
+                              <td class="text-end">{token.balance}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      
+                      <button class="btn-danger mx-auto" onClick={handleTokenDetails}>
+                        Add Token
+                      </button>
+                      {/* <div class="col-lg-1 col-md-2 col-1">
+                        <i class="far fa-check-circle"></i>
+                      </div> */}
                     </div>
-                  </div>
-                  <div class="row row-addtoken">
-                    <button class="add__token" onClick={handleTokenDetails}>
-                      Add Token
-                    </button>
+                    {/* <div class="row row-addtoken">
+                    </div> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 };

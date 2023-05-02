@@ -538,21 +538,43 @@ const NewOverView = () => {
               <div class="col-12">
                 <div class="overview_tabs">
                   <div class="dropdown crypto_dropdown">
-                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary w-100 d-flex align-items-center justify-content-between">
                       <div class="crypto_detail d-flex align-items-center">
                         <div class="crypto_img">
                           <img
                             src={require("../assets/images/aarohi-coin.png")}
                           />
                         </div>
-                        <div class="crypto_select">
+                        <div class="crypto_select text-start">
                           <p class="m-0">Select Crypto</p>
-                          <h6 class="m-0">{selectedTokenName} APC</h6>
+                          <h6 class="m-0">{selectedTokenName}</h6>
                           <h5 class="m-0">{balance}</h5>
+                        </div>
+                        <div class="select_dropdown">
+                          <select
+                            id="token-dropdown"
+                            onChange={handleTokenSelect}
+                          >
+                            <option value="">
+                              Select token
+                            </option>
+                            {tokens.map((token) => (
+                              <option
+                                key={token.address}
+                                value={`${token.symbol},${token.token_address}`}
+                              >
+                                {token.symbol}
+                              </option>
+                            ))}
+                          </select>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                          </svg>
                         </div>
                       </div>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="token-dropdown" onChange={handleTokenSelect}>
+
+                    {/* <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="token-dropdown" onChange={handleTokenSelect}>
                       <li value="">
                         Select token
                       </li>
@@ -564,7 +586,7 @@ const NewOverView = () => {
                           {token.symbol}
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                   </div>
 
                   <div class="crypto_account_detail">

@@ -1,21 +1,21 @@
 import { useContext } from "react";
 import { BsFilePlusFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { AiOutlinePlus, AiOutlineCopy } from "react-icons/ai";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  addToken,
-  createWallet,
-  getPrivateKey,
-  getTokens,
-  getWallet,
-  getTokenPrice
+    addToken,
+    createWallet,
+    getPrivateKey,
+    getTokens,
+    getWallet,
+    getTokenPrice
 } from "../services/services";
 import {
-  generateTronAccount,
-  getBalance,
-  sendTrx,
-  fetchTokenData,
-  // decodeParams
+    generateTronAccount,
+    getBalance,
+    sendTrx,
+    fetchTokenData,
+    // decodeParams
 } from "./tronFunctions";
 
 import appContext from "../context/globalContext";
@@ -31,13 +31,13 @@ const Portfolio = () => {
 
     const [tokens, setTokens] = useState([]);
     const [tokensBalance, setTokensBalance] = useState([]);
-    const [totalBalance,setTotalBalance]=useState()
+    const [totalBalance, setTotalBalance] = useState()
     let context = useContext(appContext)
     const [usdtTrxPrice, setUsdtTrxPrice] = useState(null);
 
     const [price, setPrice] = useState(null);
-      const apiKey = 'c3d80b26-5a20-4ff5-84ec-d3b33970161e';
-      const apiUrl = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=TRX&convert=USDT';
+    const apiKey = 'c3d80b26-5a20-4ff5-84ec-d3b33970161e';
+    const apiUrl = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=TRX&convert=USDT';
 
     let navigate = useNavigate()
     const logout = () => {
@@ -50,123 +50,123 @@ const Portfolio = () => {
         solidityNode: "https://api.shasta.trongrid.io",
         eventServer: "https://api.shasta.trongrid.io",
         privateKey: context.key,
-      });
+    });
 
-    
-    
 
-      const fetchTokens = () => {
+
+
+    const fetchTokens = () => {
         getTokens(context.id).then(async (response) => {
-    
-    
-          const token = response.data.data;
-          const additionalToken = {
-            id: token?.length + 1,
-            name: 'TRON',
-            symbol: 'TRX',
-            decimals: '6',
-            token_address: '0Tx000',
-            user_id: token[0]?.user_id,
-            created_on: new Date().toISOString()
-          }
-          // { 
-          //   id: tokens?.length+2, 
-          //   name:'Aarohi Partner', 
-          //   symbol: 'APC', 
-          //   decimals: '6', 
-          //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
-          //   user_id: tokens[0]?.user_id, 
-          //   created_on: new Date().toISOString() 
-          // },
-    
-          let tokensList = [...token, additionalToken]
-    
-          const additionalToken2 = {
-            id: token?.length + 2,
-            name: 'Aarohi Partner',
-            symbol: 'APC',
-            decimals: '6',
-            token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
-            user_id: token[0]?.user_id,
-            created_on: new Date().toISOString()
-          }
-    
-          tokensList = [...token, additionalToken2, additionalToken]
-        //   console.log("token list in portfolio is----->", tokensList)
-          setTokens(tokensList)
-    
-          const balanceRequests = tokensList.map(async (token) => {
-            try{
-              if(token.token_address==="0Tx000"){
-                let bal = await getBalance(context.address);
-                return bal.toString();
-              }else{
-                console.log("contract address is----->",token.token_address)
-                const contract = await tronWeb2.contract().at(token.token_address);
-      
-                let balance = await contract.balanceOf(context.address).call();
-        
-        
-                let res = balance.toString();
-                console.log("balance of set tokens is----->", res);
-                res = parseFloat(res);
-                return res / 1000000;
-              }
-            }catch(e){
-              console.log("error is---->",e);
-            }
-            
-    
-            
-          });
-          const balances = await Promise.all(balanceRequests);
-    
-          const tokensWithBalances = tokensList.map((token, index) => ({
-            ...token,
-            balance: balances[index],
-          }));
-        //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
 
-          let usdtBalance=0;
-          const totalValueInUSDT = tokensWithBalances.map(async (token) => {
-            try{
-                let sy=token.symbol
-             let price=await getTokenPrice({symbol:token.symbol});
-             if(price?.data?.data?.data[sy].name==token.name){
-                //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
-                usdtBalance=(price?.data?.data?.data[sy]?.quote?.USDT.price)*(token.balance)
-                return (price?.data?.data?.data[sy]?.quote?.USDT.price)
-             }else{
-                return 0;
-             }
-            //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
-            //  price?.data?.data?.data[sy]?.quote?.USDT.price)
-            }catch(e){
-              console.log("error is---->",e);
-            }
-            
-          });
-          const balancesInUSDT = await Promise.all(totalValueInUSDT);
-        //   console.log("balances in USDT----->",balancesInUSDT);
-          setTotalBalance(usdtBalance);
-        //   console.log("usdt balance is---->",usdtBalance,totalBalance);
-          const tokensWithUSDTBalances = tokensList.map((token, index) => ({
-            ...token,
-            balance: balancesInUSDT[index],
-          }));
-        //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
 
-          setTokensBalance(tokensWithUSDTBalances);
-    
+            const token = response.data.data;
+            const additionalToken = {
+                id: token?.length + 1,
+                name: 'TRON',
+                symbol: 'TRX',
+                decimals: '6',
+                token_address: '0Tx000',
+                user_id: token[0]?.user_id,
+                created_on: new Date().toISOString()
+            }
+            // { 
+            //   id: tokens?.length+2, 
+            //   name:'Aarohi Partner', 
+            //   symbol: 'APC', 
+            //   decimals: '6', 
+            //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
+            //   user_id: tokens[0]?.user_id, 
+            //   created_on: new Date().toISOString() 
+            // },
+
+            let tokensList = [...token, additionalToken]
+
+            const additionalToken2 = {
+                id: token?.length + 2,
+                name: 'Aarohi Partner',
+                symbol: 'APC',
+                decimals: '6',
+                token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
+                user_id: token[0]?.user_id,
+                created_on: new Date().toISOString()
+            }
+
+            tokensList = [...token, additionalToken2, additionalToken]
+            //   console.log("token list in portfolio is----->", tokensList)
+            setTokens(tokensList)
+
+            const balanceRequests = tokensList.map(async (token) => {
+                try {
+                    if (token.token_address === "0Tx000") {
+                        let bal = await getBalance(context.address);
+                        return bal.toString();
+                    } else {
+                        console.log("contract address is----->", token.token_address)
+                        const contract = await tronWeb2.contract().at(token.token_address);
+
+                        let balance = await contract.balanceOf(context.address).call();
+
+
+                        let res = balance.toString();
+                        console.log("balance of set tokens is----->", res);
+                        res = parseFloat(res);
+                        return res / 1000000;
+                    }
+                } catch (e) {
+                    console.log("error is---->", e);
+                }
+
+
+
+            });
+            const balances = await Promise.all(balanceRequests);
+
+            const tokensWithBalances = tokensList.map((token, index) => ({
+                ...token,
+                balance: balances[index],
+            }));
+            //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
+
+            let usdtBalance = 0;
+            const totalValueInUSDT = tokensWithBalances.map(async (token) => {
+                try {
+                    let sy = token.symbol
+                    let price = await getTokenPrice({ symbol: token.symbol });
+                    if (price?.data?.data?.data[sy].name == token.name) {
+                        //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
+                        usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
+                        return (price?.data?.data?.data[sy]?.quote?.USDT.price)
+                    } else {
+                        return 0;
+                    }
+                    //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
+                    //  price?.data?.data?.data[sy]?.quote?.USDT.price)
+                } catch (e) {
+                    console.log("error is---->", e);
+                }
+
+            });
+            const balancesInUSDT = await Promise.all(totalValueInUSDT);
+            //   console.log("balances in USDT----->",balancesInUSDT);
+            setTotalBalance(usdtBalance);
+            //   console.log("usdt balance is---->",usdtBalance,totalBalance);
+            const tokensWithUSDTBalances = tokensList.map((token, index) => ({
+                ...token,
+                balance: balancesInUSDT[index],
+            }));
+            //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
+
+            setTokensBalance(tokensWithUSDTBalances);
+
         });
-    
-      }
-    
-      useEffect(() => {
-    
+
+    }
+
+    useEffect(() => {
+
         fetchTokens();
-      }, [context.address]); 
-      
+    }, [context.address]);
+
     return (
         <>
             <div class="d-lg-block d-md-block d-none w-100">
@@ -194,14 +194,14 @@ const Portfolio = () => {
                                             </div>
                                             <div class="">
 
-                                    </div>
-                                </div>
-                                <div class="Main_inner__btm">
-                                    <div class="balance_portfolio">
-                                        <h3>${totalBalance}</h3>
-                                    </div>
-                                </div>
-                                {/* <div class="row portfolio_row align-items-center">
+                                            </div>
+                                        </div>
+                                        <div class="Main_inner__btm">
+                                            <div class="balance_portfolio">
+                                                <h3>${totalBalance}</h3>
+                                            </div>
+                                        </div>
+                                        {/* <div class="row portfolio_row align-items-center">
                                     <div class="col-lg-6 col-md-6 col-6">
                                         <h5 class="first">Search Tokens</h5>
 
@@ -240,22 +240,22 @@ const Portfolio = () => {
                                                 NFTs
                                             </button>
                                         </li> */}
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                            <div class="card-coins_porfolio">
-                                                <div class="one one_tb"><h6> <img src={require("../assets/images/bitcoin.png")} /> A/z :</h6></div>
-                                                <div class="one"><h6> Address:</h6></div>
-                                                <div class="one"><h6>Price :</h6></div>
-                                            </div>
-                                            {tokensBalance.map(token => (
-                                                <a class="card-coin" href="">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
-                                                <div class="card-coin__price"><strong>${token.balance}</strong></div>
-                                            </a>
-                            ))}
-                                           
+                                            </ul>
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                    <div class="card-coins_porfolio">
+                                                        <div class="one one_tb"><h6> <img src={require("../assets/images/bitcoin.png")} /> A/z :</h6></div>
+                                                        <div class="one"><h6> Address:</h6></div>
+                                                        <div class="one"><h6>Price :</h6></div>
+                                                    </div>
+                                                    {tokensBalance.map(token => (
+                                                        <a class="card-coin" href="">
+                                                            <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                                                            <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
+                                                            <div class="card-coin__price"><strong>${token.balance}</strong></div>
+                                                        </a>
+                                                    ))}
+
 
                                                 </div>
                                                 <div
@@ -350,7 +350,7 @@ const Portfolio = () => {
                                 </div>
                                 <hr />
                                 <div class="text-start crpto_mobile_balance">
-                                    <h3 class="m-0 text-center">$ 0.00</h3>
+                                    <h3 class="m-0 text-center">$ {totalBalance}</h3>
                                 </div>
                             </div>
                         </div>
@@ -386,46 +386,29 @@ const Portfolio = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin d-flex align-items-center justify-content-start m-0">
-                                                            <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /></div>
-                                                            <div class="crypto_card_coin_info">
-                                                                <h3 class="text-start m-0">Bitcoin<br/><span class="token_symbol m-0">BTC</span></h3>
+                                                {tokensBalance.map(token => (
+                                                    <tr>
+                                                        <td class="p-0">
+                                                            <div class="crypto_card_coin d-flex align-items-center justify-content-start m-0">
+                                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /></div>
+                                                                <div class="crypto_card_coin_info">
+                                                                    <h3 class="text-start m-0">{token.name}<br /><span class="token_symbol m-0">{token.symbol}</span></h3>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin_info">
-                                                            <h3 class="text-start m-0">$41,827.71<br/><span class="token_symbol m-0">+10%</span></h3>
-                                                        </div>
-                                                    </td>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin_info">
-                                                            <h3 class="text-start m-0">$41,827.71<br/><span class="token_symbol m-0">+10%</span></h3>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin d-flex align-items-center justify-content-start m-0">
-                                                            <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /></div>
+                                                        </td>
+                                                        <td class="p-0">
                                                             <div class="crypto_card_coin_info">
-                                                                <h3 class="text-start m-0">Bitcoin<br/><span class="token_symbol m-0">BTC</span></h3>
+                                                                <h3 class="text-start m-0">{token.token_address}</h3>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin_info">
-                                                            <h3 class="text-start m-0">$41,827.71<br/><span class="token_symbol m-0">+10%</span></h3>
-                                                        </div>
-                                                    </td>
-                                                    <td class="p-0">
-                                                        <div class="crypto_card_coin_info">
-                                                            <h3 class="text-start m-0">$41,827.71<br/><span class="token_symbol m-0">+10%</span></h3>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <div class="crypto_card_coin_info">
+                                                                <h3 class="text-start m-0">$ {token.balance}</h3>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>
