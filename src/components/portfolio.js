@@ -135,7 +135,7 @@ const Portfolio = () => {
              if(price?.data?.data?.data[sy].name==token.name){
                 //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
                 usdtBalance=(price?.data?.data?.data[sy]?.quote?.USDT.price)*(token.balance)
-                return (price?.data?.data?.data[sy]?.quote?.USDT.price)
+                return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
              }else{
                 return 0;
              }
@@ -148,7 +148,7 @@ const Portfolio = () => {
           });
           const balancesInUSDT = await Promise.all(totalValueInUSDT);
         //   console.log("balances in USDT----->",balancesInUSDT);
-          setTotalBalance(usdtBalance);
+          setTotalBalance(usdtBalance.toFixed(5));
         //   console.log("usdt balance is---->",usdtBalance,totalBalance);
           const tokensWithUSDTBalances = tokensList.map((token, index) => ({
             ...token,

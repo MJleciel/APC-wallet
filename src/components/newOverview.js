@@ -6,7 +6,7 @@ import {
   createWallet,
   getPrivateKey,
   getTokens,
-  getWallet,
+  getTokenImage
 } from "../services/services";
 import {
   generateTronAccount,
@@ -19,6 +19,7 @@ import {
 import appContext from "../context/globalContext";
 import TronWeb from "tronweb";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const NewOverView = () => {
   let context = useContext(appContext);
@@ -31,6 +32,7 @@ const NewOverView = () => {
   const [selectedTokenName, setSelectedTokenName] = useState("");
   const [selectedTokenAddress, setSelectedTokenAddress] = useState("");
   const [contractData, setContractData] = useState([]);
+  const [tokenImage,setTokenImage]=useState();
 
   let navigate = useNavigate();
 
@@ -67,17 +69,10 @@ const NewOverView = () => {
         decimals: '6',
         token_address: '0Tx000',
         user_id: token[0]?.user_id,
-        created_on: new Date().toISOString()
+        created_on: new Date().toISOString(),
+        image:"https://static.tronscan.org/production/logo/trx.png"
       }
-      // { 
-      //   id: tokens?.length+2, 
-      //   name:'Aarohi Partner', 
-      //   symbol: 'APC', 
-      //   decimals: '6', 
-      //   token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA', 
-      //   user_id: tokens[0]?.user_id, 
-      //   created_on: new Date().toISOString() 
-      // },
+
 
       let tokensList = [...token, additionalToken]
 
@@ -88,7 +83,8 @@ const NewOverView = () => {
         decimals: '6',
         token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
         user_id: token[0]?.user_id,
-        created_on: new Date().toISOString()
+        created_on: new Date().toISOString(),
+        image:require("../assets/images/aarohi-coin.png")
       }
 
       tokensList = [...token, additionalToken2, additionalToken]
@@ -145,18 +141,6 @@ const NewOverView = () => {
 
   useEffect(() => {
 
-    const getWalletDetails = async () => {
-
-
-      let bal = await getBalance(context.address);
-      console.log("balance is---->", bal);
-
-      setBalance(bal);
-
-    }
-
-
-    // getWalletDetails();
     const options = { method: "GET", headers: { accept: "application/json" } };
 
     fetch(
@@ -196,21 +180,30 @@ const NewOverView = () => {
       .catch((err) => console.error(err));
   }, [context.address]);
 
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
-  };
-
+ 
   const handleTokenSelect = async (event) => {
-    console.log("hii event");
+  
     const tokenValue = event.target.value;
+    console.log("token value in select is---->",tokenValue);
 
-    const [tokenName, tokenAddress] = tokenValue.split(',');
+    const [tokenName, tokenAddress,tokenImage] = tokenValue.split(',');
 
 
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
-    console.log("selected token name and address is---->", tokenName, tokenAddress);
+    if(tokenName=="TRX"){
+      setTokenImage("https://static.tronscan.org/production/logo/trx.png")
+    }else if(tokenName=="APC"){
+      setTokenImage(require("../assets/images/aarohi-coin.png"))
+    }else{
+      // const contractAddresses = ["TPYmHEhy5n8TCEfYGqW2rPxsghSfzghPDn"];
+      const tokenImages = await getTokenImage({contract_address:tokenAddress});
+      // console.log("tokenImage is--->",tokenImages.data.data.trc20_tokens[0].icon_url);
+      setTokenImage(tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"")
+    }
+      
+    
 
     try {
       if (tokenAddress !== "0Tx000") {
@@ -268,7 +261,8 @@ const NewOverView = () => {
                           <div class="main__acc_row row_flex_portfolio">
                             <div class="icon_mains">
                               <img
-                                src={require("../assets/images/aarohi-coin.png")}
+                                src={tokenImage}
+                                alt="token logo"
                               />
                               <div class="apc__coin_cntr">
                                 <p>Select Crypto</p>
@@ -429,25 +423,25 @@ const NewOverView = () => {
                               ))}
                             </tbody>
                           </table> */}
-                              {tokensBalance.map(token => (
-                                <div class="card-coin">
-                                  <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
-                                  <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
-                                  <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
-                                </div>))}
-                            </div>
-                            <div
-                              class="tab-pane fade"
-                              id="profile"
-                              role="tabpanel"
-                              aria-labelledby="profile-tab"
-                            >
-                              <table class="overview__table">
-                                <thead>
-                                  <tr>
-                                    <th>Tx Hash</th>
-                                    <th>Type</th>
-                                    {/* <th>From</th>
+                          {tokensBalance.map(token => (
+                            <div class="card-coin">
+                              <div class="card-coin__logo"><img src={token.image?token.image:require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                              <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
+                              <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
+                            </div>))}
+                        </div>
+                        <div
+                          class="tab-pane fade"
+                          id="profile"
+                          role="tabpanel"
+                          aria-labelledby="profile-tab"
+                        >
+                          <table class="overview__table">
+                            <thead>
+                              <tr>
+                                <th>Tx Hash</th>
+                                <th>Type</th>
+                                {/* <th>From</th>
                                                             <th>To</th> */}
                                     <th>Amount</th>
                                   </tr>

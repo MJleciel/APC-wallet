@@ -40,3 +40,8 @@ export const getPrivateKey = (payload) => {
 export const getTokenPrice = (payload) => {
      return axios.post(api_url + `wallet/get-price`,payload);
 }
+
+export const getTokenImage = (payload) => {
+    
+     return axios.post(api_url + `wallet/get-image`,payload);
+}
