@@ -30,6 +30,7 @@ import Portfolio from "../components/portfolio";
 
 const Routing = () => {
     let context = useContext(appContext)
+    console.log(context.token);
     return (
         <>
             <Routes>

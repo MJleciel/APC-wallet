@@ -98,7 +98,7 @@ export const LoginPage = () => {
                 localStorage.setItem('email', res.data.data.email)
                 localStorage.setItem('address', res.data.data.wallet_address)
                 localStorage.setItem('key', res.data.data.private_key)
-                navigate('/overview')
+                navigate('/')
             }
         }).catch(err => toast.error(err.response.data.message))
     }

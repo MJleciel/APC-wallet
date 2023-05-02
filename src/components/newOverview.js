@@ -56,7 +56,7 @@ const NewOverView = () => {
   });
 
   const fetchTokens = () => {
-    getTokens(context.id).then(async (response) => {
+    getTokens(context.id,context.token).then(async (response) => {
 
 
       const token = response.data.data;
@@ -128,7 +128,12 @@ const NewOverView = () => {
       console.log("updated tokens result is--->", tokensWithBalances);
       setTokensBalance(tokensWithBalances);
 
-    });
+    }).catch(err=>{
+      if(err.response.status==401){
+        toast.error(err.response.data.message)
+        navigate('/login')
+      }
+    })
 
   }
 

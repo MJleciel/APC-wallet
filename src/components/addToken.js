@@ -19,6 +19,7 @@ import appContext from "../context/globalContext";
 import { tronWeb } from "./tronFunctions";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddToken = () => {
   let context = useContext(appContext);
@@ -43,7 +44,7 @@ const AddToken = () => {
 
   useEffect(() => {
     async function fetchTokens() {
-      const response = await getTokens(context.id);
+    try { const response = await getTokens(context.id,context.token);
       console.log("response is---->", response);
       const tokens = response.data.data;
 
@@ -60,8 +61,16 @@ const AddToken = () => {
 
       const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
       console.log("updated tokens result is", tokensWithBalances);
-      setTokens(tokensWithBalances);
+      setTokens(tokensWithBalances);}
+
+      catch(err){
+        if(err.response.status==401){
+          toast.error(err.response.data.message)
+          navigate('/login')
+        }
+      }
     }
+
     fetchTokens();
   }, [context.address]);
 

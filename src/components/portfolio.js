@@ -252,7 +252,7 @@ const Portfolio = () => {
                                                 <a class="card-coin" href="">
                                                 <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
                                                 <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
-                                                <div class="card-coin__price"><strong>${token.balance}</strong></div>
+                                                <div class="card-coin__price"><strong>$ {token.balance?token.balance:"0"}</strong></div>
                                             </a>
                             ))}
                                            
