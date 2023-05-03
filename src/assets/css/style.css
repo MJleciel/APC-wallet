@@ -3922,15 +3922,26 @@ section.mobile_overview_header svg.account-info__svg {
 }
 
 .crypto_detail .crypto_img {
-  flex: 0 0 21.53%;
-  width: 21.53%;
-  max-width: 21.53%;
+  flex: 0 0 17.53%;
+  width: 17.53%;
+  max-width: 17.53%;
 }
 
 .crypto_detail .crypto_select {
-  flex: 0 0 79%;
-  width: 79%;
-  max-width: 79%;
+  flex: 0 0 50%;
+  width: 50%;
+  max-width: 50%;
+}
+
+.crypto_detail select#token-dropdown {
+  background: transparent;
+  border: none;
+  color: transparent;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none;
+  z-index: 9999;
+  position: relative;
 }
 
 .crypto_dropdown button {
@@ -3968,7 +3979,7 @@ section.mobile_overview_header svg.account-info__svg {
   height: 21px;
 }
 
-.crypto_overvie p {
+.crypto_overvie p, .crypto_overvie li {
   font-size: 16px;
   font-family: "Poppins", sans-serif;
   color: #fff;
@@ -3985,7 +3996,8 @@ section.mobile_overview_header svg.account-info__svg {
   margin-bottom: 15px;
 }
 
-.crypto_account_detail hr, .crypto_portfolio hr {
+.crypto_account_detail hr,
+.crypto_portfolio hr {
   background: #666495 !important;
   opacity: 1 !important;
   border: none !important;
@@ -4214,7 +4226,7 @@ ul.mobile_nav li .active-tab {
 
 .mobile_login form.multi-form input {
   width: 100%;
-  background: transparent;
+  background: transparent !important;
   border: 1px solid #fff;
   padding: 12px;
   border-radius: 0;
@@ -4281,14 +4293,12 @@ table.overview__table.mobile_table tr td {
   font-size: 13px;
 }
 
-.crypto_portfolio 
-{
+.crypto_portfolio {
   padding: 60px 10px !important;
 }
 
-table.portfolitable
-{
-  width:100%;
+table.portfolitable {
+  width: 100%;
   margin-top: 20px;
 }
 
@@ -4307,12 +4317,13 @@ table.portfolitable .crypto_card_coin img {
 }
 
 table.portfolitable td {
-  padding: 14px 0 !important;
+  padding: 14px 2px !important;
   border-bottom: 1px solid #666495;
 }
 
 table.portfolitable td .crypto_card_coin_info h3 {
   font-size: 15px;
+  word-break: break-all;
 }
 
 table.portfolitable td .crypto_card_coin_info h3 span {
@@ -4322,6 +4333,229 @@ table.portfolitable td .crypto_card_coin_info h3 span {
 
 table.portfolitable tr:last-child td {
   border-bottom: 0;
+}
+
+.crypto_dropdown button:after {
+  display: none;
+}
+
+.crypto_detail select#token-dropdown option {
+  color: #000;
+}
+
+.select_dropdown svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.select_dropdown {
+  position: relative;
+}
+
+table.portfolitable th:nth-child(3),
+table.portfolitable td:nth-child(3) {
+  width: 60px;
+}
+
+.mobile_add_token .BackBtn.arrow_back {
+  position: relative;
+  left: 0;
+  right: 0;
+  color: #fff;
+}
+
+.mobile_add_token .top-wallet {
+  position: absolute;
+  top: 10px;
+  left: 9px;
+  padding: 0;
+}
+
+.mobile_add_token .assests-input {
+  padding: 0px 10px;
+}
+
+.mobile_login label,
+.mobile_login input,
+.mobile_login form.multi-form input::placeholder {
+  color: #fff !important;
+}
+
+.mobile_add_token .form-outline input {
+  width: 100%;
+  background: transparent !important;
+  border: 1px solid #fff;
+  padding: 12px;
+  border-radius: 0;
+  margin-bottom: 20px;
+  color: white;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.mobile_add_token .assests-menu {
+  padding: 0 10px;
+}
+
+.mobile_add_token h5 {
+  font-size: 22px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+  line-height: 30px;
+}
+
+.mobile_add_token table.portfolitable th {
+  font-size: 12px;
+}
+
+.mobile_add_token table.portfolitable td {
+  font-size: 11px;
+}
+
+.mobile_add_token .token {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crate_wallet_mobile h2 {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.wallet_mobile .walet_title h3 {
+    font-size: 20px;
+    color: #d5c6c6;
+    font-weight: 700;
+}
+
+.wallet_mobile .notes h5 {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  line-height: 20px;
+  margin: 0;
+}
+
+.wallet_mobile .notes {
+  background: transparent;
+  padding: 0 !important;
+  margin-bottom: 0px !important;
+  display: inline-block;
+}
+
+.wallet_mobile .note_discription p {
+  color: #cdcdcd;
+  font-size: 13px;
+  margin: 0px 0 0 0 !important;
+  width: 100%;
+  text-align: center;
+}
+
+.wallet_mobile .note_discription {
+  padding: 10px 0 !important;
+}
+
+.wallet_mobile .lost_note h6 {
+  font-size: 14px;
+  color: #fff;
+  margin: 0;
+}
+
+.wallet_mobile .lost_note {
+  padding: 0 !important;
+}
+
+.wallet_note.wallet_mobile {
+  height: auto;
+}
+
+.wallet_mobile .crypto_account_detail ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.phrase_list ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.phrase_list ul li {
+  margin: 0;
+  border-color: #fff !important;
+}
+
+.wallet_mobile .crypto_account_detail ul li p {
+  margin: 0 !important;
+  border-color: #fff !important;
+  position:relative;
+}
+
+.wallet_mobile .crypto_account_detail ul li p svg {
+  margin: 0;
+  top: -10px;
+  background: #fff;
+  fill: red !important;
+  padding: 2px;
+  border-radius: 50px;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+}
+
+.mobile_restore .restre-inner-text textarea#textAreaExample1 {
+  height: 210px;
+  border: 1px solid #666495;
+  background: #000448;
+  padding: 20px;
+  border-radius: 7px;
+  margin-top: 25px;
+  color:#fff;
+  margin-bottom: 15px;
+}
+
+.recovery_mobile .crypto_account_detail {
+  min-height: 150px;
+}
+
+.account_hr 
+{
+  min-height: 0 !important;
+}
+
+.mobile_restore .top-wallet h5 {
+  font-size: 22px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+  line-height: 30px;
+}
+.select_coin_outer .custom_checkbox img {
+  width: 40px;
+  margin-right: 10px !important;
+  display: inline-block;
+}
+
+.term_service .crypto_account_detail {
+  height: 280px;
+  overflow: scroll;
 }
 
 @media (max-width:767px) {

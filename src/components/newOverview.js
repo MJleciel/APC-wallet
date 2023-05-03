@@ -537,21 +537,44 @@ const NewOverView = () => {
               <div class="col-12">
                 <div class="overview_tabs">
                   <div class="dropdown crypto_dropdown">
-                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary w-100 d-flex align-items-center justify-content-between">
                       <div class="crypto_detail d-flex align-items-center">
                         <div class="crypto_img">
                           <img
-                            src={require("../assets/images/aarohi-coin.png")}
+                            src={tokenImage}
+                            alt="Token Image"
                           />
                         </div>
-                        <div class="crypto_select">
+                        <div class="crypto_select text-start">
                           <p class="m-0">Select Crypto</p>
-                          <h6 class="m-0">{selectedTokenName} APC</h6>
+                          <h6 class="m-0">{selectedTokenName}</h6>
                           <h5 class="m-0">{balance}</h5>
+                        </div>
+                        <div class="select_dropdown">
+                          <select
+                            id="token-dropdown"
+                            onChange={handleTokenSelect}
+                          >
+                            <option value="">
+                              Select token
+                            </option>
+                            {tokens.map((token) => (
+                              <option
+                                key={token.address}
+                                value={`${token.symbol},${token.token_address}`}
+                              >
+                                {token.symbol}
+                              </option>
+                            ))}
+                          </select>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                          </svg>
                         </div>
                       </div>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="token-dropdown" onChange={handleTokenSelect}>
+
+                    {/* <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="token-dropdown" onChange={handleTokenSelect}>
                       <li value="">
                         Select token
                       </li>
@@ -563,7 +586,7 @@ const NewOverView = () => {
                           {token.symbol}
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                   </div>
 
                   <div class="crypto_account_detail">
@@ -626,14 +649,14 @@ const NewOverView = () => {
                       <p class="m-0">Recieve</p>
                     </button>
                   </li>
-                  <li>
+                  {/* <li>
                     <button class="btn btn-primary" onClick={() => navigate('/recieve')}>
                       <img
                         src={require("../assets/images/recieve.png")}
                       />
                       <p class="m-0">Swap</p>
                     </button>
-                  </li>
+                  </li> */}
                 </ul>
 
                 <div class="mt-4 pt-1 crypto_tabs">
@@ -642,14 +665,14 @@ const NewOverView = () => {
                       <button class="nav-link active" id="tokens-tab" data-bs-toggle="tab" data-bs-target="#tokens" type="button" role="tab" aria-controls="tokens" aria-selected="true">Tokens</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="transection-tab" data-bs-toggle="tab" data-bs-target="#transection" type="button" role="tab" aria-controls="transection" aria-selected="false">Transection</button>
+                      <button class="nav-link" id="transection-tab" data-bs-toggle="tab" data-bs-target="#transection" type="button" role="tab" aria-controls="transection" aria-selected="false">Transaction</button>
                     </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
                       {tokensBalance.map(token => (
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
-                          <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /></div>
+                          <div class="card-coin__logo"><img src={token.image?token.image:require("../assets/images/bitcoin.png")} /></div>
                           <div class="crypto_card_coin_info">
                             <h3 class="text-start d-flex align-items-center">{token.name} <span class="token_symbol">{token.symbol}</span></h3>
                             <h6 class="text-start">{token.token_address}</h6>
