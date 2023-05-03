@@ -749,7 +749,7 @@ const NewOverView = () => {
                     <div
                       class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
                       style={{ cursor: "pointer" }}
-                      onClick={() => navigate("/add-token")}
+                      onClick={() => navigate("/history")}
                     >
                       <div class="trans_tabs">
                         <img src={require("../assets/images/add-coin.png")} />

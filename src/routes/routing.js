@@ -26,6 +26,7 @@ import Transfer from "../components/transfer";
 import SendCoin from "../components/send-coin";
 import Recieve from "../components/recieve";
 import Portfolio from "../components/portfolio";
+import TransactionHistory from "../components/history";
 
 
 const Routing = () => {
@@ -40,6 +41,7 @@ const Routing = () => {
                         <Route path='/' element={<NewOverView  />} />
                         <Route path='/portfolio' element={<Portfolio  />} />
                         <Route path='/new-overview' element={<NewOverView />} />
+                        <Route path='/history' element={<TransactionHistory />} />
                         <Route path='/coins-list' element={<CoinList />} />
                         <Route path='/transfer' element={<Transfer />} />
                         <Route path='/send' element={<SendCoin />} />
