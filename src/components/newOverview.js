@@ -29,17 +29,27 @@ const NewOverView = () => {
   const [tokens, setTokens] = useState([]);
   const [tokensBalance, setTokensBalance] = useState([]);
   const [address, setAddress] = useState("");
-  const [selectedTokenName, setSelectedTokenName] = useState("");
-  const [selectedTokenAddress, setSelectedTokenAddress] = useState("");
+  const [selectedTokenName, setSelectedTokenName] = useState("APC");
+  const [selectedTokenAddress, setSelectedTokenAddress] = useState("TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA");
   const [contractData, setContractData] = useState([]);
-  const [tokenImage,setTokenImage]=useState();
+  const [tokenImage,setTokenImage]=useState(require("../assets/images/aarohi-coin.png"));
 
   let navigate = useNavigate();
+  let tronWeb2 = new TronWeb({
+    fullHost: process.env.REACT_APP_TRON_FULL_NODE,
+    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
+    privateKey: context.key,
+  });
 
   const getWalletDetails = async () => {
-    let bal = await getBalance(context.address);
-    console.log("balance is---->", bal);
-    setBalance(bal);
+    const contract = await tronWeb2.contract().at(selectedTokenAddress);
+
+    let balance = await contract.balanceOf(context.address).call();
+    let res = balance.toString();
+    res = parseFloat(res);
+
+    setBalance(res / 1000000);
   };
   const logout = () => {
     context.setToken("");
@@ -47,15 +57,10 @@ const NewOverView = () => {
   };
 
   useEffect(() => {
-    // getWalletDetails();
+    getWalletDetails();
   }, [context.address]);
 
-  let tronWeb2 = new TronWeb({
-    fullHost: process.env.REACT_APP_TRON_FULL_NODE,
-    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
-    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
-    privateKey: context.key,
-  });
+  
 
   const fetchTokens = () => {
     getTokens(context.id,context.token).then(async (response) => {
@@ -282,6 +287,7 @@ const NewOverView = () => {
                                   <option
                                     key={token.address}
                                     value={`${token.symbol},${token.token_address}`}
+                                    selected="APC"
                                   >
                                     {token.symbol}
                                   </option>

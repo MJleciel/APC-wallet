@@ -139,6 +139,7 @@ export async function sendTrx(data) {
     console.log("in trc20")
     try{
       const contract = await tronWeb1.contract().at(data.tokenAddress);
+      
       const amountWithDecimals = data.amount * Math.pow(10, 6);
 
       const transaction = await contract.transfer(data.toAddress, amountWithDecimals).send({
