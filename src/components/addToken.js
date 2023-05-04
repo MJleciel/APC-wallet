@@ -36,9 +36,9 @@ const AddToken = () => {
   const [tokens, setTokens] = useState([]);
 
   let tronWeb2 = new TronWeb({
-    fullHost: "https://api.shasta.trongrid.io",
-    solidityNode: "https://api.shasta.trongrid.io",
-    eventServer: "https://api.shasta.trongrid.io",
+    fullHost: process.env.REACT_APP_TRON_FULL_NODE,
+    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
     privateKey: context.key,
   });
 

@@ -1,14 +1,16 @@
 import TronWeb from 'tronweb'; 
 import * as bip39 from 'bip39';
+
 // import { ethers } from "ethers";
 
 // const AbiCoder = ethers.utils.AbiCoder;
 // const ADDRESS_PREFIX_REGEX = /^(41)/;
 // const ADDRESS_PREFIX = "41";
 
-const fullNode = 'https://api.shasta.trongrid.io';
-const solidityNode = 'https://api.shasta.trongrid.io';
-const eventServer = 'https://api.shasta.trongrid.io';
+const fullNode = process.env.REACT_APP_TRON_FULL_NODE;
+const solidityNode = process.env.REACT_APP_TRON_SOLIDITY_NODE;
+const eventServer = process.env.REACT_APP_TRON_EVENT_SERVER;
+console.log("full node is----->",fullNode);
 export  const tronWeb = new TronWeb(fullNode, solidityNode, eventServer);
 const tronWebMainnet = new TronWeb(fullNode, solidityNode, eventServer);
 
@@ -96,20 +98,21 @@ export async function getBalance(address) {
 export async function sendTrx(data) {
 
   console.log("send trx function is called",data);
+  
   let tronWeb1 = new TronWeb({
-    fullHost: 'https://api.shasta.trongrid.io',
-    solidityNode: 'https://api.shasta.trongrid.io',
-    eventServer: 'https://api.shasta.trongrid.io',
+    fullHost: process.env.REACT_APP_TRON_FULL_NODE,
+    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
     privateKey:data.privateKey
    
   });
   console.log("11111111")
   if(data.tokenAddress=="0Tx000"){
-    console.log("in TRX");
+   
     const fromAccount = await tronWeb1.trx.getAccount(data.fromAddress);
-    console.log("22222222")
+
     const fromBalance = fromAccount.balance;
-    console.log("3333333333333")
+ 
     if (fromBalance < parseFloat((data.amount)*1000000)) {
       alert("Insufficient Balance")
       throw new Error('Insufficient balance');
@@ -159,10 +162,11 @@ export async function sendTrx(data) {
 }
 
 export const fetchTokenData = async (tokenAddress,privateKey) => {
+  
   let tronWeb2 = new TronWeb({
-    fullHost: 'https://api.shasta.trongrid.io',
-    solidityNode: 'https://api.shasta.trongrid.io',
-    eventServer: 'https://api.shasta.trongrid.io',
+    fullHost: process.env.REACT_APP_TRON_FULL_NODE,
+    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
     privateKey:privateKey
    
   });
