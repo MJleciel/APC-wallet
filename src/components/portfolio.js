@@ -56,7 +56,7 @@ const Portfolio = () => {
 
 
     const fetchTokens = () => {
-        getTokens(context.id,context.token).then(async (response) => {
+        getTokens(context.id, context.token).then(async (response) => {
 
 
             const token = response.data.data;
@@ -127,44 +127,50 @@ const Portfolio = () => {
             }));
             //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
 
-          let usdtBalance=0;
-          const totalValueInUSDT = tokensWithBalances.map(async (token) => {
-            try{
-                let sy=token.symbol
-             let price=await getTokenPrice({symbol:token.symbol});
-             if(price?.data?.data?.data[sy].name==token.name){
-                //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
-                usdtBalance=(price?.data?.data?.data[sy]?.quote?.USDT.price)*(token.balance)
-                return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
-             }else{
-                return 0;
-             }
-            //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
-            //  price?.data?.data?.data[sy]?.quote?.USDT.price)
-            }catch(e){
-              console.log("error is---->",e);
-            }
-            
-          });
-          const balancesInUSDT = await Promise.all(totalValueInUSDT);
-        //   console.log("balances in USDT----->",balancesInUSDT);
-          setTotalBalance(usdtBalance.toFixed(5));
-        //   console.log("usdt balance is---->",usdtBalance,totalBalance);
-          const tokensWithUSDTBalances = tokensList.map((token, index) => ({
-            ...token,
-            balance: balancesInUSDT[index],
-          }));
-        //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
+            let usdtBalance = 0;
+            const totalValueInUSDT = tokensWithBalances.map(async (token) => {
+                try {
+                    let sy = token.symbol
+                    let price = await getTokenPrice({ symbol: token.symbol });
+                    if (price?.data?.data?.data[sy].name == token.name) {
+                        //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
+                        usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
+                        return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
+                    } else {
+                        return 0;
+                    }
+                    //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
+                    //  price?.data?.data?.data[sy]?.quote?.USDT.price)
+                } catch (e) {
+                    console.log("error is---->", e);
+                }
+
+            });
+            const balancesInUSDT = await Promise.all(totalValueInUSDT);
+            //   console.log("balances in USDT----->",balancesInUSDT);
+            setTotalBalance(usdtBalance.toFixed(5));
+            //   console.log("usdt balance is---->",usdtBalance,totalBalance);
+            const tokensWithUSDTBalances = tokensList.map((token, index) => ({
+                ...token,
+                balance: balancesInUSDT[index],
+            }));
+            //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
 
             setTokensBalance(tokensWithUSDTBalances);
 
-        }).catch(err=>{
-            if(err.response.status==401){
+        }).catch(err => {
+            if (err.response.status == 401) {
                 toast.error(err.response.data.message)
                 navigate('/login')
-              }
+            }
         })
 
+    }
+
+    const copyAddress = (e,address) => {
+        toast.dismiss()
+        navigator.clipboard.writeText(address);
+        toast.success("Token address Copied");
     }
 
     useEffect(() => {
@@ -245,22 +251,22 @@ const Portfolio = () => {
                                                 NFTs
                                             </button>
                                         </li> */}
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                            <div class="card-coins_porfolio">
-                                                <div class="one one_tb"><h6> <img src={require("../assets/images/bitcoin.png")} /> A/z :</h6></div>
-                                                <div class="one"><h6> Address:</h6></div>
-                                                <div class="one"><h6>Price :</h6></div>
-                                            </div>
-                                            {tokensBalance.map(token => (
-                                                <a class="card-coin" href="">
-                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
-                                                <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
-                                                <div class="card-coin__price"><strong>$ {token.balance?token.balance:"0"}</strong></div>
-                                            </a>
-                            ))}
-                                           
+                                            </ul>
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active cards cards--11" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                    <div class="card-coins_porfolio">
+                                                        <div class="one one_tb"><h6> <img src={require("../assets/images/bitcoin.png")} /> A/z :</h6></div>
+                                                        <div class="one"><h6> Address:</h6></div>
+                                                        <div class="one"><h6>Price :</h6></div>
+                                                    </div>
+                                                    {tokensBalance.map(token => (
+                                                        <a class="card-coin" href="">
+                                                            <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                                                            <div class="card-coin__price text-center"><strong>{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</strong></div>
+                                                            <div class="card-coin__price"><strong>$ {token.balance ? token.balance : "0"}</strong></div>
+                                                        </a>
+                                                    ))}
+
 
                                                 </div>
                                                 <div
@@ -402,8 +408,8 @@ const Portfolio = () => {
                                                             </div>
                                                         </td>
                                                         <td class="p-0">
-                                                            <div class="crypto_card_coin_info">
-                                                                <h3 class="text-start m-0">{token.token_address}</h3>
+                                                            <div class="crypto_card_coin_info" onClick={(e)=>copyAddress(e,token.token_address)}>
+                                                                <h3 class="text-start m-0">{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</h3>
                                                             </div>
                                                         </td>
                                                         <td class="p-0">

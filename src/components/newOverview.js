@@ -555,11 +555,11 @@ const NewOverView = () => {
                             id="token-dropdown"
                             onChange={handleTokenSelect}
                           >
-                            <option value="">
+                            {/* <option value="">
                               Select token
-                            </option>
-                            {tokens.map((token) => (
-                              <option
+                            </option> */}
+                            {tokens.map((token,index) => (
+                              <option selected={index==0}
                                 key={token.address}
                                 value={`${token.symbol},${token.token_address}`}
                               >
@@ -749,7 +749,7 @@ const NewOverView = () => {
                     <div
                       class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
                       style={{ cursor: "pointer" }}
-                      onClick={() => navigate("/add-token")}
+                      onClick={() => navigate("/history")}
                     >
                       <div class="trans_tabs">
                         <img src={require("../assets/images/add-coin.png")} />

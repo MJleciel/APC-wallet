@@ -4563,3 +4563,10 @@ table.portfolitable td:nth-child(3) {
     background-color: #000448;
   }
 }
+
+
+
+div#transection {
+  width: 100%;
+  margin: 19px 10px;
+}
