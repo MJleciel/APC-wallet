@@ -555,11 +555,11 @@ const NewOverView = () => {
                             id="token-dropdown"
                             onChange={handleTokenSelect}
                           >
-                            <option value="">
+                            {/* <option value="">
                               Select token
-                            </option>
-                            {tokens.map((token) => (
-                              <option
+                            </option> */}
+                            {tokens.map((token,index) => (
+                              <option selected={index==0}
                                 key={token.address}
                                 value={`${token.symbol},${token.token_address}`}
                               >
