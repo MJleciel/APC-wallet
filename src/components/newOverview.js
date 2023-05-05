@@ -20,6 +20,7 @@ import appContext from "../context/globalContext";
 import TronWeb from "tronweb";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const NewOverView = () => {
   let context = useContext(appContext);
@@ -655,14 +656,14 @@ const NewOverView = () => {
                       <p class="m-0">Recieve</p>
                     </button>
                   </li>
-                  {/* <li>
-                    <button class="btn btn-primary" onClick={() => navigate('/recieve')}>
+                  <li>
+                    <button class="btn btn-primary" onClick={() => toast.info("In development...")}>
                       <img
                         src={require("../assets/images/recieve.png")}
                       />
                       <p class="m-0">Swap</p>
                     </button>
-                  </li> */}
+                  </li>
                 </ul>
 
                 <div class="mt-4 pt-1 crypto_tabs">
