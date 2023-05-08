@@ -11,6 +11,9 @@ import ContextState from './context/globalState';
 window.Buffer = window.Buffer || Buffer;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// console.log = () => { }
+// console.error = () => { }
+// console.debug = () => { }
 root.render(
   <ContextState>
     <ProSidebarProvider>

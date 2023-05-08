@@ -6,21 +6,34 @@ import { getBalance, sendTrx, fetchTokenData } from "./tronFunctions";
 import Swal from "sweetalert2";
 import Loader from "./Loader";
 import "../App.css";
+import { toast } from "react-toastify";
 
 const SendCoin = () => {
-  const [sendWalletAddress, setSendWalletAddress] = useState();
-  const [amount, setAmount] = useState();
+  const [sendWalletAddress, setSendWalletAddress] = useState("");
+  const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   let navigate = useNavigate();
   let loc = useLocation();
   let context = useContext(appContext);
+
+
   const handleSendTrxModal = () => {
+
+    if(amount<=0){
+       toast.error("Please Enter Amount");
+       return;
+    }
+    if(sendWalletAddress==""||sendWalletAddress==undefined){
+      toast.error("Please Enter Receiver wallet address");
+       return;
+    }
+
     let bal = parseFloat(loc.state.balance);
     console.log("balance of token is", bal);
     
     if (bal < parseFloat(amount)) {
-      alert(`you dont have ${amount} in your wallet`);
+      toast.error(`you dont have ${amount} in your wallet`);
     //   setAmount(0);
       return;
     }

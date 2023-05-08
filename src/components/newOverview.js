@@ -240,6 +240,23 @@ const NewOverView = () => {
     toast.success("Wallet Address Copied");
     
 }
+const copyTxID = (event) => {
+  // Get the text content of the clicked <td> element
+ 
+  const tdValue = event.target.textContent;
+
+  // Create a temporary <textarea> element to copy the text value
+  const textarea = document.createElement("textarea");
+  textarea.value = tdValue;
+  document.body.appendChild(textarea);
+
+  // Select the text value and copy it to the clipboard
+  textarea.select();
+  document.execCommand("copy");
+  toast.success("Transaction ID Copied");
+  // Remove the temporary <textarea> element
+  document.body.removeChild(textarea);
+};
 
   return (
     <>
@@ -456,8 +473,8 @@ const NewOverView = () => {
                                 <tbody>
                                   {contractData.map(contract => (
 
-                                    <tr key={contract.txID}>
-                                      <td>{contract.txID}</td>
+                                    <tr key={contract.txID} >
+                                      <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID} </td>
                                       <td>{contract.type}</td>
                                       {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
@@ -702,7 +719,7 @@ const NewOverView = () => {
                           {contractData.map(contract => (
 
                             <tr key={contract.txID}>
-                              <td>{contract.txID}</td>
+                              <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID}</td>
                               <td>{contract.type}</td>
                               {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
