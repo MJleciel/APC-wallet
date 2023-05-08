@@ -86,7 +86,7 @@ const Portfolio = () => {
                 name: 'Aarohi Partner',
                 symbol: 'APC',
                 decimals: '6',
-                token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
+                token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
                 user_id: token[0]?.user_id,
                 created_on: new Date().toISOString()
             }
@@ -130,9 +130,13 @@ const Portfolio = () => {
             let usdtBalance = 0;
             const totalValueInUSDT = tokensWithBalances.map(async (token) => {
                 try {
+                    // console.log("name of token is-->",token)
                     let sy = token.symbol
+                    // console.log("token symbol is---->",sy)
                     let price = await getTokenPrice({ symbol: token.symbol });
-                    if (price?.data?.data?.data[sy].name == token.name) {
+                    // console.log("price of token is--->",price)
+                         
+                    if (price?.data?.data?.data[sy].name == token.name||price?.data?.data?.data[sy].platform.token_address == token.token_address) {
                         //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
                         usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
                         return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
