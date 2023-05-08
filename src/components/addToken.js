@@ -243,7 +243,7 @@ const AddToken = () => {
       </div>
 
       <div class="d-lg-none d-md-none d-block w-100">
-        <section class="klevar-extention mobile_add_token text-white mobile_login d-flex align-items-center">
+        <section class="klevar-extention mobile_add_token text-white mobile_login d-flex align-items-center mobile-addddd">
           <div class="top-wallet">
             <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
               <IoMdArrowRoundBack />
@@ -253,6 +253,10 @@ const AddToken = () => {
             <div class="row justify-content-center">
               <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="klevar-inner login_page">
+                  <div class="add_token_NEW">
+                      <h4>Add Token</h4>
+                      <p>You may not be able to access certain functions of your custom token due to the unrecognizable methoda of the contract  address. </p>
+                  </div>
                   <div class="assests-input">
                     <div class="input-group">
                     </div>
@@ -286,7 +290,7 @@ const AddToken = () => {
                       />
                       <i class="fas fa-search"></i>
                     </div>
-                    <h3 class="m-0 text-start">Assest Collectibles</h3>
+                    <h3 class="m-0 text-start d-none">Assest Collectibles</h3>
                   </div>
                   <div class="assest_inner">
                     {error && <div>{error}</div>}

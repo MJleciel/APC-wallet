@@ -1333,9 +1333,10 @@ section.dashboard {
   background-color: red;
   border-color: red;
   color: #fff;
-  padding: 12px 30px;
+  padding: 15px 30px;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 55px;
+  text-transform: uppercase;
 }
 
 .klevar-extention {
@@ -3462,11 +3463,23 @@ form.send_inner_form label {
 }
 
 .recieve_adress svg {
-  color: red;
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  top: 20px;
 }
 
 .recieve_adress {
-  margin-top: 40px;
+  margin-top: 20px;
+  background: #bdbcd05c;
+  padding: 16px;
+  margin-bottom: 20px;
+  position: relative;
+  border: 1px solid #bdbcd05c;
+  border-radius: 5px;
+  box-shadow: rgb(158 156 210 / 13%) 0px 8px 24px;
+  margin-bottom: 20px;
+  color: #000;
 }
 
 .recieve_page .page.page--main {
@@ -3517,14 +3530,14 @@ form.send_inner_form label {
   }
 
   .recieve_adress p {
-    font-size: 10px;
+    font-size: 14px;
     padding-right: 5px;
     text-align: left;
-  }
+}
 }
 
 .BackBtn {
-  color: red;
+  color: #8d8abd;
   position: absolute;
   top: -7px;
   left: 5px;
@@ -4569,4 +4582,75 @@ table.portfolitable td:nth-child(3) {
 div#transection {
   width: 100%;
   margin: 19px 10px;
+}
+
+
+/* repcieve page new css */
+
+.recieve_page {
+  text-align: left;
+}
+a.share-btn svg {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+}
+a.share-btn svg {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+}
+.recieve_page .BackBtn {
+  color: #9e9cd2;
+}
+.text-purple{
+  color:#8d8abd;
+}
+svg.scan {
+  margin: 15px auto;
+  /* / display: block; / */
+  height: 203px;
+  width: 100%;
+}
+.recieve_page, .send-page {
+  margin-top: 22px;
+  background-image: linear-gradient(179deg, #000448 0%, #403F5D 100%) !important;
+}
+.recieve_page .page__content.page__content--with-header.page__content--with-bottom-nav.padding_send, .send-page .page__content.page__content--with-header.page__content--with-bottom-nav.padding_send {
+  background: transparent;
+}
+.recieve_page {
+  height: 100vh;
+  overflow: scroll;
+  padding-top: 65px;
+}
+.recieve_page .BackBtn {
+  top: 28px;
+  z-index: 111111;
+}
+
+@media (max-width:576px){
+  .recieve_page .BackBtn {
+    top: 28px;
+    z-index: 111111;
+}
+.rr_pg .page__content {
+  padding: 0px !important;
+}
+}
+
+.mobile_restore .required {
+  background: #020759;
+}
+.add_token_NEW {
+  text-align: left;
+  padding: 0px 9px;
+  margin: 113px 0px 0px;
+}
+.mobile-addddd .crypto_account_detail {
+  margin-top: 5px;
+}
+.mobile-addddd table.portfolitable {
+  overflow-x: scroll;
+  display: block;
 }
