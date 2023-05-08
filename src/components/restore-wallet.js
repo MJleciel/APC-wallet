@@ -15,6 +15,7 @@ import {
     fetchTokenData,
     // decodeParams
 } from "./tronFunctions";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const RestoreWallet = () => {
     const [seedPhrase, setSeedPhrase] = useState()
@@ -99,6 +100,7 @@ const RestoreWallet = () => {
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="klevar-inner restore-connect">
+                                <div className="BackBtn" onClick={() => navigate(-1)}><IoMdArrowRoundBack /></div>
                                     <div class="top-wallet">
                                         <h5>Restore Wallet</h5>
                                         <i class="fas fa-times"></i>
@@ -120,10 +122,10 @@ const RestoreWallet = () => {
                                     </div>
                                     <div class="restore-footer border-0">
                                         <div class="row align-items-center m-0">
-                                            <div class="col-lg-3 col-md-3 col-2 d-flex align-items-center mb-lg-0 mb-md-0 mb-0 d-flex align-items-center p-0">
+                                            {/* <div class="col-lg-3 col-md-3 col-2 d-flex align-items-center mb-lg-0 mb-md-0 mb-0 d-flex align-items-center p-0">
                                                 <img src={require("../assets/images/icon.png")} width="50px"/>
-                                            </div>
-                                            <div class="col-lg-9 col-md-9 col-10 text-lg-end text-md-end text-left d-flex p-0">
+                                            </div> */}
+                                            <div class="col-lg-12 col-md-12 col-12 text-lg-end text-md-end text-left d-flex p-0">
                                                 <button class="btn-danger me-1 mt-0" onClick={handleSeedPhrase}>ok</button>
                                                 <button class="btn-danger m-0" onClick={() => {
                                                     navigate("/")
