@@ -13,6 +13,7 @@ import {
   getBalance,
   sendTrx,
   fetchTokenData,
+  tronWeb,
   // decodeParams
 } from "./tronFunctions";
 
@@ -186,7 +187,33 @@ const NewOverView = () => {
       .catch((err) => console.error(err));
   }, [context.address]);
 
- 
+
+//   const getTransactionHistory = async (address) => {
+//     const transactions = await tronWeb.getTransactionsFromAddress(context.address, {
+//       eventName: 'Transfer',
+//       size: 200,
+//       page: 1
+//     });
+//   console.log("newwwwww0",transactions);
+//     const totalAmount = transactions.reduce((total, tx) => {
+//       console.log(total);
+//       if (tx.result.from === context.address) {
+//         total -= parseInt(tx.result.amount);
+//       }
+//       else if (tx.result.to === context.address) {
+//         total += parseInt(tx.result.amount);
+//       }
+  
+//       return total;
+//     }, 0)
+//     return totalAmount;
+//   };
+//  useEffect(()=>{
+//   console.log("hiiiiiiii");
+//   getTransactionHistory()
+//  },[context.address])
+
+
   const handleTokenSelect = async (event) => {
   
     const tokenValue = event.target.value;
