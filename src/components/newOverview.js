@@ -32,7 +32,7 @@ const NewOverView = () => {
   const [tokensBalance, setTokensBalance] = useState([]);
   const [address, setAddress] = useState("");
   const [selectedTokenName, setSelectedTokenName] = useState("APC");
-  const [selectedTokenAddress, setSelectedTokenAddress] = useState("TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA");
+  const [selectedTokenAddress, setSelectedTokenAddress] = useState(process.env.REACT_APP_APC_TOKEN_ADDRESS);
   const [contractData, setContractData] = useState([]);
   const [tokenImage,setTokenImage]=useState(require("../assets/images/aarohi-coin.png"));
 
@@ -88,7 +88,7 @@ const NewOverView = () => {
         name: 'Aarohi Partner',
         symbol: 'APC',
         decimals: '6',
-        token_address: 'TL1QShbruGK5XiaF7ueEfXqeWfq8rizUPA',
+        token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
         user_id: token[0]?.user_id,
         created_on: new Date().toISOString(),
         image:require("../assets/images/aarohi-coin.png")
@@ -129,7 +129,36 @@ const NewOverView = () => {
         balance: balances[index],
       }));
       console.log("updated tokens result is--->", tokensWithBalances);
-      setTokensBalance(tokensWithBalances);
+
+      const tokensImage = tokensWithBalances.map(async (token) => {
+        try {
+          if (token.token_address === "0Tx000") {
+            
+            return "https://static.tronscan.org/production/logo/trx.png"
+          }else if(token.token_address==process.env.REACT_APP_APC_TOKEN_ADDRESS){
+                     return require("../assets/images/aarohi-coin.png");
+          } else {
+           
+            let tokenImages=await getTokenImage({contract_address:token.token_address})
+            // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+            return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"";
+          }
+        } catch (e) {
+          console.log("error is---->", e);
+        }
+
+
+
+      });
+      const img = await Promise.all(tokensImage);
+
+      const tokensWithImage = tokensWithBalances.map((token, index) => ({
+        ...token,
+        image: img[index],
+      }));
+      console.log("updated tokens image result is--->", tokensWithImage)
+
+      setTokensBalance(tokensWithImage);
 
     }).catch(err=>{
       if(err.response.status==401){
@@ -230,9 +259,9 @@ const NewOverView = () => {
     }else if(tokenName=="APC"){
       setTokenImage(require("../assets/images/aarohi-coin.png"))
     }else{
-      // const contractAddresses = ["TPYmHEhy5n8TCEfYGqW2rPxsghSfzghPDn"];
+      
       const tokenImages = await getTokenImage({contract_address:tokenAddress});
-      // console.log("tokenImage is--->",tokenImages.data.data.trc20_tokens[0].icon_url);
+       console.log("token image single is is--->",tokenImages);
       setTokenImage(tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"")
     }
       
@@ -267,6 +296,19 @@ const NewOverView = () => {
     toast.success("Wallet Address Copied");
     
 }
+const copyTxID = (event) => {
+  const tdValue = event.target.textContent;
+
+  const textarea = document.createElement("textarea");
+  textarea.value = tdValue;
+  document.body.appendChild(textarea);
+
+  textarea.select();
+  document.execCommand("copy");
+  toast.success("Transaction ID Copied");
+ 
+  document.body.removeChild(textarea);
+};
 
   return (
     <>
@@ -459,7 +501,7 @@ const NewOverView = () => {
                           </table> */}
                           {tokensBalance.map(token => (
                             <div class="card-coin">
-                              <div class="card-coin__logo"><img src={token.image?token.image:require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                              <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol}/><span>{token.name} <b>{token.symbol}</b></span></div>
                               <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
                               <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
                             </div>))}
@@ -483,8 +525,8 @@ const NewOverView = () => {
                                 <tbody>
                                   {contractData.map(contract => (
 
-                                    <tr key={contract.txID}>
-                                      <td>{contract.txID}</td>
+                                    <tr key={contract.txID} >
+                                      <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID} </td>
                                       <td>{contract.type}</td>
                                       {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
@@ -608,19 +650,7 @@ const NewOverView = () => {
                       </div>
                     </button>
 
-                    {/* <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="token-dropdown" onChange={handleTokenSelect}>
-                      <li value="">
-                        Select token
-                      </li>
-                      {tokens.map((token) => (
-                        <li
-                          key={token.address}
-                          value={`${token.symbol},${token.token_address}`}
-                        >
-                          {token.symbol}
-                        </li>
-                      ))}
-                    </ul> */}
+                   
                   </div>
 
                   <div class="crypto_account_detail">
@@ -706,7 +736,7 @@ const NewOverView = () => {
                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
                       {tokensBalance.map(token => (
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
-                          <div class="card-coin__logo"><img src={token.image?token.image:require("../assets/images/bitcoin.png")} /></div>
+                          <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol} /></div>
                           <div class="crypto_card_coin_info">
                             <h3 class="text-start d-flex align-items-center">{token.name} <span class="token_symbol">{token.symbol}</span></h3>
                             <h6 class="text-start">{token.token_address}</h6>
@@ -729,7 +759,7 @@ const NewOverView = () => {
                           {contractData.map(contract => (
 
                             <tr key={contract.txID}>
-                              <td>{contract.txID}</td>
+                              <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID}</td>
                               <td>{contract.type}</td>
                               {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
