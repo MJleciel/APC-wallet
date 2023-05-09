@@ -8,7 +8,8 @@ import {
     getPrivateKey,
     getTokens,
     getWallet,
-    getTokenPrice
+    getTokenPrice,
+    getTokenImage
 } from "../services/services";
 import {
     generateTronAccount,
@@ -127,6 +128,10 @@ const Portfolio = () => {
             }));
             //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
 
+
+           
+
+
             let usdtBalance = 0;
             const totalValueInUSDT = tokensWithBalances.map(async (token) => {
                 try {
@@ -160,7 +165,39 @@ const Portfolio = () => {
             }));
             //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
 
-            setTokensBalance(tokensWithUSDTBalances);
+            const tokensImage = tokensWithUSDTBalances.map(async (token) => {
+                try {
+                  if (token.token_address === "0Tx000") {
+                    
+                    return "https://static.tronscan.org/production/logo/trx.png"
+                  }else if(token.token_address==process.env.REACT_APP_APC_TOKEN_ADDRESS){
+                             return require("../assets/images/aarohi-coin.png");
+                  } else {
+                   
+                    let tokenImages=await getTokenImage({contract_address:token.token_address})
+                    // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+                    return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"";
+                  }
+                } catch (e) {
+                  console.log("error is---->", e);
+                }
+        
+        
+        
+              });
+              const img = await Promise.all(tokensImage);
+        
+              const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
+                ...token,
+                image: img[index],
+              }));
+              console.log("updated tokens image result is--->", tokensWithImage)
+        
+              setTokensBalance(tokensWithImage);
+            // setTokensBalance(tokensWithUSDTBalances);
+
+
+            
 
         }).catch(err => {
             if (err.response.status == 401) {
@@ -405,7 +442,7 @@ const Portfolio = () => {
                                                     <tr>
                                                         <td class="p-0">
                                                             <div class="crypto_card_coin d-flex align-items-center justify-content-start m-0">
-                                                                <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /></div>
+                                                                <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol}/></div>
                                                                 <div class="crypto_card_coin_info">
                                                                     <h3 class="text-start m-0">{token.name}<br /><span class="token_symbol m-0">{token.symbol}</span></h3>
                                                                 </div>
