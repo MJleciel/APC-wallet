@@ -2,8 +2,8 @@ import axios from "axios"
 import { useContext } from "react"
 import appContext from "../context/globalContext"
 
-let api_url = 'http://localhost:3008/api/'
-// let api_url = "https://bwallet.apcblockchain.com/api/"
+// let api_url = 'http://localhost:3008/api/'
+let api_url = "https://bwallet.apcblockchain.com/api/"
 
 
 const header=(token,id)=> {return {"Authorization":`Bearer ${token}`,'userId':id}} 

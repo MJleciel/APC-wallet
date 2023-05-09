@@ -20,14 +20,15 @@ const SendCoin = () => {
 
   const handleSendTrxModal = () => {
 
-    if(amount<=0){
-       toast.error("Please Enter Amount");
-       return;
-    }
+    
     if(sendWalletAddress==""||sendWalletAddress==undefined){
       toast.error("Please Enter Receiver wallet address");
        return;
     }
+    if(amount<=0){
+      toast.error("Please Enter Amount");
+      return;
+   }
 
     let bal = parseFloat(loc.state.balance);
     console.log("balance of token is", bal);

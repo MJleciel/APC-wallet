@@ -59,6 +59,7 @@ const NewOverView = () => {
   };
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_APC_TOKEN,process.env.REACT_APP_TRON_EVENT_SERVER);
     getWalletDetails();
   }, [context.address]);
 
