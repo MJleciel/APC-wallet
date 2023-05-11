@@ -701,7 +701,9 @@ const NewOverView = () => {
                       <p class="m-0">Swap</p>
                     </button>
                   </li>
+                  
                 </ul>
+                <p onClick={()=>navigate('/scan')} style={{color:"red"}}>*Scan(only for testing purpose)*</p>
 
                 <div class="mt-4 pt-1 crypto_tabs">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -718,7 +720,7 @@ const NewOverView = () => {
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
                           <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /></div>
                           <div class="crypto_card_coin_info">
-                            <h3 class="text-start d-flex align-items-center"><span class="token_symbol">{token.symbol}</span></h3>
+                            <h3 class="text-start d-flex align-items-center">{token.symbol}<span class="token_symbol">{token.symbol}</span></h3>
                             <h6 class="text-start">{token.name}</h6>
                           </div>
                           <div class="card-coin__price text-end"><strong>{token.balance}<br /><span>{token.symbol}</span></strong></div>

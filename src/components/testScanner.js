@@ -19,8 +19,8 @@ const Test = (props) => {
         }}
         style={{ width: '100%' }}
       />
-      <p>{data}</p>
-      
+      <p style={{color:"red"}}>{data}</p>
+
       <div class="border-1"></div>
         <div class="border-2"></div>
         <div class="border-3"></div>
