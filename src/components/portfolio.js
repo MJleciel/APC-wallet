@@ -48,8 +48,8 @@ const Portfolio = () => {
 
     let tronWeb2 = new TronWeb({
         fullHost: process.env.REACT_APP_TRON_FULL_NODE,
-    solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
-    eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
+        solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+        eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
         privateKey: context.key,
     });
 
@@ -129,7 +129,7 @@ const Portfolio = () => {
             //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
 
 
-           
+
 
 
             let usdtBalance = 0;
@@ -140,8 +140,8 @@ const Portfolio = () => {
                     // console.log("token symbol is---->",sy)
                     let price = await getTokenPrice({ symbol: token.symbol });
                     // console.log("price of token is--->",price)
-                         
-                    if (price?.data?.data?.data[sy].name == token.name||price?.data?.data?.data[sy].platform.token_address == token.token_address) {
+
+                    if (price?.data?.data?.data[sy].name == token.name || price?.data?.data?.data[sy].platform.token_address == token.token_address) {
                         //  console.log("price of each token is---->",price?.data?.data?.data[sy]);
                         usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
                         return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
@@ -167,37 +167,37 @@ const Portfolio = () => {
 
             const tokensImage = tokensWithUSDTBalances.map(async (token) => {
                 try {
-                  if (token.token_address === "0Tx000") {
-                    
-                    return "https://static.tronscan.org/production/logo/trx.png"
-                  }else if(token.token_address==process.env.REACT_APP_APC_TOKEN_ADDRESS){
-                             return require("../assets/images/aarohi-coin.png");
-                  } else {
-                   
-                    let tokenImages=await getTokenImage({contract_address:token.token_address})
-                    // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
-                    return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"";
-                  }
+                    if (token.token_address === "0Tx000") {
+
+                        return "https://static.tronscan.org/production/logo/trx.png"
+                    } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
+                        return require("../assets/images/aarohi-coin.png");
+                    } else {
+
+                        let tokenImages = await getTokenImage({ contract_address: token.token_address })
+                        // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+                        return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
+                    }
                 } catch (e) {
-                  console.log("error is---->", e);
+                    console.log("error is---->", e);
                 }
-        
-        
-        
-              });
-              const img = await Promise.all(tokensImage);
-        
-              const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
+
+
+
+            });
+            const img = await Promise.all(tokensImage);
+
+            const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
                 ...token,
                 image: img[index],
-              }));
-              console.log("updated tokens image result is--->", tokensWithImage)
-        
-              setTokensBalance(tokensWithImage);
+            }));
+            console.log("updated tokens image result is--->", tokensWithImage)
+
+            setTokensBalance(tokensWithImage);
             // setTokensBalance(tokensWithUSDTBalances);
 
 
-            
+
 
         }).catch(err => {
             if (err.response.status == 401) {
@@ -208,7 +208,7 @@ const Portfolio = () => {
 
     }
 
-    const copyAddress = (e,address) => {
+    const copyAddress = (e, address) => {
         toast.dismiss()
         navigator.clipboard.writeText(address);
         toast.success("Token address Copied");
@@ -430,10 +430,10 @@ const Portfolio = () => {
                                                         A/z :
                                                     </th>
                                                     <th class="p-0">
-                                                        Address:
+                                                        Price:
                                                     </th>
                                                     <th class="p-0">
-                                                        Price :
+                                                        Flat Value :
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -441,21 +441,24 @@ const Portfolio = () => {
                                                 {tokensBalance.map(token => (
                                                     <tr>
                                                         <td class="p-0">
-                                                            <div class="crypto_card_coin d-flex align-items-center justify-content-start m-0">
-                                                                <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol}/></div>
+                                                            <div class="crypto_card_coin d-inline-flex align-items-center justify-content-start m-0">
+                                                                <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /></div>
                                                                 <div class="crypto_card_coin_info">
-                                                                    <h3 class="text-start m-0">{token.name}<br /><span class="token_symbol m-0">{token.symbol}</span></h3>
+                                                                    <h3 class="text-start d-flex align-items-center">{token.symbol}</h3>
+                                                                    <h6 class="text-start">{token.name}</h6>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td class="p-0">
-                                                            <div class="crypto_card_coin_info" onClick={(e)=>copyAddress(e,token.token_address)}>
+
+                                                            <h3 class="text-center m-0">$ {token.balance}</h3>
+                                                            {/* <div class="crypto_card_coin_info" onClick={(e)=>copyAddress(e,token.token_address)}>
                                                                 <h3 class="text-start m-0">{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</h3>
-                                                            </div>
+                                                            </div> */}
                                                         </td>
                                                         <td class="p-0">
                                                             <div class="crypto_card_coin_info">
-                                                                <h3 class="text-start m-0">$ {token.balance}</h3>
+                                                                <div class="card-coin__price text-end"><strong>{token.balance}<br /><span>{token.symbol}</span></strong></div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -509,7 +512,7 @@ const Portfolio = () => {
                                             onClick={() => navigate("/add-token")}
                                         >
                                             <div class="trans_tabs">
-                                                <img src={require("../assets/images/add-coin.png")} />
+                                            <img src={require("../assets/images/history.png")} />
                                                 <p>history</p>
                                             </div>
                                         </div>

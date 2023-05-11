@@ -44,27 +44,29 @@ const AddToken = () => {
 
   useEffect(() => {
     async function fetchTokens() {
-    try { const response = await getTokens(context.id,context.token);
-      console.log("response is---->", response);
-      const tokens = response.data.data;
+      try {
+        const response = await getTokens(context.id, context.token);
+        console.log("response is---->", response);
+        const tokens = response.data.data;
 
-      const balanceRequests = tokens.map(async (token) => {
-        console.log("address is---->", context.address)
-        const contract = await tronWeb2.contract().at(token.token_address);
-        let balance = await contract.balanceOf(context.address).call();
-        console.log("balance oof token--->", token.token_address, balance.toString());
-        let res = balance.toString();
-        res = parseFloat(res)
-        return res / 1000000;
-      });
-      const balances = await Promise.all(balanceRequests);
+        const balanceRequests = tokens.map(async (token) => {
+          console.log("address is---->", context.address)
+          const contract = await tronWeb2.contract().at(token.token_address);
+          let balance = await contract.balanceOf(context.address).call();
+          console.log("balance oof token--->", token.token_address, balance.toString());
+          let res = balance.toString();
+          res = parseFloat(res)
+          return res / 1000000;
+        });
+        const balances = await Promise.all(balanceRequests);
 
-      const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
-      console.log("updated tokens result is", tokensWithBalances);
-      setTokens(tokensWithBalances);}
+        const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
+        console.log("updated tokens result is", tokensWithBalances);
+        setTokens(tokensWithBalances);
+      }
 
-      catch(err){
-        if(err.response.status==401){
+      catch (err) {
+        if (err.response.status == 401) {
           toast.error(err.response.data.message)
           navigate('/login')
         }
@@ -243,19 +245,35 @@ const AddToken = () => {
       </div>
 
       <div class="d-lg-none d-md-none d-block w-100">
-        <section class="klevar-extention mobile_add_token text-white mobile_login d-flex align-items-center mobile-addddd">
+        <section class="klevar-extention mobile_add_token text-white mobile_login d-flex align-items-top pt-3">
           <div class="top-wallet">
             <div className="BackBtn arrow_back" onClick={() => navigate(-1)}>
               <IoMdArrowRoundBack />
             </div>
           </div>
+
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8 col-md-8 col-sm-12">
+
+                <div class="crypto_account_detail mt-5 mb-0">
+                  <div class="add_token_NEW mt-0 p-0">
+                    <h4>Add Token</h4>
+                    <p class="m-0">You may not be able to access certain functions of your custom token due to the unrecognizable methoda of the contract  address. </p>
+                  </div>
+                </div>
+
                 <div class="klevar-inner login_page">
-                  <div class="add_token_NEW">
-                      <h4>Add Token</h4>
-                      <p>You may not be able to access certain functions of your custom token due to the unrecognizable methoda of the contract  address. </p>
+                  <div class="form-outline">
+                    <input
+                      value={tokenAddress}
+                      type="search"
+                      id="form1"
+                      class="form-control"
+                      placeholder="Token Contract Address"
+                      onChange={handleAddressChange}
+                    />
+                    <i class="fas fa-search"></i>
                   </div>
                   <div class="assests-input">
                     <div class="input-group">
@@ -278,21 +296,10 @@ const AddToken = () => {
                       </div>
                     </form>
                   </div>
-                  <div class="crypto_account_detail">
-                    <div class="form-outline">
-                      <input
-                        value={tokenAddress}
-                        type="search"
-                        id="form1"
-                        class="form-control"
-                        placeholder="Token Contract Address"
-                        onChange={handleAddressChange}
-                      />
-                      <i class="fas fa-search"></i>
-                    </div>
-                    <h3 class="m-0 text-start d-none">Assest Collectibles</h3>
-                  </div>
-                  <div class="assest_inner">
+
+                  {/* <h3 class="m-0 text-center">Add Token</h3> */}
+
+                  <div class="assest_inner p-0">
                     {error && <div>{error}</div>}
                     {name && symbol && (
                       <div>
@@ -301,7 +308,7 @@ const AddToken = () => {
                         <img src={icon} alt="Token Icon" />
                       </div>
                     )}
-                    <div class="row">
+                    <div class="row m-0">
                       <table className="portfolitable mt-0">
                         <thead>
                           <tr>
@@ -323,7 +330,7 @@ const AddToken = () => {
                           ))}
                         </tbody>
                       </table>
-                      
+
                       <button class="btn-danger mx-auto" onClick={handleTokenDetails}>
                         Add Token
                       </button>

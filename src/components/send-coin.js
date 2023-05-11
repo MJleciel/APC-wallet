@@ -20,22 +20,22 @@ const SendCoin = () => {
 
   const handleSendTrxModal = () => {
 
-    
-    if(sendWalletAddress==""||sendWalletAddress==undefined){
+
+    if (sendWalletAddress == "" || sendWalletAddress == undefined) {
       toast.error("Please Enter Receiver wallet address");
-       return;
+      return;
     }
-    if(amount<=0){
+    if (amount <= 0) {
       toast.error("Please Enter Amount");
       return;
-   }
+    }
 
     let bal = parseFloat(loc.state.balance);
     console.log("balance of token is", bal);
-    
+
     if (bal < parseFloat(amount)) {
       toast.error(`you dont have ${amount} in your wallet`);
-    //   setAmount(0);
+      //   setAmount(0);
       return;
     }
 
@@ -79,9 +79,6 @@ const SendCoin = () => {
         <div class="container">
           <div class="page page--main" data-page="buy">
             <div class="page__content page__content--with-header page__content--with-bottom-nav padding_send">
-              <div className="BackBtn" onClick={() => navigate(-1)}>
-                <IoMdArrowRoundBack />
-              </div>
               <h2 class="page__title">Send {loc.state.tokenName}</h2>
               <div class="send_form">
                 <form class="send_inner_form">
@@ -120,6 +117,63 @@ const SendCoin = () => {
           </div>
         </div>
       </section>
+
+      <section class="transfer-page recieve_page rr_pg">
+        <div class="container">
+          <div class="page page--main" data-page="buy">
+            <div class="page__content page__content--with-header page__content--with-bottom-nav padding_send">
+              <div className="BackBtn" onClick={() => navigate(-1)}>
+                <IoMdArrowRoundBack />
+              </div>
+              <div class="recieve_page mobile_login">
+                <h5 class="text-purple">Send {loc.state.tokenName}</h5>
+                {loading ? <Loader /> : ""}
+                <div class="container p-0">
+                  <div class="page page--main" data-page="buy">
+                    <div class="page__content text-center page__content--with-header page__content--with-bottom-nav padding_send">
+                      <div class="send_form">
+                        <form class="send_inner_form multi-form m-0">
+                          <div class="form_flex m-0 text-start">
+                            <label class="text-start">To</label>
+                            <input
+                              type="text"
+                              placeholder="Please Enter Wallet Address"
+                              onChange={(e) => {
+                                setSendWalletAddress(e.target.value);
+                                console.log("wallet address is---->", e.target.value);
+                              }}
+                            />
+                          </div>
+                          <div class="form_flex m-0 mt-4 text-start">
+                            <label class="text-start">Amount</label>
+                            <input
+                              type="text"
+                              placeholder="Please Enter Amount"
+                              value={amount}
+                              onChange={(e) => {
+                                setAmount(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </form>
+                      </div>
+                      <button
+                        class="btn-danger"
+                        type="submit"
+                        onClick={handleSendTrxModal}
+                      >
+                        Send {loc.state.tokenName}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div >
+            </div></div></div>
+      </section >
+
+
+
+
     </>
   );
 };

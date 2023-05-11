@@ -34,7 +34,7 @@ const NewOverView = () => {
   const [selectedTokenName, setSelectedTokenName] = useState("APC");
   const [selectedTokenAddress, setSelectedTokenAddress] = useState(process.env.REACT_APP_APC_TOKEN_ADDRESS);
   const [contractData, setContractData] = useState([]);
-  const [tokenImage,setTokenImage]=useState(require("../assets/images/aarohi-coin.png"));
+  const [tokenImage, setTokenImage] = useState(require("../assets/images/aarohi-coin.png"));
 
   let navigate = useNavigate();
   let tronWeb2 = new TronWeb({
@@ -59,14 +59,14 @@ const NewOverView = () => {
   };
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_APC_TOKEN,process.env.REACT_APP_TRON_EVENT_SERVER);
+    console.log(process.env.REACT_APP_APC_TOKEN, process.env.REACT_APP_TRON_EVENT_SERVER);
     getWalletDetails();
   }, [context.address]);
 
-  
+
 
   const fetchTokens = () => {
-    getTokens(context.id,context.token).then(async (response) => {
+    getTokens(context.id, context.token).then(async (response) => {
 
 
       const token = response.data.data;
@@ -78,7 +78,7 @@ const NewOverView = () => {
         token_address: '0Tx000',
         user_id: token[0]?.user_id,
         created_on: new Date().toISOString(),
-        image:"https://static.tronscan.org/production/logo/trx.png"
+        image: "https://static.tronscan.org/production/logo/trx.png"
       }
 
 
@@ -92,7 +92,7 @@ const NewOverView = () => {
         token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
         user_id: token[0]?.user_id,
         created_on: new Date().toISOString(),
-        image:require("../assets/images/aarohi-coin.png")
+        image: require("../assets/images/aarohi-coin.png")
       }
 
       tokensList = [...token, additionalToken2, additionalToken]
@@ -134,15 +134,15 @@ const NewOverView = () => {
       const tokensImage = tokensWithBalances.map(async (token) => {
         try {
           if (token.token_address === "0Tx000") {
-            
+
             return "https://static.tronscan.org/production/logo/trx.png"
-          }else if(token.token_address==process.env.REACT_APP_APC_TOKEN_ADDRESS){
-                     return require("../assets/images/aarohi-coin.png");
+          } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
+            return require("../assets/images/aarohi-coin.png");
           } else {
-           
-            let tokenImages=await getTokenImage({contract_address:token.token_address})
+
+            let tokenImages = await getTokenImage({ contract_address: token.token_address })
             // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
-            return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"";
+            return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
           }
         } catch (e) {
           console.log("error is---->", e);
@@ -161,8 +161,8 @@ const NewOverView = () => {
 
       setTokensBalance(tokensWithImage);
 
-    }).catch(err=>{
-      if(err.response.status==401){
+    }).catch(err => {
+      if (err.response.status == 401) {
         toast.error(err.response.data.message)
         navigate('/login')
       }
@@ -218,55 +218,55 @@ const NewOverView = () => {
   }, [context.address]);
 
 
-//   const getTransactionHistory = async (address) => {
-//     const transactions = await tronWeb.getTransactionsFromAddress(context.address, {
-//       eventName: 'Transfer',
-//       size: 200,
-//       page: 1
-//     });
-//   console.log("newwwwww0",transactions);
-//     const totalAmount = transactions.reduce((total, tx) => {
-//       console.log(total);
-//       if (tx.result.from === context.address) {
-//         total -= parseInt(tx.result.amount);
-//       }
-//       else if (tx.result.to === context.address) {
-//         total += parseInt(tx.result.amount);
-//       }
-  
-//       return total;
-//     }, 0)
-//     return totalAmount;
-//   };
-//  useEffect(()=>{
-//   console.log("hiiiiiiii");
-//   getTransactionHistory()
-//  },[context.address])
+  //   const getTransactionHistory = async (address) => {
+  //     const transactions = await tronWeb.getTransactionsFromAddress(context.address, {
+  //       eventName: 'Transfer',
+  //       size: 200,
+  //       page: 1
+  //     });
+  //   console.log("newwwwww0",transactions);
+  //     const totalAmount = transactions.reduce((total, tx) => {
+  //       console.log(total);
+  //       if (tx.result.from === context.address) {
+  //         total -= parseInt(tx.result.amount);
+  //       }
+  //       else if (tx.result.to === context.address) {
+  //         total += parseInt(tx.result.amount);
+  //       }
+
+  //       return total;
+  //     }, 0)
+  //     return totalAmount;
+  //   };
+  //  useEffect(()=>{
+  //   console.log("hiiiiiiii");
+  //   getTransactionHistory()
+  //  },[context.address])
 
 
   const handleTokenSelect = async (event) => {
-  
-    const tokenValue = event.target.value;
-    console.log("token value in select is---->",tokenValue);
 
-    const [tokenName, tokenAddress,tokenImage] = tokenValue.split(',');
+    const tokenValue = event.target.value;
+    console.log("token value in select is---->", tokenValue);
+
+    const [tokenName, tokenAddress, tokenImage] = tokenValue.split(',');
 
 
 
     setSelectedTokenName(tokenName);
     setSelectedTokenAddress(tokenAddress)
-    if(tokenName=="TRX"){
+    if (tokenName == "TRX") {
       setTokenImage("https://static.tronscan.org/production/logo/trx.png")
-    }else if(tokenName=="APC"){
+    } else if (tokenName == "APC") {
       setTokenImage(require("../assets/images/aarohi-coin.png"))
-    }else{
-      
-      const tokenImages = await getTokenImage({contract_address:tokenAddress});
-       console.log("token image single is is--->",tokenImages);
-      setTokenImage(tokenImages?.data?.data?.trc20_tokens[0]?.icon_url?tokenImages?.data?.data?.trc20_tokens[0]?.icon_url:"")
+    } else {
+
+      const tokenImages = await getTokenImage({ contract_address: tokenAddress });
+      console.log("token image single is is--->", tokenImages);
+      setTokenImage(tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "")
     }
-      
-    
+
+
 
     try {
       if (tokenAddress !== "0Tx000") {
@@ -295,21 +295,21 @@ const NewOverView = () => {
     let txt = context.address
     navigator.clipboard.writeText(txt);
     toast.success("Wallet Address Copied");
-    
-}
-const copyTxID = (event) => {
-  const tdValue = event.target.textContent;
 
-  const textarea = document.createElement("textarea");
-  textarea.value = tdValue;
-  document.body.appendChild(textarea);
+  }
+  const copyTxID = (event) => {
+    const tdValue = event.target.textContent;
 
-  textarea.select();
-  document.execCommand("copy");
-  toast.success("Transaction ID Copied");
- 
-  document.body.removeChild(textarea);
-};
+    const textarea = document.createElement("textarea");
+    textarea.value = tdValue;
+    document.body.appendChild(textarea);
+
+    textarea.select();
+    document.execCommand("copy");
+    toast.success("Transaction ID Copied");
+
+    document.body.removeChild(textarea);
+  };
 
   return (
     <>
@@ -500,25 +500,25 @@ const copyTxID = (event) => {
                               ))}
                             </tbody>
                           </table> */}
-                          {tokensBalance.map(token => (
-                            <div class="card-coin">
-                              <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol}/><span>{token.name} <b>{token.symbol}</b></span></div>
-                              <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
-                              <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
-                            </div>))}
-                        </div>
-                        <div
-                          class="tab-pane fade"
-                          id="profile"
-                          role="tabpanel"
-                          aria-labelledby="profile-tab"
-                        >
-                          <table class="overview__table">
-                            <thead>
-                              <tr>
-                                <th>Tx Hash</th>
-                                <th>Type</th>
-                                {/* <th>From</th>
+                              {tokensBalance.map(token => (
+                                <div class="card-coin">
+                                  <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /><span>{token.name} <b>{token.symbol}</b></span></div>
+                                  <div class="card-coin__price text-center"><strong>{token.token_address}</strong></div>
+                                  <div class="card-coin__price"><strong>{token.balance} {token.symbol}</strong></div>
+                                </div>))}
+                            </div>
+                            <div
+                              class="tab-pane fade"
+                              id="profile"
+                              role="tabpanel"
+                              aria-labelledby="profile-tab"
+                            >
+                              <table class="overview__table">
+                                <thead>
+                                  <tr>
+                                    <th>Tx Hash</th>
+                                    <th>Type</th>
+                                    {/* <th>From</th>
                                                             <th>To</th> */}
                                     <th>Amount</th>
                                   </tr>
@@ -527,7 +527,7 @@ const copyTxID = (event) => {
                                   {contractData.map(contract => (
 
                                     <tr key={contract.txID} >
-                                      <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID} </td>
+                                      <td style={{ cursor: "pointer" }} onClick={copyTxID}>{contract.txID} </td>
                                       <td>{contract.type}</td>
                                       {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
@@ -635,8 +635,8 @@ const copyTxID = (event) => {
                             {/* <option value="">
                               Select token
                             </option> */}
-                            {tokens.map((token,index) => (
-                              <option selected={index==0}
+                            {tokens.map((token, index) => (
+                              <option selected={index == 0}
                                 key={token.address}
                                 value={`${token.symbol},${token.token_address}`}
                               >
@@ -651,7 +651,7 @@ const copyTxID = (event) => {
                       </div>
                     </button>
 
-                   
+
                   </div>
 
                   <div class="crypto_account_detail">
@@ -737,10 +737,10 @@ const copyTxID = (event) => {
                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
                       {tokensBalance.map(token => (
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
-                          <div class="card-coin__logo"><img src={token.image?token.image:""} alt={token.symbol} /></div>
+                          <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /></div>
                           <div class="crypto_card_coin_info">
                             <h3 class="text-start d-flex align-items-center">{token.name} <span class="token_symbol">{token.symbol}</span></h3>
-                            <h6 class="text-start">{token.token_address}</h6>
+                            <h6 class="text-start">{token.name}</h6>
                           </div>
                           <div class="card-coin__price text-end"><strong>{token.balance}<br /><span>{token.symbol}</span></strong></div>
                         </div>))}
@@ -760,7 +760,7 @@ const copyTxID = (event) => {
                           {contractData.map(contract => (
 
                             <tr key={contract.txID}>
-                              <td style={{cursor:"pointer"}} onClick={copyTxID}>{contract.txID}</td>
+                              <td style={{ cursor: "pointer" }} onClick={copyTxID}>{contract.txID}</td>
                               <td>{contract.type}</td>
                               {/* <td>{contract.owner_address}</td>
                                                                 <td>{contract.to_address}</td> */}
@@ -817,7 +817,7 @@ const copyTxID = (event) => {
                       onClick={() => navigate("/history")}
                     >
                       <div class="trans_tabs">
-                        <img src={require("../assets/images/add-coin.png")} />
+                        <img src={require("../assets/images/history.png")} />
                         <p>history</p>
                       </div>
                     </div>
