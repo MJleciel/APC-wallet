@@ -35,11 +35,12 @@ const Portfolio = () => {
     const [totalBalance, setTotalBalance] = useState()
     let context = useContext(appContext)
     const [usdtTrxPrice, setUsdtTrxPrice] = useState(null);
+    const [totalNumberOfAssets,setTotalNumberOfAssets]=useState(0)
 
     const [price, setPrice] = useState(null);
     const apiKey = 'c3d80b26-5a20-4ff5-84ec-d3b33970161e';
     const apiUrl = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=TRX&convert=USDT';
-
+    
     let navigate = useNavigate()
     const logout = () => {
         context.setToken("");
@@ -60,7 +61,9 @@ const Portfolio = () => {
         getTokens(context.id, context.token).then(async (response) => {
 
 
-            const token = response.data.data;
+            const token = response?.data?.data;
+            console.log("token length is",token?.length);
+            setTotalNumberOfAssets(token?.length)
             const additionalToken = {
                 id: token?.length + 1,
                 name: 'TRON',
@@ -100,33 +103,42 @@ const Portfolio = () => {
                 try {
                     if (token.token_address === "0Tx000") {
                         let bal = await getBalance(context.address);
-                        return bal.toString();
+                        // console.log("balance of trx is",bal)
+                        let res=bal.toString();
+                        return parseFloat(res);
                     } else {
                         console.log("contract address is----->", token.token_address)
                         const contract = await tronWeb2.contract().at(token.token_address);
 
                         let balance = await contract.balanceOf(context.address).call();
+                        if(balance&&balance!==undefined){
+                            let res = balance.toString();
+                            // console.log("balance of token set tokens is----->",token.token_address, res);
+                            res = parseFloat(res);
+                            return res / 1000000;
+                        }else{
+                            return 0;
+                        }
 
 
-                        let res = balance.toString();
-                        console.log("balance of set tokens is----->", res);
-                        res = parseFloat(res);
-                        return res / 1000000;
+                       
                     }
                 } catch (e) {
                     console.log("error is---->", e);
+                    return 0;
                 }
 
 
 
             });
             const balances = await Promise.all(balanceRequests);
+            
 
             const tokensWithBalances = tokensList.map((token, index) => ({
                 ...token,
                 balance: balances[index],
             }));
-            //   console.log("updated tokens result in portfolio is--->", tokensWithBalances);
+              console.log("updated tokens result in portfolio is--->", tokensWithBalances);
 
 
 
@@ -155,15 +167,20 @@ const Portfolio = () => {
                 }
 
             });
+            console.log("total value in usdt is---->",totalValueInUSDT);
+
             const balancesInUSDT = await Promise.all(totalValueInUSDT);
-            //   console.log("balances in USDT----->",balancesInUSDT);
+              console.log("balances in USDT----->",balancesInUSDT);
             setTotalBalance(usdtBalance.toFixed(5));
             //   console.log("usdt balance is---->",usdtBalance,totalBalance);
-            const tokensWithUSDTBalances = tokensList.map((token, index) => ({
+            const tokensWithUSDTBalances = tokensWithBalances.map((token, index) => ({
                 ...token,
-                balance: balancesInUSDT[index],
+                fiatBalance: balancesInUSDT[index],
             }));
-            //   console.log("updated tokens result in portfolio with USDT balances--->", tokensWithUSDTBalances);
+
+            console.log("tokens with usdt balances is---->",tokensWithUSDTBalances)
+          
+
 
             const tokensImage = tokensWithUSDTBalances.map(async (token) => {
                 try {
@@ -242,7 +259,7 @@ const Portfolio = () => {
                                         <div class="Main_inner">
                                             <div class="portfolio_eye">
                                                 <h3>Total Balance <BsFillEyeSlashFill /></h3>
-                                                <p>23 assests</p>
+                                                <p>{totalNumberOfAssets+2} assests</p>
                                             </div>
                                             <div class="">
 
@@ -304,7 +321,7 @@ const Portfolio = () => {
                                                         <a class="card-coin" href="">
                                                             <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
                                                             <div class="card-coin__price text-center"><strong>{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</strong></div>
-                                                            <div class="card-coin__price"><strong>$ {token.balance ? token.balance : "0"}</strong></div>
+                                                            <div class="card-coin__price"><strong>$ {token.fiatBalance ? token.fiatBalance : "0"}</strong></div>
                                                         </a>
                                                     ))}
 
@@ -398,7 +415,7 @@ const Portfolio = () => {
                                 </div>
                                 <div class="porfolio_balance">
                                     <h3>Total Balance <BsFillEyeSlashFill /></h3>
-                                    <p class="m-0">23 assests</p>
+                                    <p class="m-0">{totalNumberOfAssets+2} assests</p>
                                 </div>
                                 <hr />
                                 <div class="text-start crpto_mobile_balance">
@@ -451,14 +468,14 @@ const Portfolio = () => {
                                                         </td>
                                                         <td class="p-0">
 
-                                                            <h3 class="text-center m-0">$ {token.balance}</h3>
+                                                            <h3 class="text-center m-0">$ {token.fiatBalance ? token.fiatBalance : "0"}</h3>
                                                             {/* <div class="crypto_card_coin_info" onClick={(e)=>copyAddress(e,token.token_address)}>
                                                                 <h3 class="text-start m-0">{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</h3>
                                                             </div> */}
                                                         </td>
                                                         <td class="p-0">
                                                             <div class="crypto_card_coin_info">
-                                                                <div class="card-coin__price text-end"><strong>{token.balance}<br /><span>{token.symbol}</span></strong></div>
+                                                                <div class="card-coin__price text-end"><strong>{token.fiatBalance*token.balance}<br /><span>$</span></strong></div>
                                                             </div>
                                                         </td>
                                                     </tr>

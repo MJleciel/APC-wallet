@@ -105,14 +105,14 @@ const NewOverView = () => {
             let bal = await getBalance(context.address);
             return bal.toString();
           } else {
-            console.log("contract address is----->", token.token_address)
+            
             const contract = await tronWeb2.contract().at(token.token_address);
 
             let balance = await contract.balanceOf(context.address).call();
 
 
             let res = balance.toString();
-            console.log("balance of set tokens is----->", res);
+           
             res = parseFloat(res);
             return res / 1000000;
           }
@@ -186,18 +186,20 @@ const NewOverView = () => {
     )
       .then((response) => response.json())
       .then((response) => {
-        // console.log("transaction histroy is", response)
+       
         const transactions = response.data;
-        console.log("transaction data is--->", transactions);
+       
         const contractTransactions = transactions.filter(txn => {
+         
           const { raw_data } = txn;
-          return raw_data.contract && raw_data.contract.length > 0;
+
+          return raw_data?.contract && raw_data?.contract.length > 0;
         });
-        // console.log("contract transaction is--->", contractTransactions);
+        console.log("contract transaction is--->", contractTransactions);
         const formattedData = contractTransactions.map(txn => {
           const { txID, raw_data } = txn;
           const contract = raw_data.contract[0];
-          // console.log("contract parameter is------>>>",contract);
+        
           let type = contract?.type
           // if(type=="TriggerSmartContract"){
           //   return;
@@ -218,31 +220,7 @@ const NewOverView = () => {
   }, [context.address]);
 
 
-  //   const getTransactionHistory = async (address) => {
-  //     const transactions = await tronWeb.getTransactionsFromAddress(context.address, {
-  //       eventName: 'Transfer',
-  //       size: 200,
-  //       page: 1
-  //     });
-  //   console.log("newwwwww0",transactions);
-  //     const totalAmount = transactions.reduce((total, tx) => {
-  //       console.log(total);
-  //       if (tx.result.from === context.address) {
-  //         total -= parseInt(tx.result.amount);
-  //       }
-  //       else if (tx.result.to === context.address) {
-  //         total += parseInt(tx.result.amount);
-  //       }
-
-  //       return total;
-  //     }, 0)
-  //     return totalAmount;
-  //   };
-  //  useEffect(()=>{
-  //   console.log("hiiiiiiii");
-  //   getTransactionHistory()
-  //  },[context.address])
-
+  
 
   const handleTokenSelect = async (event) => {
 
@@ -524,6 +502,7 @@ const NewOverView = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
+                                {console.log("contract data is------>",contractData)}
                                   {contractData.map(contract => (
 
                                     <tr key={contract.txID} >
