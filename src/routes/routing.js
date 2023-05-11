@@ -27,6 +27,7 @@ import SendCoin from "../components/send-coin";
 import Recieve from "../components/recieve";
 import Portfolio from "../components/portfolio";
 import TransactionHistory from "../components/history";
+import Test from "../components/testScanner";
 
 
 const Routing = () => {
@@ -39,6 +40,7 @@ const Routing = () => {
                     <>
                         <Route path='*' element={<NewOverView />} />
                         <Route path='/' element={<NewOverView  />} />
+                        <Route path='/scan' element={<Test />} />
                         <Route path='/portfolio' element={<Portfolio  />} />
                         <Route path='/new-overview' element={<NewOverView />} />
                         <Route path='/history' element={<TransactionHistory />} />

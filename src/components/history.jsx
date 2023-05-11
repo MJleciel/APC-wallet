@@ -18,10 +18,10 @@ const TransactionHistory = () => {
             .then((response) => {
 
                 const transactions = response.data;
-                console.log("transaction data is--->", transactions);
+                console.log("transaction data in history page is--->", transactions);
                 const contractTransactions = transactions.filter(txn => {
                     const { raw_data } = txn;
-                    return raw_data.contract && raw_data.contract.length > 0;
+                    return raw_data?.contract && raw_data?.contract?.length > 0;
                 });
 
                 const formattedData = contractTransactions.map(txn => {

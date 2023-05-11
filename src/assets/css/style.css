@@ -4715,3 +4715,78 @@ table.portfolitable .crypto_card_coin_info {
   z-index: 111111;
   left: 0 !important;
 }
+
+table.portfolitable .crypto_card_coin_info {
+  padding-left: 10px;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 117px;
+  overflow: hidden;
+}
+.Qr-scan {
+  width: 100%;
+  position: absolute;
+  top: 50% !important;
+  height: 100vh;
+  position: absolute;
+  top: 50%;
+}
+.Qr-scan section {
+  width: 90%;
+  margin: 0 auto;
+  height: 300px;
+  padding: 0px;
+  position: absolute;
+  top: 25%;
+  left: 5%;
+}
+video#video {
+  /* border: 8px solid #fff; */
+  object-fit: cover;
+  margin-top: 0px;
+  height: 100%;
+}
+.border-1 {
+  position: absolute;
+  width: 80px;
+  height: 79px;
+  border-left: 16px solid #fff;
+  border-top: 20px solid #fff;
+  top: 24%;
+  z-index: -1;
+  border-width: 30px !important;
+  left: 9px;
+}
+.border-2 {
+  position: absolute;
+  width: 80px;
+  height: 79px;
+  border-right: 16px solid #fff;
+  border-top: 20px solid #fff;
+  top: 24%;
+  z-index: -1;
+  border-width: 30px !important;
+  right: 9px !important;
+}
+.border-3 {
+  position: absolute;
+  width: 80px;
+  height: 85px;
+  border-left: 16px solid #fff;
+  border-bottom: 20px solid #fff;
+  bottom: 23%;
+  z-index: -1;
+  border-width: 70px !important;
+  right: 9px !important;
+}
+.border-4 {
+  position: absolute;
+  width: 80px;
+  height: 79px;
+  border-left: 16px solid #fff;
+  border-bottom: 20px solid #fff;
+  bottom: 23%;
+  z-index: -1;
+  border-width: 30px !important;
+  left: 9px !important;
+}
