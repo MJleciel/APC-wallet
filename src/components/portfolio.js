@@ -95,7 +95,7 @@ const Portfolio = () => {
                 created_on: new Date().toISOString()
             }
 
-            tokensList = [...token, additionalToken2, additionalToken]
+            tokensList = [additionalToken2, additionalToken,...token]
             //   console.log("token list in portfolio is----->", tokensList)
             setTokens(tokensList)
 

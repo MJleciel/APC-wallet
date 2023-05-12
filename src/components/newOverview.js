@@ -95,7 +95,7 @@ const NewOverView = () => {
         image: require("../assets/images/aarohi-coin.png")
       }
 
-      tokensList = [...token, additionalToken2, additionalToken]
+      tokensList = [additionalToken2, additionalToken,...token]
       console.log("token list is----->", tokensList)
       setTokens(tokensList)
 
