@@ -88,7 +88,6 @@ function isValidTronPrivateKey(privateKey) {
 }
 
 export async function getBalance(address) {
-  console.log("address is---->",address,await tronWeb.trx);
   let balance = (await tronWeb.trx.getBalance(address))/1000000;
 
   return balance;
@@ -97,7 +96,7 @@ export async function getBalance(address) {
 
 export async function sendTrx(data) {
 
-  console.log("send trx function is called",data);
+  
   
   let tronWeb1 = new TronWeb({
     fullHost: process.env.REACT_APP_TRON_FULL_NODE,
@@ -136,7 +135,7 @@ export async function sendTrx(data) {
          console.log("error is",e)
     }
   }else{
-    console.log("in trc20")
+    
     try{
       const contract = await tronWeb1.contract().at(data.tokenAddress);
       
@@ -171,17 +170,17 @@ export const fetchTokenData = async (tokenAddress,privateKey) => {
     privateKey:privateKey
    
   });
-  console.log("private key is---->",privateKey);
+
   try {
-    console.log("token address is----->",tokenAddress);
+  
     const contract = await tronWeb2.contract().at(tokenAddress);
-    console.log("contract is---->",contract);
+   
     const name=await contract.name().call();
 
-    console.log("name decimal and symbol is---->",name);
+   
    
     const symbol = await contract.symbol().call();
-    console.log("symbol is---->",symbol);
+
     const decimals = await contract.decimals().call();
    
     
