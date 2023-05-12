@@ -37,34 +37,34 @@ const SelectCoin = () => {
 
   const tokens = [
     {
-      name: "Tether Token",
+      name: "Tether USD",
       symbol: "USDT",
       totalSupply: 999000000000000,
-      address: "TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs",
+      address: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
       image: "https://static.tronscan.org/production/logo/usdtlogo.png",
     },
     {
-      name: "Tether USD",
-      symbol: "USDT",
+      name: "TrueUSD",
+      symbol: "TUSD",
       totalSupply: 0,
-      address: "TB5NSkyzxkzi3eHW87NwFE6TmtTmnZw61y",
+      address: "TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4",
       image:
-        "https://shasta.tronscan.org/upload/logo/TB5NSkyzxkzi3eHW87NwFE6TmtTmnZw61y.png?t=1656052153019",
+        "https://static.tronscan.org/production/logo/TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4.png",
     },
     {
-      name: "USDD",
-      symbol: "USDD",
+      name: "SUN",
+      symbol: "SUN",
       totalSupply: 99000000000000000,
-      address: "TVMZYcbjpjaGqmciUjzuRWzANTXfHxrRCs",
-      image: "https://usdd.io/static/media/header_logo.e0c6b9b8.svg",
+      address: "TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S",
+      image: "https://static.tronscan.org/production/logo/TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S.png",
     },
     {
-      name: "QAQ Token",
-      symbol: "QAQ",
+      name: "Dogecoin",
+      symbol: "DOGE",
       totalSupply: 19800000000000000,
-      address: "TX8ZUpucJYgHb8wBFQYuYSJ459og32AHWW",
+      address: "THbVQp8kMjStKNnf2iCY6NEzThKMK5aBHg",
       image:
-        "https://shasta.tronscan.org/upload/logo/new/TX8ZUpucJYgHb8wBFQYuYSJ459og32AHWW.png?t=1665221531815",
+        "https://static.tronscan.org/production/upload/logo/THbVQp8kMjStKNnf2iCY6NEzThKMK5aBHg.png",
     },
   ];
   const filteredTokens = tokens.filter((token) =>
