@@ -6,7 +6,8 @@ import {
   createWallet,
   getPrivateKey,
   getTokens,
-  getTokenImage
+  getTokenImage,
+  getTokenPrice,
 } from "../services/services";
 import {
   generateTronAccount,
@@ -35,6 +36,9 @@ const NewOverView = () => {
   const [selectedTokenAddress, setSelectedTokenAddress] = useState(process.env.REACT_APP_APC_TOKEN_ADDRESS);
   const [contractData, setContractData] = useState([]);
   const [tokenImage, setTokenImage] = useState(require("../assets/images/aarohi-coin.png"));
+  const [selectedTokenPrice,setSelectedTokenPrice]=useState(0);
+  const [totalNumberOfAssets,setTotalNumberOfAssets]=useState(0);
+  const [totalBalance, setTotalBalance] = useState()
 
   let navigate = useNavigate();
   let tronWeb2 = new TronWeb({
@@ -46,6 +50,7 @@ const NewOverView = () => {
 
   const getWalletDetails = async () => {
     const contract = await tronWeb2.contract().at(selectedTokenAddress);
+    
 
     let balance = await contract.balanceOf(context.address).call();
     let res = balance.toString();
@@ -69,106 +74,163 @@ const NewOverView = () => {
     getTokens(context.id, context.token).then(async (response) => {
 
 
-      const token = response.data.data;
-      const additionalToken = {
-        id: token?.length + 1,
-        name: 'TRX',
-        symbol: 'TRX',
-        decimals: '6',
-        token_address: '0Tx000',
-        user_id: token[0]?.user_id,
-        created_on: new Date().toISOString(),
-        image: "https://static.tronscan.org/production/logo/trx.png"
-      }
+        const token = response?.data?.data;
+      
+        setTotalNumberOfAssets(token?.length)
+        const additionalToken = {
+            id: token?.length + 1,
+            name: 'TRON',
+            symbol: 'TRX',
+            decimals: '6',
+            token_address: '0Tx000',
+            user_id: token[0]?.user_id,
+            created_on: new Date().toISOString()
+        }
+      
 
+        let tokensList = [...token, additionalToken]
 
-      let tokensList = [...token, additionalToken]
-
-      const additionalToken2 = {
-        id: token?.length + 2,
-        name: 'Aarohi Partner',
-        symbol: 'APC',
-        decimals: '6',
-        token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
-        user_id: token[0]?.user_id,
-        created_on: new Date().toISOString(),
-        image: require("../assets/images/aarohi-coin.png")
-      }
-
-      tokensList = [additionalToken2, additionalToken,...token]
-      console.log("token list is----->", tokensList)
-      setTokens(tokensList)
-
-      const balanceRequests = tokensList.map(async (token) => {
-        try {
-          if (token.token_address === "0Tx000") {
-            let bal = await getBalance(context.address);
-            return bal.toString();
-          } else {
-            
-            const contract = await tronWeb2.contract().at(token.token_address);
-
-            let balance = await contract.balanceOf(context.address).call();
-
-
-            let res = balance.toString();
-           
-            res = parseFloat(res);
-            return res / 1000000;
-          }
-        } catch (e) {
-          console.log("error is---->", e);
+        const additionalToken2 = {
+            id: token?.length + 2,
+            name: 'Aarohi Partner',
+            symbol: 'APC',
+            decimals: '6',
+            token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
+            user_id: token[0]?.user_id,
+            created_on: new Date().toISOString()
         }
 
+        tokensList = [additionalToken2, additionalToken,...token]
+        //   console.log("token list in portfolio is----->", tokensList)
+        setTokens(tokensList)
+
+        const balanceRequests = tokensList.map(async (token) => {
+            try {
+                if (token.token_address === "0Tx000") {
+                    let bal = await getBalance(context.address);
+                 
+                    let res=bal.toString();
+                    return parseFloat(res);
+                } else {
+                   
+                    const contract = await tronWeb2.contract().at(token.token_address);
+
+                    let balance = await contract.balanceOf(context.address).call();
+                    if(balance&&balance!==undefined){
+                        let res = balance.toString();
+                        // console.log("balance of token set tokens is----->",token.token_address, res);
+                        res = parseFloat(res);
+                        return res / 1000000;
+                    }else{
+                        return 0;
+                    }
 
 
-      });
-      const balances = await Promise.all(balanceRequests);
-
-      const tokensWithBalances = tokensList.map((token, index) => ({
-        ...token,
-        balance: balances[index],
-      }));
-      console.log("updated tokens result is--->", tokensWithBalances);
-
-      const tokensImage = tokensWithBalances.map(async (token) => {
-        try {
-          if (token.token_address === "0Tx000") {
-
-            return "https://static.tronscan.org/production/logo/trx.png"
-          } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
-            return require("../assets/images/aarohi-coin.png");
-          } else {
-
-            let tokenImages = await getTokenImage({ contract_address: token.token_address })
-            // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
-            return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
-          }
-        } catch (e) {
-          console.log("error is---->", e);
-        }
+                   
+                }
+            } catch (e) {
+                console.log("error is---->", e);
+                return 0;
+            }
 
 
 
-      });
-      const img = await Promise.all(tokensImage);
+        });
+        const balances = await Promise.all(balanceRequests);
+        
 
-      const tokensWithImage = tokensWithBalances.map((token, index) => ({
-        ...token,
-        image: img[index],
-      }));
-      console.log("updated tokens image result is--->", tokensWithImage)
+        const tokensWithBalances = tokensList.map((token, index) => ({
+            ...token,
+            balance: balances[index],
+        }));
+          
 
-      setTokensBalance(tokensWithImage);
+
+
+
+
+        let usdtBalance = 0;
+        const totalValueInUSDT = tokensWithBalances.map(async (token) => {
+            try {
+                
+                let sy = token.symbol
+                
+                let price = await getTokenPrice({ symbol: token.symbol });
+                
+
+                if (price?.data?.data?.data[sy].name == token.name || price?.data?.data?.data[sy].platform.token_address == token.token_address) {
+                    
+                    usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
+                    return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
+                }else if(token.symbol=="USDT"){
+                  return 1;
+                } else {
+                    return 0;
+                }
+                //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
+                //  price?.data?.data?.data[sy]?.quote?.USDT.price)
+            } catch (e) {
+                console.log("error is---->", e);
+            }
+
+        });
+        // console.log("total value in usdt is---->",totalValueInUSDT);
+
+        const balancesInUSDT = await Promise.all(totalValueInUSDT);
+          console.log("balances in USDT----->",balancesInUSDT);
+        setTotalBalance(usdtBalance.toFixed(5));
+        //   console.log("usdt balance is---->",usdtBalance,totalBalance);
+        const tokensWithUSDTBalances = tokensWithBalances.map((token, index) => ({
+            ...token,
+            fiatBalance: balancesInUSDT[index],
+        }));
+
+        console.log("tokens with usdt balances is---->",tokensWithUSDTBalances)
+      
+
+
+        const tokensImage = tokensWithUSDTBalances.map(async (token) => {
+            try {
+                if (token.token_address === "0Tx000") {
+
+                    return "https://static.tronscan.org/production/logo/trx.png"
+                } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
+                    return require("../assets/images/aarohi-coin.png");
+                } else {
+
+                    let tokenImages = await getTokenImage({ contract_address: token.token_address })
+                    // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+                    return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
+                }
+            } catch (e) {
+                console.log("error is---->", e);
+            }
+
+
+
+        });
+        const img = await Promise.all(tokensImage);
+
+        const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
+            ...token,
+            image: img[index],
+        }));
+        console.log("updated tokens image result is--->", tokensWithImage)
+
+        setTokensBalance(tokensWithImage);
+        // setTokensBalance(tokensWithUSDTBalances);
+
+
+
 
     }).catch(err => {
-      if (err.response.status == 401) {
-        toast.error(err.response.data.message)
-        navigate('/login')
-      }
+        if (err.response.status == 401) {
+            toast.error(err.response.data.message)
+            navigate('/login')
+        }
     })
 
-  }
+}
 
   useEffect(() => {
 
@@ -225,17 +287,28 @@ const NewOverView = () => {
   const handleTokenSelect = async (event) => {
 
     const tokenValue = event.target.value;
-    console.log("token value in select is---->", tokenValue);
+    // console.log("token value in select is---->", tokenValue);
 
-    const [tokenName, tokenAddress, tokenImage] = tokenValue.split(',');
+    const [tokenSymbol, tokenAddress, tokenName] = tokenValue.split(',');
+    // console.log("tokenName,tokensymbol,tokenAddress",tokenName,tokenSymbol,tokenAddress);
+    
 
+    let price = await getTokenPrice({ symbol: tokenSymbol });
+    // console.log("price of token is--->",price)
+    // console.log("price of each token issss---->",price?.data?.data?.data[tokenSymbol].name);
+    if (price?.data?.data?.data[tokenSymbol].name == tokenName|| price?.data?.data?.data[tokenSymbol]?.platform?.token_address == tokenAddress) {
+       
+         setSelectedTokenPrice(price?.data?.data?.data[tokenSymbol]?.quote?.USDT?.price)
+      
+    }else if(tokenSymbol=="USDT"){
+      setSelectedTokenPrice(1);
+    }
 
-
-    setSelectedTokenName(tokenName);
+    setSelectedTokenName(tokenSymbol);
     setSelectedTokenAddress(tokenAddress)
-    if (tokenName == "TRX") {
+    if (tokenSymbol == "TRX") {
       setTokenImage("https://static.tronscan.org/production/logo/trx.png")
-    } else if (tokenName == "APC") {
+    } else if (tokenSymbol == "APC") {
       setTokenImage(require("../assets/images/aarohi-coin.png"))
     } else {
 
@@ -332,10 +405,12 @@ const NewOverView = () => {
                                 <option value="">
                                   Select token
                                 </option>
+                                {console.log("tokens is----->",tokens)}
                                 {tokens.map((token) => (
+                                 
                                   <option
                                     key={token.address}
-                                    value={`${token.symbol},${token.token_address}`}
+                                    value={`${token.symbol},${token.token_address},${token.name}`}
                                     selected="APC"
                                   >
                                     {token.symbol}
@@ -617,7 +692,7 @@ const NewOverView = () => {
                             {tokens.map((token, index) => (
                               <option selected={index == 0}
                                 key={token.address}
-                                value={`${token.symbol},${token.token_address}`}
+                                value={`${token.symbol},${token.token_address},${token.name}`}
                               >
                                 {token.symbol}
                               </option>
@@ -645,7 +720,7 @@ const NewOverView = () => {
                     </div>
                     <hr />
                     <div class="text-start crpto_mobile_balance">
-                      <h3 class="m-0 text-start">{balance}</h3>
+                      <h3 class="m-0 text-start">${balance*selectedTokenPrice.toFixed(5)}</h3>
                     </div>
                   </div>
                 </div>
@@ -723,7 +798,7 @@ const NewOverView = () => {
                             <h3 class="text-start d-flex align-items-center">{token.symbol}<span class="token_symbol">{token.symbol}</span></h3>
                             <h6 class="text-start">{token.name}</h6>
                           </div>
-                          <div class="card-coin__price text-end"><strong>{token.balance}<br /><span>{token.symbol}</span></strong></div>
+                          <div class="card-coin__price text-end"><strong>{token.balance}<br/>${parseFloat(token.fiatBalance*token.balance)}</strong></div>
                         </div>))}
                     </div>
                     <div class="tab-pane fade" id="transection" role="tabpanel" aria-labelledby="transection-tab">
