@@ -8,6 +8,7 @@ import {
   getTokens,
   getTokenImage,
   getTokenPrice,
+  removeUserToken,
 } from "../services/services";
 import {
   generateTronAccount,
@@ -23,6 +24,8 @@ import TronWeb from "tronweb";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {MdDelete} from 'react-icons/md'
+
 
 const NewOverView = () => {
   let context = useContext(appContext);
@@ -348,6 +351,8 @@ const NewOverView = () => {
     toast.success("Wallet Address Copied");
 
   }
+
+
   const copyTxID = (event) => {
     const tdValue = event.target.textContent;
 
@@ -361,6 +366,29 @@ const NewOverView = () => {
 
     document.body.removeChild(textarea);
   };
+
+
+  const handleDeletion=(e,address)=>{
+    // alert(address)
+    Swal.fire({
+      customClass:"pop-delete",
+      title: 'Are you sure you want to remove this token?',
+      icon: 'question',
+      showCancelButton:true,
+      confirmButtonText:"Remove",
+      confirmButtonColor:"red",
+      cancelButtonText:"Cancel"
+    }).then((result)=>{
+      if(result.isConfirmed){
+        removeUserToken(context.token,{"user_id":context.id,"token_address":address}).then(res=>{
+          if(res.status===200){
+            toast.success("Token Removed Successfully");
+           fetchTokens()
+          }
+        })
+      }
+    })
+  }
 
   return (
     <>
@@ -791,7 +819,7 @@ const NewOverView = () => {
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
-                      {tokensBalance.map(token => (
+                      {tokensBalance.map((token,i) => (
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
                           <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /></div>
                           <div class="crypto_card_coin_info">
@@ -799,6 +827,9 @@ const NewOverView = () => {
                             <h6 class="text-start">{token.name}</h6>
                           </div>
                           <div class="card-coin__price text-end"><strong>{token.balance}<br/>${parseFloat(token.fiatBalance*token.balance)}</strong></div>
+                          {i>1 &&
+                          <div className="menu-icon" onClick={(e)=>handleDeletion(e,token.token_address)}><MdDelete/></div>}
+
                         </div>))}
                     </div>
                     <div class="tab-pane fade" id="transection" role="tabpanel" aria-labelledby="transection-tab">
