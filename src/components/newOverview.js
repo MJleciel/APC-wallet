@@ -59,7 +59,7 @@ const NewOverView = () => {
     let res = balance.toString();
     res = parseFloat(res);
 
-    setBalance(res / 1000000);
+    setBalance((res / 1000000));
   };
   const logout = () => {
     context.setToken("");
@@ -161,7 +161,7 @@ const NewOverView = () => {
                 let price = await getTokenPrice({ symbol: token.symbol });
                 
 
-                if (price?.data?.data?.data[sy].name == token.name || price?.data?.data?.data[sy].platform.token_address == token.token_address) {
+                if (price?.data?.data?.data[sy]?.name == token.name || price?.data?.data?.data[sy]?.platform?.token_address == token.token_address) {
                     
                     usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
                     return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
@@ -244,44 +244,50 @@ const NewOverView = () => {
   useEffect(() => {
 
     const options = { method: "GET", headers: { accept: "application/json" } };
-
-    fetch(
-      `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
+try{
+  fetch(
+    `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => {
+     
+      const transactions = response.data;
+      console.log("transaction histroy is---->",transactions);
+     
+      const contractTransactions = transactions.filter(txn => {
        
-        const transactions = response.data;
-       
-        const contractTransactions = transactions.filter(txn => {
-         
-          const { raw_data } = txn;
+        const { raw_data } = txn;
 
-          return raw_data?.contract && raw_data?.contract.length > 0;
-        });
-        console.log("contract transaction is--->", contractTransactions);
-        const formattedData = contractTransactions.map(txn => {
-          const { txID, raw_data } = txn;
-          const contract = raw_data.contract[0];
-        
-          let type = contract?.type
-          // if(type=="TriggerSmartContract"){
-          //   return;
-          // }
-          // console.log("type is----->",type);
+        return raw_data?.contract && raw_data?.contract.length > 0;
+      });
+      console.log("contract transaction is--->", contractTransactions);
+      const formattedData = contractTransactions.map(txn => {
+        const { txID, raw_data } = txn;
+        const contract = raw_data.contract[0];
+      
+        let type = contract?.type
+        // if(type=="TriggerSmartContract"){
+        //   return;
+        // }
+        // console.log("type is----->",type);
 
-          // console.log("value is------->",contract?.parameter)
-          const amount = contract?.parameter?.value?.amount;
-          // console.log("value is------->",amount)
-          // const { owner_address, to_address, amount } = value;
-          return { txID, type, amount };
-        });
-        // console.log("formatedd data is--->", formattedData);
+        // console.log("value is------->",contract?.parameter)
+        const amount = contract?.parameter?.value?.amount;
+        // console.log("value is------->",amount)
+        // const { owner_address, to_address, amount } = value;
+        return { txID, type, amount };
+      });
+      // console.log("formatedd data is--->", formattedData);
 
-        setContractData(formattedData);
-      })
-      .catch((err) => console.error(err));
+      setContractData(formattedData);
+    })
+    .catch((err) => console.error("error in history is",err));
+}catch(e){
+  console.log("error in try hisory is--->",e);
+
+}
+   
   }, [context.address]);
 
 
@@ -748,7 +754,7 @@ const NewOverView = () => {
                     </div>
                     <hr />
                     <div class="text-start crpto_mobile_balance">
-                      <h3 class="m-0 text-start">${balance*selectedTokenPrice.toFixed(5)}</h3>
+                      <h3 class="m-0 text-start">${Number(balance*selectedTokenPrice).toFixed(5)}</h3>
                     </div>
                   </div>
                 </div>

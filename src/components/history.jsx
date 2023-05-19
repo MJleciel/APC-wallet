@@ -11,7 +11,7 @@ const TransactionHistory = () => {
         const options = { method: "GET", headers: { accept: "application/json" } };
 
         fetch(
-            `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
+            `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
             options
         )
             .then((response) => response.json())
