@@ -24,7 +24,7 @@ import TronWeb from "tronweb";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {MdDelete} from 'react-icons/md'
+import { MdDelete } from 'react-icons/md'
 
 
 const NewOverView = () => {
@@ -39,8 +39,8 @@ const NewOverView = () => {
   const [selectedTokenAddress, setSelectedTokenAddress] = useState(process.env.REACT_APP_APC_TOKEN_ADDRESS);
   const [contractData, setContractData] = useState([]);
   const [tokenImage, setTokenImage] = useState(require("../assets/images/aarohi-coin.png"));
-  const [selectedTokenPrice,setSelectedTokenPrice]=useState(0);
-  const [totalNumberOfAssets,setTotalNumberOfAssets]=useState(0);
+  const [selectedTokenPrice, setSelectedTokenPrice] = useState(0);
+  const [totalNumberOfAssets, setTotalNumberOfAssets] = useState(0);
   const [totalBalance, setTotalBalance] = useState()
 
   let navigate = useNavigate();
@@ -53,7 +53,7 @@ const NewOverView = () => {
 
   const getWalletDetails = async () => {
     const contract = await tronWeb2.contract().at(selectedTokenAddress);
-    
+
 
     let balance = await contract.balanceOf(context.address).call();
     let res = balance.toString();
@@ -77,163 +77,163 @@ const NewOverView = () => {
     getTokens(context.id, context.token).then(async (response) => {
 
 
-        const token = response?.data?.data;
-      
-        setTotalNumberOfAssets(token?.length)
-        const additionalToken = {
-            id: token?.length + 1,
-            name: 'TRON',
-            symbol: 'TRX',
-            decimals: '6',
-            token_address: '0Tx000',
-            user_id: token[0]?.user_id,
-            created_on: new Date().toISOString()
+      const token = response?.data?.data;
+
+      setTotalNumberOfAssets(token?.length)
+      const additionalToken = {
+        id: token?.length + 1,
+        name: 'TRON',
+        symbol: 'TRX',
+        decimals: '6',
+        token_address: '0Tx000',
+        user_id: token[0]?.user_id,
+        created_on: new Date().toISOString()
+      }
+
+
+      let tokensList = [...token, additionalToken]
+
+      const additionalToken2 = {
+        id: token?.length + 2,
+        name: 'Aarohi Partner',
+        symbol: 'APC',
+        decimals: '6',
+        token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
+        user_id: token[0]?.user_id,
+        created_on: new Date().toISOString()
+      }
+
+      tokensList = [additionalToken2, additionalToken, ...token]
+      //   console.log("token list in portfolio is----->", tokensList)
+      setTokens(tokensList)
+
+      const balanceRequests = tokensList.map(async (token) => {
+        try {
+          if (token.token_address === "0Tx000") {
+            let bal = await getBalance(context.address);
+
+            let res = bal.toString();
+            return parseFloat(res);
+          } else {
+
+            const contract = await tronWeb2.contract().at(token.token_address);
+
+            let balance = await contract.balanceOf(context.address).call();
+            if (balance && balance !== undefined) {
+              let res = balance.toString();
+              // console.log("balance of token set tokens is----->",token.token_address, res);
+              res = parseFloat(res);
+              return res / 1000000;
+            } else {
+              return 0;
+            }
+
+
+
+          }
+        } catch (e) {
+          console.log("error is---->", e);
+          return 0;
         }
-      
 
-        let tokensList = [...token, additionalToken]
 
-        const additionalToken2 = {
-            id: token?.length + 2,
-            name: 'Aarohi Partner',
-            symbol: 'APC',
-            decimals: '6',
-            token_address: process.env.REACT_APP_APC_TOKEN_ADDRESS,
-            user_id: token[0]?.user_id,
-            created_on: new Date().toISOString()
+
+      });
+      const balances = await Promise.all(balanceRequests);
+
+
+      const tokensWithBalances = tokensList.map((token, index) => ({
+        ...token,
+        balance: balances[index],
+      }));
+
+
+
+
+
+
+      let usdtBalance = 0;
+      const totalValueInUSDT = tokensWithBalances.map(async (token) => {
+        try {
+
+          let sy = token.symbol
+
+          let price = await getTokenPrice({ symbol: token.symbol });
+
+
+          if (price?.data?.data?.data[sy].name == token.name || price?.data?.data?.data[sy].platform.token_address == token.token_address) {
+
+            usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
+            return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
+          } else if (token.symbol == "USDT") {
+            return 1;
+          } else {
+            return 0;
+          }
+          //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
+          //  price?.data?.data?.data[sy]?.quote?.USDT.price)
+        } catch (e) {
+          console.log("error is---->", e);
         }
 
-        tokensList = [additionalToken2, additionalToken,...token]
-        //   console.log("token list in portfolio is----->", tokensList)
-        setTokens(tokensList)
+      });
+      // console.log("total value in usdt is---->",totalValueInUSDT);
 
-        const balanceRequests = tokensList.map(async (token) => {
-            try {
-                if (token.token_address === "0Tx000") {
-                    let bal = await getBalance(context.address);
-                 
-                    let res=bal.toString();
-                    return parseFloat(res);
-                } else {
-                   
-                    const contract = await tronWeb2.contract().at(token.token_address);
+      const balancesInUSDT = await Promise.all(totalValueInUSDT);
+      console.log("balances in USDT----->", balancesInUSDT);
+      setTotalBalance(usdtBalance.toFixed(5));
+      //   console.log("usdt balance is---->",usdtBalance,totalBalance);
+      const tokensWithUSDTBalances = tokensWithBalances.map((token, index) => ({
+        ...token,
+        fiatBalance: balancesInUSDT[index],
+      }));
 
-                    let balance = await contract.balanceOf(context.address).call();
-                    if(balance&&balance!==undefined){
-                        let res = balance.toString();
-                        // console.log("balance of token set tokens is----->",token.token_address, res);
-                        res = parseFloat(res);
-                        return res / 1000000;
-                    }else{
-                        return 0;
-                    }
-
-
-                   
-                }
-            } catch (e) {
-                console.log("error is---->", e);
-                return 0;
-            }
+      console.log("tokens with usdt balances is---->", tokensWithUSDTBalances)
 
 
 
-        });
-        const balances = await Promise.all(balanceRequests);
-        
+      const tokensImage = tokensWithUSDTBalances.map(async (token) => {
+        try {
+          if (token.token_address === "0Tx000") {
 
-        const tokensWithBalances = tokensList.map((token, index) => ({
-            ...token,
-            balance: balances[index],
-        }));
-          
+            return "https://static.tronscan.org/production/logo/trx.png"
+          } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
+            return require("../assets/images/aarohi-coin.png");
+          } else {
 
-
-
-
-
-        let usdtBalance = 0;
-        const totalValueInUSDT = tokensWithBalances.map(async (token) => {
-            try {
-                
-                let sy = token.symbol
-                
-                let price = await getTokenPrice({ symbol: token.symbol });
-                
-
-                if (price?.data?.data?.data[sy].name == token.name || price?.data?.data?.data[sy].platform.token_address == token.token_address) {
-                    
-                    usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
-                    return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
-                }else if(token.symbol=="USDT"){
-                  return 1;
-                } else {
-                    return 0;
-                }
-                //  console.log("price of each token is---->",price?.data?.data?.data[sy].name);
-                //  price?.data?.data?.data[sy]?.quote?.USDT.price)
-            } catch (e) {
-                console.log("error is---->", e);
-            }
-
-        });
-        // console.log("total value in usdt is---->",totalValueInUSDT);
-
-        const balancesInUSDT = await Promise.all(totalValueInUSDT);
-          console.log("balances in USDT----->",balancesInUSDT);
-        setTotalBalance(usdtBalance.toFixed(5));
-        //   console.log("usdt balance is---->",usdtBalance,totalBalance);
-        const tokensWithUSDTBalances = tokensWithBalances.map((token, index) => ({
-            ...token,
-            fiatBalance: balancesInUSDT[index],
-        }));
-
-        console.log("tokens with usdt balances is---->",tokensWithUSDTBalances)
-      
-
-
-        const tokensImage = tokensWithUSDTBalances.map(async (token) => {
-            try {
-                if (token.token_address === "0Tx000") {
-
-                    return "https://static.tronscan.org/production/logo/trx.png"
-                } else if (token.token_address == process.env.REACT_APP_APC_TOKEN_ADDRESS) {
-                    return require("../assets/images/aarohi-coin.png");
-                } else {
-
-                    let tokenImages = await getTokenImage({ contract_address: token.token_address })
-                    // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
-                    return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
-                }
-            } catch (e) {
-                console.log("error is---->", e);
-            }
+            let tokenImages = await getTokenImage({ contract_address: token.token_address })
+            // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+            return tokenImages?.data?.data?.trc20_tokens[0]?.icon_url ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url : "";
+          }
+        } catch (e) {
+          console.log("error is---->", e);
+        }
 
 
 
-        });
-        const img = await Promise.all(tokensImage);
+      });
+      const img = await Promise.all(tokensImage);
 
-        const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
-            ...token,
-            image: img[index],
-        }));
-        console.log("updated tokens image result is--->", tokensWithImage)
+      const tokensWithImage = tokensWithUSDTBalances.map((token, index) => ({
+        ...token,
+        image: img[index],
+      }));
+      console.log("updated tokens image result is--->", tokensWithImage)
 
-        setTokensBalance(tokensWithImage);
-        // setTokensBalance(tokensWithUSDTBalances);
+      setTokensBalance(tokensWithImage);
+      // setTokensBalance(tokensWithUSDTBalances);
 
 
 
 
     }).catch(err => {
-        if (err.response.status == 401) {
-            toast.error(err.response.data.message)
-            navigate('/login')
-        }
+      if (err.response.status == 401) {
+        toast.error(err.response.data.message)
+        navigate('/login')
+      }
     })
 
-}
+  }
 
   useEffect(() => {
 
@@ -246,16 +246,16 @@ const NewOverView = () => {
     const options = { method: "GET", headers: { accept: "application/json" } };
 
     fetch(
-      `https://api.shasta.trongrid.io/v1/accounts/${context.address}/transactions`,
+      `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
       options
     )
       .then((response) => response.json())
       .then((response) => {
-       
+
         const transactions = response.data;
-       
+
         const contractTransactions = transactions.filter(txn => {
-         
+
           const { raw_data } = txn;
 
           return raw_data?.contract && raw_data?.contract.length > 0;
@@ -264,7 +264,7 @@ const NewOverView = () => {
         const formattedData = contractTransactions.map(txn => {
           const { txID, raw_data } = txn;
           const contract = raw_data.contract[0];
-        
+
           let type = contract?.type
           // if(type=="TriggerSmartContract"){
           //   return;
@@ -285,7 +285,7 @@ const NewOverView = () => {
   }, [context.address]);
 
 
-  
+
 
   const handleTokenSelect = async (event) => {
 
@@ -294,16 +294,16 @@ const NewOverView = () => {
 
     const [tokenSymbol, tokenAddress, tokenName] = tokenValue.split(',');
     // console.log("tokenName,tokensymbol,tokenAddress",tokenName,tokenSymbol,tokenAddress);
-    
+
 
     let price = await getTokenPrice({ symbol: tokenSymbol });
     // console.log("price of token is--->",price)
     // console.log("price of each token issss---->",price?.data?.data?.data[tokenSymbol].name);
-    if (price?.data?.data?.data[tokenSymbol].name == tokenName|| price?.data?.data?.data[tokenSymbol]?.platform?.token_address == tokenAddress) {
-       
-         setSelectedTokenPrice(price?.data?.data?.data[tokenSymbol]?.quote?.USDT?.price)
-      
-    }else if(tokenSymbol=="USDT"){
+    if (price?.data?.data?.data[tokenSymbol].name == tokenName || price?.data?.data?.data[tokenSymbol]?.platform?.token_address == tokenAddress) {
+
+      setSelectedTokenPrice(price?.data?.data?.data[tokenSymbol]?.quote?.USDT?.price)
+
+    } else if (tokenSymbol == "USDT") {
       setSelectedTokenPrice(1);
     }
 
@@ -368,22 +368,22 @@ const NewOverView = () => {
   };
 
 
-  const handleDeletion=(e,address)=>{
+  const handleDeletion = (e, address) => {
     // alert(address)
     Swal.fire({
-      customClass:"pop-delete",
+      customClass: "pop-delete",
       title: 'Are you sure you want to remove this token?',
       icon: 'question',
-      showCancelButton:true,
-      confirmButtonText:"Remove",
-      confirmButtonColor:"red",
-      cancelButtonText:"Cancel"
-    }).then((result)=>{
-      if(result.isConfirmed){
-        removeUserToken(context.token,{"user_id":context.id,"token_address":address}).then(res=>{
-          if(res.status===200){
+      showCancelButton: true,
+      confirmButtonText: "Remove",
+      confirmButtonColor: "red",
+      cancelButtonText: "Cancel"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeUserToken(context.token, { "user_id": context.id, "token_address": address }).then(res => {
+          if (res.status === 200) {
             toast.success("Token Removed Successfully");
-           fetchTokens()
+            fetchTokens()
           }
         })
       }
@@ -433,9 +433,9 @@ const NewOverView = () => {
                                 <option value="">
                                   Select token
                                 </option>
-                                {console.log("tokens is----->",tokens)}
+                                {console.log("tokens is----->", tokens)}
                                 {tokens.map((token) => (
-                                 
+
                                   <option
                                     key={token.address}
                                     value={`${token.symbol},${token.token_address},${token.name}`}
@@ -605,7 +605,7 @@ const NewOverView = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                {console.log("contract data is------>",contractData)}
+                                  {console.log("contract data is------>", contractData)}
                                   {contractData.map(contract => (
 
                                     <tr key={contract.txID} >
@@ -748,7 +748,7 @@ const NewOverView = () => {
                     </div>
                     <hr />
                     <div class="text-start crpto_mobile_balance">
-                      <h3 class="m-0 text-start">${balance*selectedTokenPrice.toFixed(5)}</h3>
+                      <h3 class="m-0 text-start">${Number(balance * selectedTokenPrice).toFixed(2)}</h3>
                     </div>
                   </div>
                 </div>
@@ -804,9 +804,9 @@ const NewOverView = () => {
                       <p class="m-0">Swap</p>
                     </button>
                   </li>
-                  
+
                 </ul>
-                <p onClick={()=>navigate('/scan')} style={{color:"red"}}>*Scan(only for testing purpose)*</p>
+                <p onClick={() => navigate('/scan')} style={{ color: "red" }}>*Scan(only for testing purpose)*</p>
 
                 <div class="mt-4 pt-1 crypto_tabs">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -819,27 +819,40 @@ const NewOverView = () => {
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
-                      {tokensBalance.map((token,i) => (
+                      {tokensBalance.map((token, i) => (
                         <div class="crypto_card_coin d-flex align-items-center justify-content-between">
                           <div class="card-coin__logo"><img src={token.image ? token.image : ""} alt={token.symbol} /></div>
                           <div class="crypto_card_coin_info">
                             <h3 class="text-start d-flex align-items-center">{token.symbol}<span class="token_symbol">{token.symbol}</span></h3>
                             <h6 class="text-start">{token.name}</h6>
                           </div>
-                          <div class="card-coin__price text-end"><strong>{token.balance}<br/>${parseFloat(token.fiatBalance*token.balance)}</strong></div>
-                          {i>1 &&
-                          <div className="menu-icon" onClick={(e)=>handleDeletion(e,token.token_address)}><MdDelete/></div>}
+                          <div class="card-coin__price text-end"><strong>{token.balance}<br />${parseFloat(token.fiatBalance * token.balance)}</strong></div>
+                          {i > 1 &&
+                            <div className="menu-icon" onClick={(e) => handleDeletion(e, token.token_address)}><MdDelete /></div>}
 
                         </div>))}
                     </div>
                     <div class="tab-pane fade" id="transection" role="tabpanel" aria-labelledby="transection-tab">
-                      <table class="overview__table mobile_table mt-4 pt-1">
+                      <div class="Transaction_all">
+                        {contractData.map(contract => (
+                          <div class="transaction_row">
+                            <div class="trans_col">
+                              <h6>Send</h6>
+                              <p>To: {contract.txID.substring(0,5)}...{contract.txID.substring(contract.txID.length-5)}</p>
+                            </div>
+                            <div class="trans_col">
+                              <h6>{Number(contract.amount) / 1000000} TRX</h6>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      {/* <table class="overview__table mobile_table mt-4 pt-1">
                         <thead>
                           <tr>
                             <th>Tx Hash</th>
                             <th>Type</th>
-                            {/* <th>From</th>
-                                                            <th>To</th> */}
+                            <th>From</th>
+                                                            <th>To</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -849,13 +862,13 @@ const NewOverView = () => {
                             <tr key={contract.txID}>
                               <td style={{ cursor: "pointer" }} onClick={copyTxID}>{contract.txID}</td>
                               <td>{contract.type}</td>
-                              {/* <td>{contract.owner_address}</td>
-                                                                <td>{contract.to_address}</td> */}
+                              <td>{contract.owner_address}</td>
+                                                                <td>{contract.to_address}</td>
                               <td>{Number(contract.amount) / 1000000}</td>
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </table> */}
                     </div>
                   </div>
                 </div>
