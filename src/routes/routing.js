@@ -1,7 +1,6 @@
 
 import { Route, Routes } from "react-router"
 import IndexFile from "../components"
-import CreateAccount from "../components/createAccount";
 import CreateWallet from "../components/create_wallet";
 import LoginPage from "../components/login";
 import Password from "../components/password";
@@ -63,7 +62,7 @@ const Routing = () => {
                         <Route path='/password' element={<Password />} />
                         <Route path='/cwallet' element={<CreateWallet />} />
                         <Route path='/recovery' element={<ConfirmRecovery />} />
-                        <Route path='/tron-wallet' element={<CreateAccount />} />
+                       
                         <Route path='/terms-services' element={<TermServices />} />
 
 

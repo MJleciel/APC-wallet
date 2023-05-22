@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import CreateAccount from './components/createAccount';
+
 import IndexFile from './components';
 import Routing from './routes/routing';
 import 'react-toastify/dist/ReactToastify.css';

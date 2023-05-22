@@ -164,7 +164,7 @@ const NewOverView = () => {
                 if (price?.data?.data?.data[sy]?.name == token.name || price?.data?.data?.data[sy]?.platform?.token_address == token.token_address) {
                     
                     usdtBalance = (price?.data?.data?.data[sy]?.quote?.USDT.price) * (token.balance)
-                    return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(5)
+                    return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(2)
                 }else if(token.symbol=="USDT"){
                   return 1;
                 } else {
@@ -181,7 +181,7 @@ const NewOverView = () => {
 
         const balancesInUSDT = await Promise.all(totalValueInUSDT);
           console.log("balances in USDT----->",balancesInUSDT);
-        setTotalBalance(usdtBalance.toFixed(5));
+        setTotalBalance(usdtBalance.toFixed(2));
         //   console.log("usdt balance is---->",usdtBalance,totalBalance);
         const tokensWithUSDTBalances = tokensWithBalances.map((token, index) => ({
             ...token,
@@ -457,7 +457,7 @@ try{
                             <div class="new-over_pp">
                               <h3>{selectedTokenName} - Main Account</h3>
                               <div class="over_position" >
-                                <p id="usdt-address">{context.address.substring(0, 5)} ... {context.address.substring(context.address.length - 5)}</p>
+                                <p id="usdt-address">{context?.address?.substring(0, 5)} ... {context?.address?.substring(context?.address?.length - 5)}</p>
                                 <AiOutlineCopy onClick={copyAddress} />
                               </div>
                             </div>
@@ -749,12 +749,12 @@ try{
                       <AiOutlineCopy onClick={copyAddress} />
                     </div>
                     <div class="crypto_overvie">
-                      <p id="usdt-address" class="text-start">{context.address.substring(0, 5)} ... {context.address.substring(context.address.length - 5)}</p>
+                      <p id="usdt-address" class="text-start">{context?.address?.substring(0, 5)} ... {context?.address?.substring(context?.address?.length - 5)}</p>
 
                     </div>
                     <hr />
                     <div class="text-start crpto_mobile_balance">
-                      <h3 class="m-0 text-start">${Number(balance*selectedTokenPrice).toFixed(5)}</h3>
+                      <h3 class="m-0 text-start">${Number(balance*selectedTokenPrice).toFixed(2)}</h3>
                     </div>
                   </div>
                 </div>

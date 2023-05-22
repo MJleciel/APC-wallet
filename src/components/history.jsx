@@ -74,7 +74,7 @@ const TransactionHistory = () => {
                                             {contractData.map(contract => (
 
                                                 <tr key={contract.txID}>
-                                                    <td><h3 class="text-center m-0">{contract.txID}</h3></td>
+                                                    <td><h3 class="text-center m-0">{(contract.txID).slice(0,5)}...{(contract.txID).slice(0,5)}</h3></td>
                                                     <td><h3 class="text-center m-0">{contract.type}</h3></td>
                                                     <td><h3 class="text-center m-0">{Number(contract.amount) / 1000000}</h3></td>
                                                 </tr>
