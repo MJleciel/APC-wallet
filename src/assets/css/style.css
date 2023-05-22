@@ -4852,3 +4852,6 @@ div#transection {
     width: 100%;
     margin: 0px;
 }
+.responsive_table {
+  overflow-x: scroll;
+}
