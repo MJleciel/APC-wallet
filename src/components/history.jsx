@@ -128,7 +128,7 @@ const TransactionHistory = () => {
                                     </div>
                                     <div>
                                     <h6>Send</h6>
-                                    <p>To: {contract.toAddress}</p>
+                                    <p>To: {contract.toAddress.substring(0,5)}...{contract.toAddress.substring(contract.toAddress.length-5)}</p>
                                     </div>
                                     </div>
                                   </>
@@ -142,7 +142,7 @@ const TransactionHistory = () => {
 
                                 
                                     <h6>Received</h6>
-                                    <p>from: {contract.ownerAddress}</p>
+                                    <p>from: {contract.ownerAddress.substring(0,5)}...{contract.ownerAddress.substring(contract.ownerAddress.length-5)}</p>
                                   
                                     </div>
                                     </div>
