@@ -149,7 +149,7 @@ const SendCoin = () => {
                             <input
                               type="text"
                               placeholder="Please Enter Amount"
-                              value={amount}
+                              // value={amount}
                               onChange={(e) => {
                                 setAmount(e.target.value);
                               }}

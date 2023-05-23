@@ -37,7 +37,7 @@ const Recieve = () => {
                                 
                                 <QRCodeSVG className="scan" value={context.address} />
                                
-                                <b class="text-white" style={{textAlign:"center",width:"100%"}}>Your Address to recieve {loc.state.tokenName}</b>
+                                <div class="text-p" style={{textAlign:"center"}}><b class="text-white" style={{textAlign:"center",width:"100%"}}>Your Address to recieve {loc.state.tokenName}</b></div>
                                 <div class="recieve_adress"><p>{context.address}</p><AiOutlineCopy /></div>
                                 {/* {/ <a href="#" class="share-btn"><button class="btn-danger w-100">Share <FaShareAlt/ ></button></a> /} */}
                             </div>
