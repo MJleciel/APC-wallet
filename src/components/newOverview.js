@@ -864,6 +864,7 @@ try{
                     <div class="tab-pane fade" id="transection" role="tabpanel" aria-labelledby="transection-tab">
                       <div class="Transaction_all">
                         {contractData.map(contract => (
+                          <>
                           <div class="transaction_row">
                             <div class="trans_col">
                               <h6>Send</h6>
@@ -873,6 +874,7 @@ try{
                               <h6>{Number(contract.amount) / 1000000} TRX</h6>
                             </div>
                           </div>
+                          </>
                         ))}
                       </div>
                       {/* <table class="overview__table mobile_table mt-4 pt-1">

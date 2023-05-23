@@ -439,8 +439,10 @@ const Portfolio = () => {
                                             <button class="nav-link active" id="tokens-tab" data-bs-toggle="tab" data-bs-target="#tokens" type="button" role="tab" aria-controls="tokens" aria-selected="true">Tokens</button>
                                         </li>
                                     </ul>
+
                                     <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
-                                        <table class="portfolitable">
+                                        <div className="responsive_table">
+                                                <table class="portfolitable">
                                             <thead>
                                                 <tr>
                                                     <th class="p-0">
@@ -483,6 +485,8 @@ const Portfolio = () => {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        </div>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -526,7 +530,7 @@ const Portfolio = () => {
                                         <div
                                             class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
                                             style={{ cursor: "pointer" }}
-                                            onClick={() => navigate("/add-token")}
+                                            onClick={() => navigate("/history")}
                                         >
                                             <div class="trans_tabs">
                                             <img src={require("../assets/images/history.png")} />
