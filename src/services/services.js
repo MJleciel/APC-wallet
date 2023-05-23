@@ -51,3 +51,7 @@ export const removeUserToken = (token,payload) => {
           headers:header(token,payload.user_id)
      });
    };
+
+   export const getTokenData = (payload) => {
+    return axios.post(api_url + `wallet/get-token-data`, payload);
+  };
