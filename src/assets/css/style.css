@@ -4830,14 +4830,22 @@ video#video {
 .transaction_row h6 {
   color: #fff;
   font-weight: 700;
+  margin-bottom: 0px;
 }
 .trans_col {
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 .trans_col p {
-    margin: 0px;
-    font-size: 12px;
-    font-weight: 500;
+  margin: 0px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  overflow: hidden;
+  max-width: 190px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #new__tra {
   margin: 0px;
@@ -4854,4 +4862,14 @@ div#transection {
 }
 .responsive_table {
   overflow-x: scroll;
+}
+span.img_trans img {
+  width: 20px;
+  margin-right: 13px;
+}
+span.img_trans.recieve img {
+  width: 25px;
+}
+.trans_col .d-flex {
+  align-items: center;
 }
