@@ -886,7 +886,29 @@ const NewOverView = () => {
                   <li>
                     <button
                       class="btn btn-primary"
-                      onClick={() => navigate("/recieve")}
+                      onClick={() => {
+                        console.log(
+                          "selected token name and address is--->",
+                          selectedTokenName,
+                          selectedTokenAddress
+                        );
+                        if (
+                          selectedTokenName == undefined ||
+                          selectedTokenName == ""
+                        ) {
+                          toast.info("please select a token");
+                          return;
+                        }
+                        let data = {
+                          address: selectedTokenAddress
+                            ? selectedTokenAddress
+                            : "0Tx000",
+                          balance: balance,
+                          tokenName: selectedTokenName
+                            ? selectedTokenName
+                            : "TRX",
+                        };
+                        navigate("/recieve",{state:data})}}
                     >
                       <img src={require("../assets/images/recieve.png")} />
                       <p class="m-0">Recieve</p>
