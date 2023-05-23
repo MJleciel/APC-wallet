@@ -97,15 +97,36 @@ const TransactionHistory = () => {
                           <>
                             <div class="transaction_row">
                               <div class="trans_col">
+                              
+                               
                                 {contract?.ownerAddress == context?.address ? (
                                   <>
+                                  <div class="d-flex">
+                                    <div class="tt">
+                                    <span class="img_trans">
+                                  <img src={require('../assets/images/paper-plane.png')}></img>
+                                </span>
+                                    </div>
+                                    <div>
                                     <h6>Send</h6>
                                     <p>To: {contract.toAddress}</p>
+                                    </div>
+                                    </div>
                                   </>
                                 ) : (
                                   <>
+                                <div class="d-flex">
+                                  <span class="img_trans recieve">
+                                  <img src={require('../assets/images/recieve.png')}></img>
+                                </span>
+                                  <div>
+
+                                
                                     <h6>Received</h6>
                                     <p>from: {contract.ownerAddress}</p>
+                                  
+                                    </div>
+                                    </div>
                                   </>
                                 )}
                               </div>

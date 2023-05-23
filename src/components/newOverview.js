@@ -984,15 +984,36 @@ const NewOverView = () => {
                           <>
                             <div class="transaction_row">
                               <div class="trans_col">
+                               
+                              
                                 {contract?.ownerAddress == context?.address ? (
                                   <>
-                                    <h6>Send</h6>
+                                  <div class="d-flex">
+                                  <span class="img_trans">
+                                  <img src={require('../assets/images/paper-plane.png')}></img>
+                                </span>
+                                <div>
+                                <h6>Send</h6>
                                     <p>To: {contract.toAddress}</p>
+                                </div>
+                               
+                                  </div>
+                                  
                                   </>
                                 ) : (
                                   <>
-                                    <h6>Received</h6>
+                                 
+                                  <div class="d-flex">
+                                  <span class="img_trans recieve">
+                                  <img src={require('../assets/images/recieve.png')}></img>
+                                </span>
+                                  <div>
+                                  <h6>Received</h6>
                                     <p>from: {contract.ownerAddress}</p>
+                                  </div>
+                                  
+
+                                  </div>
                                   </>
                                 )}
                               </div>
@@ -1008,8 +1029,11 @@ const NewOverView = () => {
                               <div class="trans_col">
                                 {contract?.from == context?.address ? (
                                   <>
-                                    <h6>Send</h6>
+                                  <div>
+                                  <h6>Send</h6>
                                     <p>To: {contract?.to}</p>
+                                  </div>
+                                   
                                   </>
                                 ) : (
                                   <>
