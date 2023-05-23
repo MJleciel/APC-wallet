@@ -902,9 +902,9 @@ const NewOverView = () => {
                     </button>
                   </li>
                 </ul>
-                <p onClick={() => navigate("/scan")} style={{ color: "red" }}>
+                {/* <p onClick={() => navigate("/scan")} style={{ color: "red" }}>
                   *Scan(only for testing purpose)*
-                </p>
+                </p> */}
 
                 <div class="mt-4 pt-1 crypto_tabs">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
