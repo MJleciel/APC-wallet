@@ -656,10 +656,7 @@ const NewOverView = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {console.log(
-                                    "contract data is------>",
-                                    contractData
-                                  )}
+                                
                                   {contractData.map((contract) => (
                                     <tr key={contract.txID}>
                                       <td

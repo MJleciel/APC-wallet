@@ -2,44 +2,74 @@ import { useContext, useState } from "react";
 import appContext from "../context/globalContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import TronWeb from "tronweb";
 
 const TransactionHistory = () => {
     let context = useContext(appContext);
     const [contractData, setContractData] = useState([]);
     let navigate = useNavigate()
+
+    let tronWeb2 = new TronWeb({
+        fullHost: process.env.REACT_APP_TRON_FULL_NODE,
+        solidityNode: process.env.REACT_APP_TRON_SOLIDITY_NODE,
+        eventServer: process.env.REACT_APP_TRON_EVENT_SERVER,
+        privateKey: context.key,
+      });
+
     const getTransactions = () => {
         const options = { method: "GET", headers: { accept: "application/json" } };
 
-        fetch(
-            `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
-            options
-        )
-            .then((response) => response.json())
-            .then((response) => {
+        try {
 
+    
+
+
+
+            fetch(
+              `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
+              options
+            )
+              .then((response) => response.json())
+              .then(async(response) => {
+               
+          
                 const transactions = response.data;
-                console.log("transaction data in history page is--->", transactions);
-                const contractTransactions = transactions.filter(txn => {
-                    const { raw_data } = txn;
-                    return raw_data?.contract && raw_data?.contract?.length > 0;
+               
+      
+      
+                const contractTransactions = transactions.filter((txn) => {
+                 
+                  const { raw_data } = txn;
+      
+                  return raw_data?.contract && raw_data?.contract.length > 0;
                 });
-
-                const formattedData = contractTransactions.map(txn => {
-                    const { txID, raw_data } = txn;
-                    const contract = raw_data.contract[0];
-
-                    let type = contract?.type
-
-                    const amount = contract?.parameter?.value?.amount;
-
-                    return { txID, type, amount };
+              
+                const formattedData = contractTransactions.map((txn) => {
+                  const { txID, raw_data } = txn;
+                  const contract = raw_data.contract[0];
+                  let ownerAdd =
+                    raw_data?.contract[0]?.parameter?.value?.owner_address;
+                  let toAdd = raw_data?.contract[0]?.parameter?.value?.to_address;
+      
+                  let type = contract?.type;
+      
+                  let ownerAddress = tronWeb2.address.fromHex(ownerAdd);
+                  let toAddress = tronWeb2.address.fromHex(toAdd);
+      
+                  const amount = contract?.parameter?.value?.amount;
+      
+                  return { txID, type, amount, ownerAddress, toAddress };
                 });
-
-
+                console.log("formatedd data is--->", formattedData);
+      
                 setContractData(formattedData);
-            })
-            .catch((err) => console.error(err));
+              })
+              .catch((err) => console.error("error in history is", err));
+          } catch (e) {
+            console.log("error in try hisory is--->", e);
+          }
     }
+
     useEffect(() => {
         getTransactions()
     }, [context.address]);
@@ -63,17 +93,28 @@ const TransactionHistory = () => {
                                 </ul>
                                 <div class="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="tokens-tab">
                                     <div class="Transaction_all">
-                                        {contractData.map(contract => (
-                                            <div class="transaction_row">
-                                                <div class="trans_col">
-                                                    <h6>Send</h6>
-                                                    <p>To: {contract.txID.substring(0,5)}...{contract.txID.substring(contract.txID.length-5)}</p>
-                                                </div>
-                                                <div class="trans_col">
-                                                    <h6>{Number(contract.amount) / 1000000} TRX</h6>
-                                                </div>
-                                            </div>
-                                        ))}
+                                    {contractData.map((contract) => (
+                          <>
+                            <div class="transaction_row">
+                              <div class="trans_col">
+                                {contract?.ownerAddress == context?.address ? (
+                                  <>
+                                    <h6>Send</h6>
+                                    <p>To: {contract.toAddress}</p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <h6>Received</h6>
+                                    <p>from: {contract.ownerAddress}</p>
+                                  </>
+                                )}
+                              </div>
+                              <div class="trans_col">
+                                <h6>{Number(contract.amount) / 1000000} TRX</h6>
+                              </div>
+                            </div>
+                          </>
+                        ))}
                                     </div>
 
                                     {/* <table class="portfolitable">
