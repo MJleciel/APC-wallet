@@ -244,7 +244,7 @@ const NewOverView = () => {
         }
       })
       .catch((err) => console.error(err));
-  }, [context.address]);
+  }, [context.address,selectedTokenAddress]);
 
   useEffect(() => {
     const options = { method: "GET", headers: { accept: "application/json" } };
@@ -259,16 +259,15 @@ const NewOverView = () => {
 
           console.log("transaction is----->", transactions);
 
-          const contractTransactions = transactions.filter((txn) => {
-            const { raw_data,block_timestamp } = txn;
+          const contractTransactions = transactions?.filter((txn) => {
+            const { raw_data, block_timestamp } = txn;
 
             return raw_data?.contract && raw_data?.contract.length > 0;
           });
           // console.log("contract transaction is---->",contractTransactions);
-           
-          const formattedData = contractTransactions.map((txn) => {
 
-            const { txID, raw_data,block_timestamp } = txn;
+          const formattedData = contractTransactions.map((txn) => {
+            const { txID, raw_data, block_timestamp } = txn;
             const contract = raw_data.contract[0];
             let ownerAdd =
               raw_data?.contract[0]?.parameter?.value?.owner_address;
@@ -281,20 +280,27 @@ const NewOverView = () => {
 
             const amount = contract?.parameter?.value?.amount;
 
-            return { txID, type, amount, ownerAddress, toAddress,block_timestamp };
+            return {
+              txID,
+              type,
+              amount,
+              ownerAddress,
+              toAddress,
+              block_timestamp,
+            };
           });
           console.log("formatedd data is--->", formattedData);
           let newArray = [...formattedData, ...tokenHistory];
           newArray.sort((a, b) => b?.block_timestamp - a?.block_timestamp);
           console.log("new array is------>", newArray);
 
-          setContractData(formattedData);
+          setContractData(newArray);
         })
         .catch((err) => console.error("error in history is", err));
     } catch (e) {
       console.log("error in try hisory is--->", e);
     }
-  }, [context.address]);
+  }, [context.address,selectedTokenAddress]);
 
   const handleTokenSelect = async (event) => {
     const tokenValue = event.target.value;
@@ -304,7 +310,7 @@ const NewOverView = () => {
     let price = await getTokenPrice({ symbol: tokenSymbol });
 
     if (
-      price?.data?.data?.data[tokenSymbol].name == tokenName ||
+      price?.data?.data?.data[tokenSymbol]?.name == tokenName ||
       price?.data?.data?.data[tokenSymbol]?.platform?.token_address ==
         tokenAddress
     ) {
@@ -982,73 +988,88 @@ const NewOverView = () => {
                       <div class="Transaction_all">
                         {contractData.map((contract) => (
                           <>
-                            <div class="transaction_row">
-                              <div class="trans_col">
-                               
-                              
-                                {contract?.ownerAddress == context?.address ? (
-                                  <>
-                                  <div class="d-flex">
-                                  <span class="img_trans">
-                                  <img src={require('../assets/images/paper-plane.png')}></img>
-                                </span>
-                                <div>
-                                <h6>Send</h6>
-                                    <p>To: {contract.toAddress}</p>
+                            {contract.ownerAddress ? (
+                              <div class="transaction_row">
+                                <div class="trans_col">
+                                  {contract?.ownerAddress ==
+                                  context?.address ? (
+                                    <>
+                                      <div class="d-flex">
+                                        <span class="img_trans">
+                                          <img
+                                            src={require("../assets/images/paper-plane.png")}
+                                          ></img>
+                                        </span>
+                                        <div>
+                                          <h6>Send</h6>
+                                          <p>To: {contract.toAddress}</p>
+                                        </div>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div class="d-flex">
+                                        <span class="img_trans recieve">
+                                          <img
+                                            src={require("../assets/images/recieve.png")}
+                                          ></img>
+                                        </span>
+                                        <div>
+                                          <h6>Received</h6>
+                                          <p>from: {contract.ownerAddress}</p>
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
-                               
-                                  </div>
-                                  
-                                  </>
-                                ) : (
-                                  <>
-                                 
-                                  <div class="d-flex">
-                                  <span class="img_trans recieve">
-                                  <img src={require('../assets/images/recieve.png')}></img>
-                                </span>
-                                  <div>
-                                  <h6>Received</h6>
-                                    <p>from: {contract.ownerAddress}</p>
-                                  </div>
-                                  
-
-                                  </div>
-                                  </>
-                                )}
+                                <div class="trans_col">
+                                  <h6>
+                                    {Number(contract.amount) / 1000000} TRX
+                                  </h6>
+                                </div>
                               </div>
-                              <div class="trans_col">
-                                <h6>{Number(contract.amount) / 1000000} TRX</h6>
+                            ) : (
+                              <div class="transaction_row">
+                                <div class="trans_col">
+                                  {contract?.from == context?.address ? (
+                                    <>
+                                      <div class="d-flex">
+                                      <span class="img_trans">
+                                          <img
+                                            src={require("../assets/images/paper-plane.png")}
+                                          ></img>
+                                        </span>
+                                        <div>
+                                        <h6>Send</h6>
+                                        <p>To: {contract?.to}</p>
+                                        </div>
+                                        
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <>
+                                    <div class="d-flex">
+                                    <span class="img_trans recieve">
+                                          <img
+                                            src={require("../assets/images/recieve.png")}
+                                          ></img>
+                                        </span>
+                                        <div><h6>Received</h6>
+                                      <p>from: {contract?.from}</p></div>
+                                      
+                                    </div>
+                                    
+                                    </>
+                                  )}
+                                </div>
+                                <div class="trans_col">
+                                  <h6>
+                                    {Number(contract.value) / 1000000}{" "}
+                                    {contract?.token_info?.symbol}
+                                  </h6>
+                                </div>
                               </div>
-                            </div>
-                          </>
-                        ))}
-                        {tokenData?.map((contract) => (
-                          <>
-                            <div class="transaction_row">
-                              <div class="trans_col">
-                                {contract?.from == context?.address ? (
-                                  <>
-                                  <div>
-                                  <h6>Send</h6>
-                                    <p>To: {contract?.to}</p>
-                                  </div>
-                                   
-                                  </>
-                                ) : (
-                                  <>
-                                    <h6>Received</h6>
-                                    <p>from: {contract?.from}</p>
-                                  </>
-                                )}
-                              </div>
-                              <div class="trans_col">
-                                <h6>
-                                  {Number(contract.value) / 1000000}{" "}
-                                  {contract?.token_info?.symbol}
-                                </h6>
-                              </div>
-                            </div>
+                            )}
                           </>
                         ))}
                       </div>

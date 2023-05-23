@@ -16,6 +16,25 @@ const TransactionHistory = () => {
         privateKey: context.key,
       });
 
+      const [tokenData, setTokenData] = useState();
+      var tokenHistory;
+
+
+    //   useEffect(() => {
+    //     fetch(
+    //       `https://api.trongrid.io/v1/accounts/${context.address}/transactions/trc20?limit=200&contractAddress=${selectedTokenAddress}`
+    //     )
+    //       .then((response) => response.json())
+    //       .then((response) => {
+    //         console.log("response is---->", response?.data);
+    //         tokenHistory = response?.data;
+    //         if (response) {
+    //           setTokenData(response?.data);
+    //         }
+    //       })
+    //       .catch((err) => console.error(err));
+    //   }, [context.address]);
+
     const getTransactions = () => {
         const options = { method: "GET", headers: { accept: "application/json" } };
 
