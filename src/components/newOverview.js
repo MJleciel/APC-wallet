@@ -11,7 +11,7 @@ import {
   getTokenImage,
   getTokenPrice,
   removeUserToken,
-  getTokenData
+  getTokenData,
 } from "../services/services";
 import {
   generateTronAccount,
@@ -48,7 +48,8 @@ const NewOverView = () => {
   const [selectedTokenPrice, setSelectedTokenPrice] = useState(0);
   const [totalNumberOfAssets, setTotalNumberOfAssets] = useState(0);
   const [totalBalance, setTotalBalance] = useState();
-  const [tokenData,setTokenData]=useState();
+  const [tokenData, setTokenData] = useState();
+  var tokenHistory;
 
   let navigate = useNavigate();
   let tronWeb2 = new TronWeb({
@@ -177,7 +178,7 @@ const NewOverView = () => {
         // console.log("total value in usdt is---->",totalValueInUSDT);
 
         const balancesInUSDT = await Promise.all(totalValueInUSDT);
-      
+
         setTotalBalance(usdtBalance.toFixed(2));
         //   console.log("usdt balance is---->",usdtBalance,totalBalance);
         const tokensWithUSDTBalances = tokensWithBalances.map(
@@ -186,7 +187,6 @@ const NewOverView = () => {
             fiatBalance: balancesInUSDT[index],
           })
         );
-
 
         const tokensImage = tokensWithUSDTBalances.map(async (token) => {
           try {
@@ -215,7 +215,6 @@ const NewOverView = () => {
           ...token,
           image: img[index],
         }));
-       
 
         setTokensBalance(tokensWithImage);
         // setTokensBalance(tokensWithUSDTBalances);
@@ -232,56 +231,44 @@ const NewOverView = () => {
     fetchTokens();
   }, [context.address]);
 
-  useEffect(()=>{
-
-    fetch(`https://api.trongrid.io/v1/accounts/${context.address}/transactions/trc20?limit=200&contractAddress=${selectedTokenAddress}`)
-  .then(response => response.json())
-  .then(response => {console.log("response is---->",response?.data)
-  setTokenData(response?.data)
-})
-  .catch(err => console.error(err));
-  
-  
-
-  },[context.address])
+  useEffect(() => {
+    fetch(
+      `https://api.trongrid.io/v1/accounts/${context.address}/transactions/trc20?limit=200&contractAddress=${selectedTokenAddress}`
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        console.log("response is---->", response?.data);
+        tokenHistory = response?.data;
+        if (response) {
+          setTokenData(response?.data);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, [context.address]);
 
   useEffect(() => {
-
-   
-
     const options = { method: "GET", headers: { accept: "application/json" } };
     try {
-
-    
-
-
-
       fetch(
         `${process.env.REACT_APP_TRON_FULL_NODE}/v1/accounts/${context.address}/transactions`,
         options
       )
         .then((response) => response.json())
-        .then(async(response) => {
-         
-    
+        .then(async (response) => {
           const transactions = response.data;
-         
 
-          
-        
-          
-
-         
+          console.log("transaction is----->", transactions);
 
           const contractTransactions = transactions.filter((txn) => {
-           
-            const { raw_data } = txn;
+            const { raw_data,block_timestamp } = txn;
 
             return raw_data?.contract && raw_data?.contract.length > 0;
           });
-        
+          // console.log("contract transaction is---->",contractTransactions);
+           
           const formattedData = contractTransactions.map((txn) => {
-            const { txID, raw_data } = txn;
+
+            const { txID, raw_data,block_timestamp } = txn;
             const contract = raw_data.contract[0];
             let ownerAdd =
               raw_data?.contract[0]?.parameter?.value?.owner_address;
@@ -294,9 +281,12 @@ const NewOverView = () => {
 
             const amount = contract?.parameter?.value?.amount;
 
-            return { txID, type, amount, ownerAddress, toAddress };
+            return { txID, type, amount, ownerAddress, toAddress,block_timestamp };
           });
           console.log("formatedd data is--->", formattedData);
+          let newArray = [...formattedData, ...tokenHistory];
+          newArray.sort((a, b) => b?.block_timestamp - a?.block_timestamp);
+          console.log("new array is------>", newArray);
 
           setContractData(formattedData);
         })
@@ -308,13 +298,11 @@ const NewOverView = () => {
 
   const handleTokenSelect = async (event) => {
     const tokenValue = event.target.value;
-  
 
     const [tokenSymbol, tokenAddress, tokenName] = tokenValue.split(",");
- 
 
     let price = await getTokenPrice({ symbol: tokenSymbol });
-   
+
     if (
       price?.data?.data?.data[tokenSymbol].name == tokenName ||
       price?.data?.data?.data[tokenSymbol]?.platform?.token_address ==
@@ -656,7 +644,6 @@ const NewOverView = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                
                                   {contractData.map((contract) => (
                                     <tr key={contract.txID}>
                                       <td
@@ -1032,7 +1019,10 @@ const NewOverView = () => {
                                 )}
                               </div>
                               <div class="trans_col">
-                                <h6>{Number(contract.value) / 1000000} {contract?.token_info?.symbol}</h6>
+                                <h6>
+                                  {Number(contract.value) / 1000000}{" "}
+                                  {contract?.token_info?.symbol}
+                                </h6>
                               </div>
                             </div>
                           </>
