@@ -4811,3 +4811,26 @@ video#video {
     font-size: 16px !important;
   }
 }
+
+
+.transaction_row {
+  display: flex;
+  justify-content: space-between;
+}
+/* small.txt-one, small.txt_two{
+  color: red;
+  font-weight: 700;
+  font-size:12px;
+} */
+.transaction_row h6 {
+  color: #fff;
+  font-weight: 700;
+}
+.trans_col {
+  text-align: left;
+}
+.trans_col p {
+    margin: 0px;
+    font-size: 12px;
+    font-weight: 500;
+}
