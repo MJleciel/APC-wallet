@@ -314,6 +314,7 @@ const NewOverView = () => {
       price?.data?.data?.data[tokenSymbol]?.platform?.token_address ==
         tokenAddress
     ) {
+      
       setSelectedTokenPrice(
         price?.data?.data?.data[tokenSymbol]?.quote?.USDT?.price
       );
@@ -943,7 +944,7 @@ const NewOverView = () => {
                         aria-controls="tokens"
                         aria-selected="true"
                       >
-                        Tokens
+                        coins
                       </button>
                     </li>
                     <li class="nav-item" role="presentation">
