@@ -161,8 +161,8 @@ const NewOverView = () => {
             ) {
               usdtBalance =
                 price?.data?.data?.data[sy]?.quote?.USDT.price * token.balance;
-              return (price?.data?.data?.data[sy]?.quote?.USDT.price).toFixed(
-                2
+              return (Number(price?.data?.data?.data[sy]?.quote?.USDT.price)).toFixed(
+                3
               );
             } else if (token.symbol == "USDT") {
               return 1;
@@ -179,7 +179,7 @@ const NewOverView = () => {
 
         const balancesInUSDT = await Promise.all(totalValueInUSDT);
 
-        setTotalBalance(usdtBalance.toFixed(2));
+        setTotalBalance(Number(usdtBalance).toFixed(3));
         //   console.log("usdt balance is---->",usdtBalance,totalBalance);
         const tokensWithUSDTBalances = tokensWithBalances.map(
           (token, index) => ({
@@ -319,6 +319,8 @@ const NewOverView = () => {
       );
     } else if (tokenSymbol == "USDT") {
       setSelectedTokenPrice(1);
+    }else{
+      setSelectedTokenPrice(0);
     }
 
     setSelectedTokenName(tokenSymbol);
@@ -828,7 +830,7 @@ const NewOverView = () => {
                     <hr />
                     <div class="text-start crpto_mobile_balance">
                       <h3 class="m-0 text-start">
-                        ${balance * selectedTokenPrice.toFixed(5)}
+                        ${Number(balance * selectedTokenPrice).toFixed(3)}
                       </h3>
                     </div>
                   </div>
@@ -983,9 +985,9 @@ const NewOverView = () => {
                           </div>
                           <div class="card-coin__price text-end">
                             <strong>
-                              {token.balance}
+                              {Number(token?.balance).toFixed(3)}
                               <br />$
-                              {parseFloat(token.fiatBalance * token.balance)}
+                              {Number(parseFloat(token?.fiatBalance * token?.balance)).toFixed(3)}
                             </strong>
                           </div>
                           {i > 1 && (
