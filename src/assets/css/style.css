@@ -4155,7 +4155,7 @@ ul.reciver_send_outer li {
 ul.mobile_nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 section.fixed_navi {

@@ -66,8 +66,8 @@ const AddToken = () => {
       }
 
       catch (err) {
-        if (err.response.status == 401) {
-          toast.error(err.response.data.message)
+        if (err?.response?.status == 401) {
+          toast.error(err?.response?.data?.message)
           navigate('/login')
         }
       }

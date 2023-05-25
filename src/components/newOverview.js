@@ -728,7 +728,7 @@ const NewOverView = () => {
                             <p>Overview</p>
                           </div>
                         </div>
-                        <div
+                        {/* <div
                           class={
                             window.location.pathname == "/add-token"
                               ? "col active-tab"
@@ -743,7 +743,7 @@ const NewOverView = () => {
                             />
                             <p>Add Token</p>
                           </div>
-                        </div>
+                        </div> */}
                         <div
                           class="col"
                           style={{ cursor: "pointer" }}
@@ -961,6 +961,21 @@ const NewOverView = () => {
                         Transaction
                       </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                      <button
+                        class="nav-link"
+                        id="addToken-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#addtoken"
+                        type="button"
+                        role="tab"
+                        aria-controls="addtoken"
+                        aria-selected="false"
+                        onClick={()=>{navigate('/add-token')}}
+                      >
+                        Add Token
+                      </button>
+                    </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div
@@ -1149,7 +1164,7 @@ const NewOverView = () => {
                       </div>
                     </div>
                   </li>
-                  <li>
+                  {/* <li>
                     <div
                       class={
                         window.location.pathname == "/add-token"
@@ -1164,7 +1179,7 @@ const NewOverView = () => {
                         <p>Add Token</p>
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                   <li>
                     <div
                       className={
