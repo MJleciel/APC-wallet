@@ -253,7 +253,7 @@ const Portfolio = () => {
                                             </div>
                                             {/* <div class="acc_icons react_plus">
                                         <AiOutlinePlus />
-                                        <img src={require('../assets/images/overview.png')} />
+                                        <img src={require('../assets/images/home.png')} />
                                     </div> */}
                                         </div>
                                         <div class="Main_inner">
@@ -372,7 +372,7 @@ const Portfolio = () => {
                                     </div> */}
                                             <div class={window.location.pathname == '/' ? "col active-tab" : "col"} onClick={() => navigate("/")}>
                                                 <div class="trans_tabs">
-                                                    <img src={require("../assets/images/overview.png")} />
+                                                    <img src={require("../assets/images/home.png")} />
                                                     <p>Overview</p>
                                                 </div>
                                             </div>
@@ -521,14 +521,14 @@ const Portfolio = () => {
                                     <li>
                                         <div className={window.location.pathname == '/' ? "col active-tab" : "col"} onClick={() => navigate("/")}>
                                             <div class="trans_tabs">
-                                                <img src={require("../assets/images/overview.png")} />
-                                                <p>Overview</p>
+                                                <img src={require("../assets/images/home.png")} />
+                                                <p>Home</p>
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <div
-                                            class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
+                                            class={window.location.pathname == '/history' ? "col active-tab" : "col"}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => navigate("/history")}
                                         >
@@ -537,7 +537,7 @@ const Portfolio = () => {
                                                 <p>history</p>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <div
                                             class="col"

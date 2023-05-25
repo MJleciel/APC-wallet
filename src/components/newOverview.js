@@ -723,7 +723,7 @@ const NewOverView = () => {
                         >
                           <div class="trans_tabs">
                             <img
-                              src={require("../assets/images/overview.png")}
+                              src={require("../assets/images/home.png")}
                             />
                             <p>Overview</p>
                           </div>
@@ -944,7 +944,7 @@ const NewOverView = () => {
                         aria-controls="tokens"
                         aria-selected="true"
                       >
-                        coins
+                        Coins
                       </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -1175,15 +1175,15 @@ const NewOverView = () => {
                       onClick={() => navigate("/")}
                     >
                       <div class="trans_tabs">
-                        <img src={require("../assets/images/overview.png")} />
-                        <p>Overview</p>
+                        <img src={require("../assets/images/home.png")} />
+                        <p>Home</p>
                       </div>
                     </div>
                   </li>
-                  <li>
+                  {/* <li>
                     <div
                       class={
-                        window.location.pathname == "/add-token"
+                        window.location.pathname == "/history"
                           ? "col active-tab"
                           : "col"
                       }
@@ -1195,7 +1195,7 @@ const NewOverView = () => {
                         <p>history</p>
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                   <li>
                     <div
                       class="col"
