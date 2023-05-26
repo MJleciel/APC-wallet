@@ -1042,7 +1042,7 @@ const NewOverView = () => {
                                         </span>
                                         <div>
                                           <h6>Send</h6>
-                                          <p>To: {contract.toAddress.substring(0,5)}...{contract.toAddress.substring(contract.toAddress.length-5)}</p>
+                                          <p>To: {contract?.toAddress?.substring(0,5)}...{contract?.toAddress?.substring(contract?.toAddress?.length-5)}</p>
                                         </div>
                                       </div>
                                     </>
@@ -1056,7 +1056,7 @@ const NewOverView = () => {
                                         </span>
                                         <div>
                                           <h6>Received</h6>
-                                          <p>from: {contract.ownerAddress.substring(0,5)}...{contract.ownerAddress.substring(contract.ownerAddress.length-5)}</p>
+                                          <p>from: {contract?.ownerAddress?.substring(0,5)}...{contract?.ownerAddress?.substring(contract?.ownerAddress?.length-5)}</p>
                                         </div>
                                       </div>
                                     </>
@@ -1081,7 +1081,7 @@ const NewOverView = () => {
                                         </span>
                                         <div>
                                         <h6>Send</h6>
-                                        <p>To: {contract?.to.substring(0,5)}...{contract?.to.substring(contract?.to.length-5)}</p>
+                                        <p>To: {contract?.to?.substring(0,5)}...{contract?.to?.substring(contract?.to.length-5)}</p>
                                         </div>
                                         
                                       </div>
@@ -1095,7 +1095,7 @@ const NewOverView = () => {
                                           ></img>
                                         </span>
                                         <div><h6>Received</h6>
-                                      <p>from: {contract?.from.substring(0,5)}...{contract?.from.substring(contract?.from.length-5)}</p></div>
+                                      <p>from: {contract?.from?.substring(0,5)}...{contract?.from?.substring(contract?.from.length-5)}</p></div>
                                       
                                     </div>
                                     

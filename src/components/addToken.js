@@ -8,6 +8,7 @@ import {
   getPrivateKey,
   getTokens,
   getWallet,
+  getTokenImage
 } from "../services/services";
 import {
   generateTronAccount,
@@ -34,6 +35,7 @@ const AddToken = () => {
   const [icon, setIcon] = useState("");
   const [error, setError] = useState("");
   const [tokens, setTokens] = useState([]);
+  const [tokenImage,setTokenImage]=useState();
 
   let tronWeb2 = new TronWeb({
     fullHost: process.env.REACT_APP_TRON_FULL_NODE,
@@ -50,10 +52,10 @@ const AddToken = () => {
         const tokens = response.data.data;
 
         const balanceRequests = tokens.map(async (token) => {
-          console.log("address is---->", context.address)
+          // console.log("address is---->", context.address)
           const contract = await tronWeb2.contract().at(token.token_address);
           let balance = await contract.balanceOf(context.address).call();
-          console.log("balance oof token--->", token.token_address, balance.toString());
+          // console.log("balance oof token--->", token.token_address, balance.toString());
           let res = balance.toString();
           res = parseFloat(res)
           return res / 1000000;
@@ -61,7 +63,7 @@ const AddToken = () => {
         const balances = await Promise.all(balanceRequests);
 
         const tokensWithBalances = tokens.map((token, index) => ({ ...token, balance: balances[index] }));
-        console.log("updated tokens result is", tokensWithBalances);
+        // console.log("updated tokens result is", tokensWithBalances);
         setTokens(tokensWithBalances);
       }
 
@@ -81,10 +83,10 @@ const AddToken = () => {
   };
 
   const getTokenBalance = async (tokenAddress) => {
-    console.log("token addrss is--->")
+   
     const contract = await tronWeb2.contract().at(tokenAddress);
     let balance = await contract.balanceOf(context.address).call();
-    console.log("balance is--->", balance.toString());
+
     let res = balance.toString();
     return 0;
   };
@@ -102,6 +104,14 @@ const AddToken = () => {
       // const icon = await contract.icon().call();
       setName(name);
       setSymbol(symbol);
+      let tokenImages = await getTokenImage({
+        contract_address: address,
+      });
+      // console.log("Token image result is--->",tokenImages?.data?.data?.trc20_tokens[0]?.icon_url)
+    let c=tokenImages?.data?.data?.trc20_tokens[0]?.icon_url
+        ? tokenImages?.data?.data?.trc20_tokens[0]?.icon_url
+        : "";
+       setTokenImage(c); 
 
       console.log("name and symbol is--->", name, symbol);
       const payload = {
@@ -192,7 +202,7 @@ const AddToken = () => {
                       <div>
                         <p>Name: {name}</p>
                         <p>Symbol: {symbol}</p>
-                        <img src={icon} alt="Token Icon" />
+                        <img src={tokenImage} alt="Token Icon" />
                       </div>
                     )}
                     <div class="row">

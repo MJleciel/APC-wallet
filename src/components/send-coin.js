@@ -51,15 +51,16 @@ const SendCoin = () => {
       tokenAddress: loc.state.address,
     };
     setLoading(true);
-    console.log("payload is---->", payload);
+    // console.log("payload is---->", payload);
     sendTrx(payload)
       .then((res) => {
-        console.log("resulut is", res);
+        console.log("result is",res);
         if (res) {
+          console.log("result 2 is",res);
           setLoading(false);
           Swal.fire({
             html:
-              `<p>Transaction id: ${res?.txid}</p>` +
+              // `<p>Transaction id: ${res?.txid}</p>` +
               "<p>Transaction successfull</p>",
             icon: "success",
           });

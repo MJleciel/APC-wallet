@@ -145,7 +145,7 @@ export async function sendTrx(data) {
         shouldPollResponse: true,
         feeLimit: 1e8, // Set the maximum amount of TRX to spend on transaction fees
       });
-      
+      console.log("transaction is--------->",transaction);
       return transaction;
 
     }catch(e){
