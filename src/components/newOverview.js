@@ -992,35 +992,7 @@ const NewOverView = () => {
                         Transaction
                       </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link"
-                        id="addToken-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#addtoken"
-                        type="button"
-                        role="tab"
-                        aria-controls="addtoken"
-                        aria-selected="false"
-                        onClick={() => { navigate('/add-token') }}
-                      >
-                        {/* <div class="tooltip">Hover over me
-                           <span class="tooltiptext">Tooltip text</span>
-                        </div>
-                        <AiOutlinePlusCircle/> */}
-                        <OverlayTrigger
-                          key="top"
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-top">
-                              Tooltip on <strong>top</strong>.
-                            </Tooltip>
-                          }
-                        >
-                          <Button variant="secondary"><AiOutlinePlusCircle/></Button>
-                        </OverlayTrigger>
-                      </button>
-                    </li>
+                
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div
@@ -1075,11 +1047,11 @@ const NewOverView = () => {
                           <>
                             {contract.ownerAddress ? (
                               <div class="transaction_row" onClick={()=>{
-                                console.log("halsdfjlskdjfldsk");
+                              
                                 if(contract?.transaction_id){
-                                  navigate(`https://tronscan.org/#/transaction/${contract?.transaction_id}`)
+                                  window.open(`https://tronscan.org/#/transaction/${contract?.transaction_id}`,'_blank')
                                 }else{
-                                  navigate(`https://tronscan.org/#/transaction/${contract?.txID}`)
+                                  window.open(`https://tronscan.org/#/transaction/${contract?.txID}`,'_blank')
                                 }
                               }}>
                                 <div class="trans_col">

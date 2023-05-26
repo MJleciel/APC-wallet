@@ -321,7 +321,7 @@ const Portfolio = () => {
                                                         <a class="card-coin" href="">
                                                             <div class="card-coin__logo"><img src={require("../assets/images/bitcoin.png")} /><span>{token.name} <b>{token.symbol}</b></span></div>
                                                             <div class="card-coin__price text-center"><strong>{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</strong></div>
-                                                            <div class="card-coin__price"><strong>$ {token.fiatBalance ? token.fiatBalance : "0"}</strong></div>
+                                                            <div class="card-coin__price"><strong>$ {token.fiatBalance ? Number(token?.fiatBalance).toFixed(3) : "0"}</strong></div>
                                                         </a>
                                                     ))}
 
@@ -419,7 +419,7 @@ const Portfolio = () => {
                                 </div>
                                 <hr />
                                 <div class="text-start crpto_mobile_balance">
-                                    <h3 class="m-0 text-center">$ {totalBalance}</h3>
+                                    <h3 class="m-0 text-center">$ {Number(totalBalance).toFixed(3)}</h3>
                                 </div>
                             </div>
                         </div>
@@ -470,14 +470,14 @@ const Portfolio = () => {
                                                         </td>
                                                         <td class="p-0">
 
-                                                            <h3 class="text-center m-0">$ {token.fiatBalance ? token.fiatBalance : "0"}</h3>
+                                                            <h3 class="text-center m-0">$ {token?.fiatBalance ? Number(token?.fiatBalance).toFixed(3) : "0"}</h3>
                                                             {/* <div class="crypto_card_coin_info" onClick={(e)=>copyAddress(e,token.token_address)}>
                                                                 <h3 class="text-start m-0">{token.token_address.substring(0, 5)} ... {token.token_address.substring(token.token_address.length - 5)}</h3>
                                                             </div> */}
                                                         </td>
                                                         <td class="p-0">
                                                             <div class="crypto_card_coin_info">
-                                                                <div class="card-coin__price text-end"><strong>{token.fiatBalance*token.balance}<br /><span>$</span></strong></div>
+                                                                <div class="card-coin__price text-end"><strong>{Number(token?.fiatBalance*token?.balance).toFixed(3)}<br /><span>$</span></strong></div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -506,18 +506,7 @@ const Portfolio = () => {
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div
-                                            class={window.location.pathname == '/add-token' ? "col active-tab" : "col"}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => navigate("/add-token")}
-                                        >
-                                            <div class="trans_tabs">
-                                                <img src={require("../assets/images/add-coin.png")} />
-                                                <p>Add Token</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                   
                                     <li>
                                         <div className={window.location.pathname == '/' ? "col active-tab" : "col"} onClick={() => navigate("/")}>
                                             <div class="trans_tabs">
