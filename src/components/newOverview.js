@@ -1,4 +1,5 @@
 import { AiOutlinePlus, AiOutlineCopy } from "react-icons/ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 import bs58 from "bs58";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { MdDelete } from "react-icons/md";
+
+import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 const NewOverView = () => {
   let context = useContext(appContext);
@@ -157,7 +163,7 @@ const NewOverView = () => {
             if (
               price?.data?.data?.data[sy]?.name == token.name ||
               price?.data?.data?.data[sy]?.platform?.token_address ==
-                token.token_address
+              token.token_address
             ) {
               usdtBalance =
                 price?.data?.data?.data[sy]?.quote?.USDT.price * token.balance;
@@ -244,7 +250,7 @@ const NewOverView = () => {
         }
       })
       .catch((err) => console.error(err));
-  }, [context.address,selectedTokenAddress]);
+  }, [context.address, selectedTokenAddress]);
 
   useEffect(() => {
     const options = { method: "GET", headers: { accept: "application/json" } };
@@ -300,7 +306,7 @@ const NewOverView = () => {
     } catch (e) {
       console.log("error in try hisory is--->", e);
     }
-  }, [context.address,selectedTokenAddress]);
+  }, [context.address, selectedTokenAddress]);
 
   const handleTokenSelect = async (event) => {
     const tokenValue = event.target.value;
@@ -312,15 +318,15 @@ const NewOverView = () => {
     if (
       price?.data?.data?.data[tokenSymbol]?.name == tokenName ||
       price?.data?.data?.data[tokenSymbol]?.platform?.token_address ==
-        tokenAddress
+      tokenAddress
     ) {
-      
+
       setSelectedTokenPrice(
         price?.data?.data?.data[tokenSymbol]?.quote?.USDT?.price
       );
     } else if (tokenSymbol == "USDT") {
       setSelectedTokenPrice(1);
-    }else{
+    } else {
       setSelectedTokenPrice(0);
     }
 
@@ -886,6 +892,30 @@ const NewOverView = () => {
                       <p class="m-0">Send</p>
                     </button>
                   </li>
+                  {/* <li>
+                    <button
+                      class="btn btn-primary"
+                      onClick={() => {
+                        
+                        navigate('/add-token')
+                      }}
+                    >
+                      <img src={require("../assets/images/paper-plane.png")} />
+                      <p class="m-0">Add Token</p>
+                    </button>
+                  </li> */}
+                   <li>
+                   <button
+                      class="btn btn-primary"
+                      onClick={() => {
+                        
+                        navigate('/add-token')
+                      }}
+                    >
+                      <img src={require("../assets/images/add_token.png")} />
+                      <p class="m-0">Add Token</p>
+                    </button>
+                  </li>
                   <li>
                     <button
                       class="btn btn-primary"
@@ -911,7 +941,8 @@ const NewOverView = () => {
                             ? selectedTokenName
                             : "TRX",
                         };
-                        navigate("/recieve",{state:data})}}
+                        navigate("/recieve", { state: data })
+                      }}
                     >
                       <img src={require("../assets/images/recieve.png")} />
                       <p class="m-0">Recieve</p>
@@ -971,9 +1002,23 @@ const NewOverView = () => {
                         role="tab"
                         aria-controls="addtoken"
                         aria-selected="false"
-                        onClick={()=>{navigate('/add-token')}}
+                        onClick={() => { navigate('/add-token') }}
                       >
-                        Add Token
+                        {/* <div class="tooltip">Hover over me
+                           <span class="tooltiptext">Tooltip text</span>
+                        </div>
+                        <AiOutlinePlusCircle/> */}
+                        <OverlayTrigger
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Tooltip id="tooltip-top">
+                              Tooltip on <strong>top</strong>.
+                            </Tooltip>
+                          }
+                        >
+                          <Button variant="secondary"><AiOutlinePlusCircle/></Button>
+                        </OverlayTrigger>
                       </button>
                     </li>
                   </ul>
@@ -1029,10 +1074,17 @@ const NewOverView = () => {
                         {contractData.map((contract) => (
                           <>
                             {contract.ownerAddress ? (
-                              <div class="transaction_row">
+                              <div class="transaction_row" onClick={()=>{
+                                console.log("halsdfjlskdjfldsk");
+                                if(contract?.transaction_id){
+                                  navigate(`https://tronscan.org/#/transaction/${contract?.transaction_id}`)
+                                }else{
+                                  navigate(`https://tronscan.org/#/transaction/${contract?.txID}`)
+                                }
+                              }}>
                                 <div class="trans_col">
                                   {contract?.ownerAddress ==
-                                  context?.address ? (
+                                    context?.address ? (
                                     <>
                                       <div class="d-flex">
                                         <span class="img_trans">
@@ -1042,7 +1094,7 @@ const NewOverView = () => {
                                         </span>
                                         <div>
                                           <h6>Send</h6>
-                                          <p>To: {contract?.toAddress?.substring(0,5)}...{contract?.toAddress?.substring(contract?.toAddress?.length-5)}</p>
+                                          <p>To: {contract?.toAddress?.substring(0, 5)}...{contract?.toAddress?.substring(contract?.toAddress?.length - 5)}</p>
                                         </div>
                                       </div>
                                     </>
@@ -1056,7 +1108,7 @@ const NewOverView = () => {
                                         </span>
                                         <div>
                                           <h6>Received</h6>
-                                          <p>from: {contract?.ownerAddress?.substring(0,5)}...{contract?.ownerAddress?.substring(contract?.ownerAddress?.length-5)}</p>
+                                          <p>from: {contract?.ownerAddress?.substring(0, 5)}...{contract?.ownerAddress?.substring(contract?.ownerAddress?.length - 5)}</p>
                                         </div>
                                       </div>
                                     </>
@@ -1074,31 +1126,31 @@ const NewOverView = () => {
                                   {contract?.from == context?.address ? (
                                     <>
                                       <div class="d-flex">
-                                      <span class="img_trans">
+                                        <span class="img_trans">
                                           <img
                                             src={require("../assets/images/paper-plane.png")}
                                           ></img>
                                         </span>
                                         <div>
-                                        <h6>Send</h6>
-                                        <p>To: {contract?.to?.substring(0,5)}...{contract?.to?.substring(contract?.to.length-5)}</p>
+                                          <h6>Send</h6>
+                                          <p>To: {contract?.to?.substring(0, 5)}...{contract?.to?.substring(contract?.to.length - 5)}</p>
                                         </div>
-                                        
+
                                       </div>
                                     </>
                                   ) : (
                                     <>
-                                    <div class="d-flex">
-                                    <span class="img_trans recieve">
+                                      <div class="d-flex">
+                                        <span class="img_trans recieve">
                                           <img
                                             src={require("../assets/images/recieve.png")}
                                           ></img>
                                         </span>
                                         <div><h6>Received</h6>
-                                      <p>from: {contract?.from?.substring(0,5)}...{contract?.from?.substring(contract?.from.length-5)}</p></div>
-                                      
-                                    </div>
-                                    
+                                          <p>from: {contract?.from?.substring(0, 5)}...{contract?.from?.substring(contract?.from.length - 5)}</p></div>
+
+                                      </div>
+
                                     </>
                                   )}
                                 </div>

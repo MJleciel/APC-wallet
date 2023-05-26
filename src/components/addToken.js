@@ -126,7 +126,7 @@ const AddToken = () => {
         .then((res) => {
           if (res.status === 200) {
             Swal.fire("", "Token added successfully", "success");
-            navigate('/')
+            // navigate('/')
           }
         })
         .catch((err) => {

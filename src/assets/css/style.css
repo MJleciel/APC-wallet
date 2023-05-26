@@ -596,13 +596,15 @@ a.btn.btn-primary.bg-pink {
 }
 
 .transection_history p {
-  font-size: 15px;
+  font-size: 10px;
   font-weight: normal;
   color: #cdcdcd;
   text-align: center;
   margin: 35px 0;
 }
-
+section.transection_history .col-12 {
+  padding: 0px;
+}
 .sidebar_logo .dropdown-menu {
   width: 74%;
   margin: auto !important;
@@ -3974,7 +3976,7 @@ section.mobile_overview_header svg.account-info__svg {
 }
 
 .cryp_coppy h3 {
-  font-size: 22px;
+  font-size: 18px;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: #fff;
@@ -4029,7 +4031,7 @@ section.transection_history {
 ul.reciver_send_outer li button.btn.btn-primary {
   background: none !important;
   border: 1px solid #666495 !important;
-  padding: 20px !important;
+  padding: 12px 5px !important;
   height: auto !important;
   width: auto !important;
   font-size: 15px;
@@ -4041,18 +4043,18 @@ ul.reciver_send_outer li button.btn.btn-primary {
 }
 
 ul.reciver_send_outer {
-  column-gap: 15px;
+  column-gap: 8px;
 }
 
 ul.reciver_send_outer li button.btn.btn-primary img {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   margin-bottom: 10px;
   object-fit: contain;
 }
 
 ul.reciver_send_outer li {
-  flex: 0 0 30.5%;
+  width: 23%;
 }
 
 .crypto_tabs ul li button {
@@ -4873,3 +4875,30 @@ span.img_trans.recieve img {
 .trans_col .d-flex {
   align-items: center;
 }
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
